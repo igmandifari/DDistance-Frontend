@@ -1,8 +1,9 @@
+import Login2 from "./pages/Login/index2";
+
 function App() {
   return (
     <>
-      <h1 className="text-2xl text-buttonColor">Test</h1>
-      <h1 className="text-2xl text-primary">Test</h1>
+      <Login2/>
     </>
   );
 }

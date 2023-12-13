@@ -1,9 +1,15 @@
-import Login2 from "./pages/Login/index2";
+
+import Login from "./pages/Login";
+import MainDashboard from "./pages/MainDashboard";
+
 
 function App() {
   return (
     <>
-      <Login2/>
+
+
+      <MainDashboard />
+
     </>
   );
 }

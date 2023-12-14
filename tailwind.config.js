@@ -10,6 +10,7 @@ export default {
         bgSecondary: "#DBDBDB",
         buttonColor: "#F8DD91",
         buttonText: "#9D7F2C",
+        tableColor: "#B9B9B9",
       },
     },
   },

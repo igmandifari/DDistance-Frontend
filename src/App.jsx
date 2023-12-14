@@ -1,15 +1,18 @@
-
-import Login from "./pages/Login";
-import MainDashboard from "./pages/MainDashboard";
-
+import { Outlet } from "react-router-dom";
+import { LogoutProvider } from "./context/LogoutContext";
+import { useSelector } from "react-redux";
+import Loading from "./components/Loading";
 
 function App() {
+  const { isLoading, error } = useSelector((state) => state.ui);
+
   return (
     <>
-
-
-      <MainDashboard />
-
+      {isLoading && <Loading />}
+      {error && alert("Invalid Credentials")}
+      <LogoutProvider>
+        <Outlet />
+      </LogoutProvider>
     </>
   );
 }

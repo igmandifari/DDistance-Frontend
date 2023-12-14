@@ -1,27 +1,56 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 
-import danamon from "../../assets/danamon.png";
-import imageLogin from "../../assets/sidebarImage.png";
+import { ServiceContext } from "../../context/ServiceContext";
+import { authAction } from "../../slices/authSlice";
+
+import danamon from "../../assets/images/danamon.png";
+import imageLogin from "../../assets/images/sidebarImage.png";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [passwordType, setPasswordType] = useState("password");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { authService } = useContext(ServiceContext);
 
-  const emailUser = "test@mail.com";
-  const passUser = "password";
+  const schema = Yup.object({
+    email: Yup.string().email().required("Email is required"),
+    password: Yup.string()
+      .min(6, "Password must be greater than 6 character")
+      .required("Password is required"),
+  });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (emailUser !== email || passUser !== password) {
-      alert("Invalid Credential");
-      return;
-    }
-    alert("Succesfully Login");
-    setEmail("");
-    setPassword("");
-  };
+  const {
+    values: { email, password },
+    errors,
+    dirty,
+    isValid,
+    touched,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+  } = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: async (values) => {
+      dispatch(
+        authAction(async () => {
+          const result = await authService.login(values);
+          if (result.statusCode === 200) {
+            sessionStorage.setItem("token", result.data.token);
+            navigate("/dashboard");
+          }
+        })
+      );
+    },
+    validationSchema: schema,
+  });
 
   const togglePassword = () => {
     if (passwordType === "password") {
@@ -30,6 +59,7 @@ const Login = () => {
     }
     setPasswordType("password");
   };
+
   return (
     <div className="min-w-full min-h-screen">
       <div className="bg-secondary shadow-inner min-h-screen px-8 w-1/2 clip-path absolute z-10">
@@ -46,40 +76,60 @@ const Login = () => {
               <div className="w-full">
                 <input
                   type="email"
-                  onChange={(e) => setEmail(e.target.value)}
                   name="email"
                   value={email}
                   id="email"
                   placeholder="Email"
                   className="outline-none px-4 py-3 rounded-md placeholder:text-center"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
-              </div>
-              <div className="flex items-center w-full">
-                <input
-                  type={passwordType}
-                  onChange={(e) => setPassword(e.target.value)}
-                  name="password"
-                  value={password}
-                  id="password"
-                  placeholder="Kata Sandi"
-                  className="outline-none border-none px-4 py-3 rounded-md placeholder:text-center"
-                />
-                <span onClick={togglePassword}>
-                  {passwordType === "password" ? (
-                    <IoEyeOutline
-                      className="absolute right-16 bottom-[170px]"
-                      color={"#F48300"}
-                    />
-                  ) : (
-                    <IoEyeOffOutline
-                      className="absolute right-16 bottom-[170px]"
-                      color={"#F48300"}
-                    />
-                  )}
-                </span>
+                <div className="text-sm">{touched.email && errors.email}</div>
               </div>
               <div className="w-full">
-                <button className="bg-buttonColor text-buttonText w-full py-3 font-bold btn-shadow">
+                <div className="flex items-center">
+                  <input
+                    type={passwordType}
+                    name="password"
+                    value={password}
+                    id="password"
+                    placeholder="Kata Sandi"
+                    className={`outline-none border-2 px-4 py-3 rounded-md placeholder:text-center ${
+                      touched.password && errors.password
+                        ? "border-red-600"
+                        : "border-none"
+                    }`}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  <span onClick={togglePassword} className="relative">
+                    {passwordType === "password" ? (
+                      <IoEyeOutline
+                        size={23}
+                        className="absolute right-4 -top-2 cursor-pointer"
+                        color={"#F48300"}
+                      />
+                    ) : (
+                      <IoEyeOffOutline
+                        size={23}
+                        className="absolute right-4 -top-2 cursor-pointer"
+                        color={"#F48300"}
+                      />
+                    )}
+                  </span>
+                </div>
+                <div className="text-sm text-white">
+                  {touched.password && errors.password}
+                </div>
+              </div>
+              <div className="w-full">
+                <button
+                  type="submit"
+                  disabled={!isValid || !dirty}
+                  className={`bg-buttonColor text-buttonText w-full py-3 font-bold btn-shadow ${
+                    !isValid || (!dirty && "cursor-not-allowed")
+                  }`}
+                >
                   Masuk
                 </button>
               </div>

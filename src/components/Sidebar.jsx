@@ -19,9 +19,17 @@ const Sidebar = () => {
           </div>
         </div>
         <div className="flex flex-col gap-5 mt-10">
-          <p className="text-white font-extrabold text-xl text-left transition-all duration-300 hover:bg-white hover:text-primary cursor-pointer hover:py-1 pl-24">
+          <NavLink
+            to={"/dashboard"}
+            className={({ isActive }) =>
+              `${
+                isActive ? "bg-white text-orange-500 py-1" : ""
+              } text-white font-extrabold text-xl text-left transition-all duration-300 hover:bg-white hover:text-primary  cursor-pointer hover:py-1 pl-24`
+            }
+            end
+          >
             Dashboard
-          </p>
+          </NavLink>
           <div>
             <div
               onClick={() => setDropdown(!dropdown)}
@@ -36,18 +44,46 @@ const Sidebar = () => {
             </div>
             {dropdown && (
               <ul className="flex flex-col gap-3 px-3 text-xs font-extrabold mt-1">
-                <li className="text-white transition-all duration-300 pl-24 hover:bg-white hover:text-primary hover:py-1 my-1 cursor-pointer">
+                <NavLink
+                  to={"/dashboard/distributor"}
+                  className={({ isActive }) =>
+                    `${
+                      isActive && "bg-white text-orange-600 py-1"
+                    } text-white transition-all duration-300 pl-24 hover:bg-white hover:text-primary hover:py-1 my-1 cursor-pointer`
+                  }
+                >
                   Distributor
-                </li>
-                <li className="text-white transition-all duration-300 pl-24 hover:bg-white hover:text-primary hover:py-1 my-1 cursor-pointer">
+                </NavLink>
+                <NavLink
+                  to={"/dashboard/merchant"}
+                  className={({ isActive }) =>
+                    `${
+                      isActive ? "bg-white text-orange-500 py-1" : ""
+                    } text-white transition-all duration-300 pl-24 hover:bg-white hover:text-primary hover:py-1 my-1 cursor-pointer`
+                  }
+                >
                   Merchant
-                </li>
-                <li className="text-white transition-all duration-300 pl-24 hover:bg-white hover:text-primary hover:py-1 my-1 cursor-pointer">
+                </NavLink>
+                <NavLink
+                  to={"/dashboard/kreditanalis"}
+                  className={({ isActive }) =>
+                    `${
+                      isActive ? "bg-white text-orange-500 py-1" : ""
+                    } text-white transition-all duration-300 pl-24 hover:bg-white hover:text-primary hover:py-1 my-1 cursor-pointer`
+                  }
+                >
                   Kredit Analis
-                </li>
-                <li className="text-white transition-all duration-300 pl-24 hover:bg-white hover:text-primary hover:py-1 my-1 cursor-pointer">
+                </NavLink>
+                <NavLink
+                  to={"/dashboard/admin"}
+                  className={({ isActive }) =>
+                    `${
+                      isActive ? "bg-white text-orange-500 py-1" : ""
+                    } text-white transition-all duration-300 pl-24 hover:bg-white hover:text-primary hover:py-1 my-1 cursor-pointer`
+                  }
+                >
                   Admin
-                </li>
+                </NavLink>
               </ul>
             )}
           </div>

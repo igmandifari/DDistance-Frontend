@@ -7,6 +7,8 @@ import Distributor from "../pages/Distributor";
 import Merchant from "../pages/Merchant";
 import KreditAnalis from "../pages/KreditAnalis";
 import Admin from "../pages/Admin";
+import DistributorList from "../pages/Distributor/components/DistributorList";
+import DistributorForm from "../pages/Distributor/components/DistributorForm";
 
 const setupRouter = () =>
   createBrowserRouter([
@@ -30,11 +32,16 @@ const setupRouter = () =>
             {
               path: "distributor",
               element: <Distributor />,
-              // children: [
-              //   {
-
-              //   }
-              // ]
+              children: [
+                {
+                  index: true,
+                  element: <DistributorList />,
+                },
+                {
+                  path: "new",
+                  element: <DistributorForm />,
+                },
+              ],
             },
             {
               path: "merchant",

@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 
 import Sidebar from "../components/Sidebar";
 import { ServiceContext } from "../context/ServiceContext";
@@ -8,7 +8,7 @@ import { ServiceContext } from "../context/ServiceContext";
 
 const AuthLayout = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { authService } = useContext(ServiceContext);
 
   useEffect(() => {

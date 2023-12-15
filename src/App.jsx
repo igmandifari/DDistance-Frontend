@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       {isLoading && <Loading />}
-      {error && alert("Invalid Credentials")}
+      {error && alert("TEST")}
       <LogoutProvider>
         <Outlet />
       </LogoutProvider>

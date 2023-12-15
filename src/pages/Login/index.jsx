@@ -1,6 +1,6 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
@@ -16,6 +16,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { authService } = useContext(ServiceContext);
+  const { error } = useSelector((state) => state.ui);
 
   const schema = Yup.object({
     email: Yup.string().email().required("Email is required"),
@@ -39,18 +40,38 @@ const Login = () => {
       password: "",
     },
     onSubmit: async (values) => {
-      dispatch(
-        authAction(async () => {
-          const result = await authService.login(values);
-          if (result.statusCode === 200) {
-            sessionStorage.setItem("token", result.data.token);
-            navigate("/dashboard");
-          }
-        })
+      const { payload } = await dispatch(
+        authAction(
+          async () => await authService.login(values)
+          // console.log(result);
+          // if (result.statusCode === 200) {
+          //   dispatch(setIsAuthenticated(true));
+          //   alert("sukses 200", result);
+          //   sessionStorage.setItem("token", result.data.token);
+          //   navigate("/dashboard");
+          // }
+        )
       );
+      if (payload.statusCode == 200) {
+        sessionStorage.setItem("token", payload.data.token);
+        navigate("/dashboard");
+      } else {
+        alert("login gagal");
+      }
     },
     validationSchema: schema,
   });
+
+  useEffect(() => {
+    const getToken = async () => {
+      await dispatch(
+        authAction(async () => {
+          const token = await authService.getTokenFromStorage();
+        })
+      );
+    };
+    getToken();
+  }, [dispatch]);
 
   const togglePassword = () => {
     if (passwordType === "password") {

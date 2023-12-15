@@ -23,8 +23,8 @@ const Sidebar = () => {
             to={"/dashboard"}
             className={({ isActive }) =>
               `${
-                isActive ? "bg-white text-orange-500 py-1" : ""
-              } text-white font-extrabold text-xl text-left transition-all duration-300 hover:bg-white hover:text-primary  cursor-pointer hover:py-1 pl-24`
+                isActive ? "bg-white text-orange-500 py-1" : "text-white"
+              }  font-extrabold text-xl text-left transition-all duration-300 hover:bg-white hover:text-primary  cursor-pointer hover:py-1 pl-24`
             }
             end
           >

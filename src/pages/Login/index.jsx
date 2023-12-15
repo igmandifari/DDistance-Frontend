@@ -101,11 +101,17 @@ const Login = () => {
                   value={email}
                   id="email"
                   placeholder="Email"
-                  className="outline-none px-4 py-3 rounded-md placeholder:text-center"
+                  className={`outline-none border-2 px-4 py-3 rounded-md placeholder:text-center ${
+                    touched.password && errors.password
+                      ? "border-red-600"
+                      : "border-none"
+                  }`}
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
-                <div className="text-sm">{touched.email && errors.email}</div>
+                <div className="text-sm text-white">
+                  {touched.email && errors.email}
+                </div>
               </div>
               <div className="w-full">
                 <div className="flex items-center">

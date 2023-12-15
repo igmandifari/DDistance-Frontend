@@ -48,8 +48,8 @@ const Sidebar = () => {
                   to={"/dashboard/distributor"}
                   className={({ isActive }) =>
                     `${
-                      isActive && "bg-white text-orange-600 py-1"
-                    } text-white transition-all duration-300 pl-24 hover:bg-white hover:text-primary hover:py-1 my-1 cursor-pointer`
+                      isActive ? "bg-white text-orange-500 py-1" : "text-white"
+                    } transition-all duration-300 pl-24 hover:bg-white hover:text-primary hover:py-1 my-1 cursor-pointer`
                   }
                 >
                   Distributor
@@ -58,8 +58,8 @@ const Sidebar = () => {
                   to={"/dashboard/merchant"}
                   className={({ isActive }) =>
                     `${
-                      isActive ? "bg-white text-orange-500 py-1" : ""
-                    } text-white transition-all duration-300 pl-24 hover:bg-white hover:text-primary hover:py-1 my-1 cursor-pointer`
+                      isActive ? "bg-white text-orange-500 py-1" : "text-white"
+                    }  transition-all duration-300 pl-24 hover:bg-white hover:text-primary hover:py-1 my-1 cursor-pointer`
                   }
                 >
                   Merchant
@@ -68,8 +68,8 @@ const Sidebar = () => {
                   to={"/dashboard/kreditanalis"}
                   className={({ isActive }) =>
                     `${
-                      isActive ? "bg-white text-orange-500 py-1" : ""
-                    } text-white transition-all duration-300 pl-24 hover:bg-white hover:text-primary hover:py-1 my-1 cursor-pointer`
+                      isActive ? "bg-white text-orange-500 py-1" : "text-white"
+                    } transition-all duration-300 pl-24 hover:bg-white hover:text-primary hover:py-1 my-1 cursor-pointer`
                   }
                 >
                   Kredit Analis
@@ -78,8 +78,8 @@ const Sidebar = () => {
                   to={"/dashboard/admin"}
                   className={({ isActive }) =>
                     `${
-                      isActive ? "bg-white text-orange-500 py-1" : ""
-                    } text-white transition-all duration-300 pl-24 hover:bg-white hover:text-primary hover:py-1 my-1 cursor-pointer`
+                      isActive ? "bg-white text-orange-500 py-1" : "text-white"
+                    } transition-all duration-300 pl-24 hover:bg-white hover:text-primary hover:py-1 my-1 cursor-pointer`
                   }
                 >
                   Admin

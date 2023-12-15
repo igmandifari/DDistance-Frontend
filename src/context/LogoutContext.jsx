@@ -1,6 +1,4 @@
-import { useContext } from "react";
-import { useState } from "react";
-import { createContext } from "react";
+import { useContext, useState, createContext } from "react";
 
 const LogoutContext = createContext();
 
@@ -21,5 +19,5 @@ export const LogoutProvider = ({ children }) => {
 export const useLogout = () => {
   const context = useContext(LogoutContext);
 
-  return context
+  return context;
 };

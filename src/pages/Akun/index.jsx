@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 
-const Admin = () => {
+const Akun = () => {
   return <Outlet />;
 };
 
-export default Admin;
+export default Akun;

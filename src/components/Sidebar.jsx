@@ -87,18 +87,62 @@ const Sidebar = () => {
               </ul>
             )}
           </div>
-          <p className="text-white font-extrabold text-xl transition-all duration-300 hover:bg-white hover:text-primary cursor-pointer hover:py-1 pl-24">
+          <NavLink
+            to={"/dashboard/jaminan"}
+            className={({ isActive }) =>
+              `${
+                isActive ? "bg-white text-orange-500 py-1" : "text-white"
+              }  font-extrabold text-xl text-left transition-all duration-300 hover:bg-white hover:text-primary  cursor-pointer hover:py-1 pl-24`
+            }
+            end
+          >
             Pengajuan Jaminan
-          </p>
-          <p className="text-white font-extrabold text-xl transition-all duration-300 hover:bg-white hover:text-primary cursor-pointer hover:py-1 pl-24">
+          </NavLink>
+          <NavLink
+            to={"/dashboard/invoice"}
+            className={({ isActive }) =>
+              `${
+                isActive ? "bg-white text-orange-500 py-1" : "text-white"
+              }  font-extrabold text-xl text-left transition-all duration-300 hover:bg-white hover:text-primary  cursor-pointer hover:py-1 pl-24`
+            }
+            end
+          >
             Invoice
-          </p>
-          <p className="text-white font-extrabold text-xl transition-all duration-300 hover:bg-white hover:text-primary cursor-pointer hover:py-1 pl-24">
+          </NavLink>
+          <NavLink
+            to={"/dashboard/akun"}
+            className={({ isActive }) =>
+              `${
+                isActive ? "bg-white text-orange-500 py-1" : "text-white"
+              }  font-extrabold text-xl text-left transition-all duration-300 hover:bg-white hover:text-primary  cursor-pointer hover:py-1 pl-24`
+            }
+            end
+          >
             Akun
-          </p>
-          <p className="text-white font-extrabold text-xl transition-all duration-300 hover:bg-white hover:text-primary cursor-pointer hover:py-1 pl-24">
+          </NavLink>
+          <NavLink
+            to={"/dashboard/activitylog"}
+            className={({ isActive }) =>
+              `${
+                isActive ? "bg-white text-orange-500 py-1" : "text-white"
+              }  font-extrabold text-xl text-left transition-all duration-300 hover:bg-white hover:text-primary  cursor-pointer hover:py-1 pl-24`
+            }
+            end
+          >
             Activity Log
-          </p>
+          </NavLink>
+
+          <NavLink
+            to={"/dashboard/pengaturanbunga"}
+            className={({ isActive }) =>
+              `${
+                isActive ? "bg-white text-orange-500 py-1" : "text-white"
+              }  font-extrabold text-xl text-left transition-all duration-300 hover:bg-white hover:text-primary  cursor-pointer hover:py-1 pl-24`
+            }
+            end
+          >
+            Pengaturan Bunga
+          </NavLink>
         </div>
       </div>
     </nav>

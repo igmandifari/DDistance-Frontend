@@ -2,11 +2,11 @@ import { BsPencilFill } from "react-icons/bs";
 
 import ButtonLogout from "../../components/ButtonLogout";
 import HeaderListUser from "../../components/HeaderListUser";
-import { useLogout } from "../../context/LogoutContext";
+import { useToogle } from "../../context/ToogleContext";
 import { merchants } from "./merchantsDummy";
 
 const Merchant = () => {
-  const { logout } = useLogout();
+  const { logout } = useToogle();
   return (
     <>
       <HeaderListUser />

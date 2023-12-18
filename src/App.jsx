@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { LogoutProvider } from "./context/LogoutContext";
+import { ToogleProvider } from "./context/ToogleContext";
 import { useSelector } from "react-redux";
 import Loading from "./components/Loading";
 import { useEffect, useContext } from "react";
@@ -26,9 +26,9 @@ function App() {
     <>
       {isLoading && <Loading />}
       {/* {error && alert("Invalid Credentials")} */}
-      <LogoutProvider>
+      <ToogleProvider>
         <Outlet />
-      </LogoutProvider>
+      </ToogleProvider>
     </>
   );
 }

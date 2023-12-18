@@ -4,33 +4,35 @@ import { BsPencilFill } from "react-icons/bs";
 import HeaderListUser from "../../../components/HeaderListUser";
 import ButtonLogout from "../../../components/ButtonLogout";
 import { useToogle } from "../../../context/ToogleContext";
-import { distributors } from "../distributorDummy";
+import { admins } from "../adminDummy";
 import { Link } from "react-router-dom";
 
-const DistributorList = () => {
+const AdminList = () => {
   const { logout } = useToogle();
+
   return (
     <>
       <HeaderListUser />
+
       <div className="bg-background mx-10 min-h-[85%]">
         <div className="flex justify-end absolute right-10">
           {logout && <ButtonLogout />}
         </div>
 
         <h1 className="text-primary text-3xl font-extrabold mx-10 py-5">
-          Daftar Distributor
+          Daftar Admin
         </h1>
 
         <Link
-          to={"/dashboard/distributor/new"}
-          className="bg-primary text-white font-extrabold ml-10 px-3 py-1 w-56 flex items-center gap-3 mt-28 mb-5 cursor-pointer"
+          to={"/dashboard/admin/new"}
+          className="bg-primary text-white font-extrabold ml-10 px-3 py-1 w-44 flex items-center gap-3 mt-28 mb-5 cursor-pointer"
         >
           <FaPlus />
-          <span>Tambah Distributor</span>
+          <span>Tambah Admin</span>
         </Link>
 
         <table className="table-fixed border border-slate-900 mx-2">
-          <thead className="text-sm font-semibold tableBackground border border-slate-900">
+          <thead className="text-sm font-semibold test border border-slate-900">
             <tr>
               <th className="border-2 border-tableColor py-2 px-1 text-left">
                 ID
@@ -45,9 +47,6 @@ const DistributorList = () => {
                 No. Telp
               </th>
               <th className="border-2 border-tableColor py-2 px-1 text-left">
-                No. Rekening Danamon
-              </th>
-              <th className="border-2 border-tableColor py-2 px-1 text-left">
                 Tipe User
               </th>
               <th className="border-2 border-tableColor py-2 px-2 text-left">
@@ -59,29 +58,26 @@ const DistributorList = () => {
             </tr>
           </thead>
           <tbody className="bg-white">
-            {distributors.map((distri, index) => {
+            {admins.map((adm, index) => {
               return (
                 <tr key={index}>
                   <td className="text-sm border-2 border-tableColor p-1 w-16">
                     {++index}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-36">
-                    {distri.nama}
+                    {adm.nama}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-36">
-                    {distri.alamat}
+                    {adm.alamat}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-36">
-                    {distri.noTelp}
-                  </td>
-                  <td className="text-sm border-2 border-tableColor p-1 w-44">
-                    {distri.noRek}
+                    {adm.noTelp}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-28">
-                    {distri.tipe}
+                    {adm.tipe}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-2 w-36">
-                    {distri.status}
+                    {adm.status}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-32">
                     <div className="flex items-center gap-3 pl-2 cursor-pointer">
@@ -99,4 +95,4 @@ const DistributorList = () => {
   );
 };
 
-export default DistributorList;
+export default AdminList;

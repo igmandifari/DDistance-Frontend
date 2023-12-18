@@ -4,11 +4,12 @@ import { BsPencilFill } from "react-icons/bs";
 import HeaderListUser from "../../../components/HeaderListUser";
 import ButtonLogout from "../../../components/ButtonLogout";
 import { useToogle } from "../../../context/ToogleContext";
-import { distributors } from "../distributorDummy";
+import { kreditAnalis } from "../kreditAnalisDummy";
 import { Link } from "react-router-dom";
 
-const DistributorList = () => {
+const KreditAnalisList = () => {
   const { logout } = useToogle();
+
   return (
     <>
       <HeaderListUser />
@@ -18,15 +19,15 @@ const DistributorList = () => {
         </div>
 
         <h1 className="text-primary text-3xl font-extrabold mx-10 py-5">
-          Daftar Distributor
+          Daftar Kredit Analis
         </h1>
 
         <Link
-          to={"/dashboard/distributor/new"}
+          to={"/dashboard/kreditanalis/new"}
           className="bg-primary text-white font-extrabold ml-10 px-3 py-1 w-56 flex items-center gap-3 mt-28 mb-5 cursor-pointer"
         >
           <FaPlus />
-          <span>Tambah Distributor</span>
+          <span>Tambah Kredit Analis</span>
         </Link>
 
         <table className="table-fixed border border-slate-900 mx-2">
@@ -45,9 +46,6 @@ const DistributorList = () => {
                 No. Telp
               </th>
               <th className="border-2 border-tableColor py-2 px-1 text-left">
-                No. Rekening Danamon
-              </th>
-              <th className="border-2 border-tableColor py-2 px-1 text-left">
                 Tipe User
               </th>
               <th className="border-2 border-tableColor py-2 px-2 text-left">
@@ -59,29 +57,26 @@ const DistributorList = () => {
             </tr>
           </thead>
           <tbody className="bg-white">
-            {distributors.map((distri, index) => {
+            {kreditAnalis.map((kredit, index) => {
               return (
                 <tr key={index}>
                   <td className="text-sm border-2 border-tableColor p-1 w-16">
                     {++index}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-36">
-                    {distri.nama}
+                    {kredit.nama}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-36">
-                    {distri.alamat}
+                    {kredit.alamat}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-36">
-                    {distri.noTelp}
-                  </td>
-                  <td className="text-sm border-2 border-tableColor p-1 w-44">
-                    {distri.noRek}
+                    {kredit.noTelp}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-28">
-                    {distri.tipe}
+                    {kredit.tipe}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-2 w-36">
-                    {distri.status}
+                    {kredit.status}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-32">
                     <div className="flex items-center gap-3 pl-2 cursor-pointer">
@@ -99,4 +94,4 @@ const DistributorList = () => {
   );
 };
 
-export default DistributorList;
+export default KreditAnalisList;

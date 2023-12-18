@@ -9,6 +9,21 @@ import KreditAnalis from "../pages/KreditAnalis";
 import Admin from "../pages/Admin";
 import DistributorList from "../pages/Distributor/components/DistributorList";
 import DistributorForm from "../pages/Distributor/components/DistributorForm";
+import KreditAnalisList from "../pages/KreditAnalis/components/KreditAnalisList";
+import KreditAnalisForm from "../pages/KreditAnalis/components/KreditAnalisForm";
+import AdminList from "../pages/Admin/components/AdminList";
+import AdminForm from "../pages/Admin/components/AdminForm";
+import Akun from "../pages/Akun";
+import UpdateAkun from "../pages/Akun/components/UpdateAkun";
+import UpdatePassword from "../pages/Akun/components/UpdatePassword";
+import Bunga from "../pages/Bunga";
+import ActivityLog from "../pages/ActivityLog";
+import Invoice from "../pages/Invoice";
+import InvoiceList from "../pages/Invoice/components/InvoiceList";
+import Jaminan from "../pages/Jaminan";
+import JaminanList from "../pages/Jaminan/components/JaminanList";
+import InvoiceDetail from "../pages/Invoice/components/InvoiceDetail";
+import JaminanDetail from "../pages/Jaminan/components/JaminanDetail";
 
 const setupRouter = () =>
   createBrowserRouter([
@@ -46,29 +61,90 @@ const setupRouter = () =>
             {
               path: "merchant",
               element: <Merchant />,
-              // children: [
-              //   {
-
-              //   }
-              // ]
+              children: [
+                {
+                  index: true,
+                  element: <Merchant />,
+                },
+              ],
             },
             {
               path: "kreditanalis",
               element: <KreditAnalis />,
-              // children: [
-              //   {
-
-              //   }
-              // ]
+              children: [
+                {
+                  index: true,
+                  element: <KreditAnalisList />,
+                },
+                {
+                  path: "new",
+                  element: <KreditAnalisForm />,
+                },
+              ],
             },
             {
               path: "admin",
               element: <Admin />,
-              // children: [
-              //   {
-
-              //   }
-              // ]
+              children: [
+                {
+                  index: true,
+                  element: <AdminList />,
+                },
+                {
+                  path: "new",
+                  element: <AdminForm />,
+                },
+              ],
+            },
+            {
+              path: "akun",
+              element: <Akun />,
+              children: [
+                {
+                  index: true,
+                  element: <UpdateAkun />,
+                },
+                {
+                  path: "updatepassword",
+                  element: <UpdatePassword />,
+                },
+              ],
+            },
+            {
+              path: "pengaturanbunga",
+              element: <Bunga />,
+            },
+            {
+              path: "activitylog",
+              element: <ActivityLog />,
+            },
+            {
+              path: "invoice",
+              element: <Invoice />,
+              children: [
+                {
+                  index: true,
+                  element: <InvoiceList />,
+                },
+                {
+                  path: "detail",
+                  element: <InvoiceDetail />,
+                },
+              ],
+            },
+            {
+              path: "jaminan",
+              element: <Jaminan />,
+              children: [
+                {
+                  index: true,
+                  element: <JaminanList />,
+                },
+                {
+                  path: "detail",
+                  element: <JaminanDetail />,
+                },
+              ],
             },
           ],
         },

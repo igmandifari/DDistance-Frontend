@@ -1,10 +1,11 @@
-import ButtonLogout from "../../../components/ButtonLogout";
-import HeaderListUser from "../../../components/HeaderListUser";
-import Input from "../../../components/Input";
 import { useToogle } from "../../../context/ToogleContext";
+import Input from "../../../components/Input";
+import HeaderListUser from "../../../components/HeaderListUser";
+import ButtonLogout from "../../../components/ButtonLogout";
 
-const DistributorForm = () => {
+const KreditAnalisForm = () => {
   const { logout } = useToogle();
+
   return (
     <>
       <HeaderListUser />
@@ -14,11 +15,11 @@ const DistributorForm = () => {
         </div>
 
         <h1 className="text-primary text-3xl font-extrabold mx-10 py-5">
-          Tambah Distributor
+          Tambah Kredit Analis
         </h1>
 
         <form action="">
-          <div className="bg-bgSecondary ml-8 py-3 w-[60%] min-h-full rounded-2xl pb-20">
+          <div className="bg-bgSecondary ml-8 py-3 w-[60%] min-h-full rounded-2xl pb-36">
             <div className="flex flex-col gap-2 w-[50%] mx-5">
               <label htmlFor="nama" className="text-primary font-semibold">
                 Nama
@@ -48,13 +49,6 @@ const DistributorForm = () => {
                 <Input type="text" name="telp" id="telp" />
               </div>
 
-              <label htmlFor="company" className="text-primary font-semibold">
-                Company ID
-              </label>
-              <div>
-                <Input type="text" name="company" id="company" />
-              </div>
-
               <label htmlFor="status" className="text-primary font-semibold">
                 Status User
               </label>
@@ -63,10 +57,8 @@ const DistributorForm = () => {
                 id="status"
                 className="border-none outline-none px-2 py-[7px] rounded-2xl w-[84%] bg-white"
               >
-                <option value="ADMIN">1</option>
-                <option value="KREDIT_ANALIS">2</option>
-                <option value="DISTRIBUTOR">3</option>
-                <option value="MERCHANT">4</option>
+                <option value="AKTIF">Aktif</option>
+                <option value="AKTIF">Non Aktif</option>
               </select>
             </div>
           </div>
@@ -84,4 +76,4 @@ const DistributorForm = () => {
   );
 };
 
-export default DistributorForm;
+export default KreditAnalisForm;

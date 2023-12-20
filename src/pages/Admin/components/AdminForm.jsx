@@ -1,18 +1,17 @@
 import { useFormik } from "formik";
-import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 import { useFetchAdmin } from "../../../hooks/admin/useFetchAdmin";
+import { useAddAdmin } from "../../../hooks/admin/useAddAdmin";
 import { schema } from "./validationSchema";
 import { useToogle } from "../../../context/ToogleContext";
 import ButtonLogout from "../../../components/ButtonLogout";
 import HeaderListUser from "../../../components/HeaderListUser";
 import Input from "../../../components/Input";
-import axiosInstance from "../../../api/axiosInstance";
 
 const AdminForm = () => {
   const { logout } = useToogle();
-  const { data: fetchAdmin } = useFetchAdmin();
+  const navigate = useNavigate();
 
   const {
     values: { name, email, address, phoneNumber, enabled },
@@ -32,20 +31,17 @@ const AdminForm = () => {
       enabled: "Aktif",
     },
     onSubmit: (values) => {
-      mutate(values);
+      addAdmin(values);
     },
     validationSchema: schema,
   });
 
-  const navigate = useNavigate();
+  const { data: refetchAdmin } = useFetchAdmin();
 
-  const { mutate } = useMutation({
-    mutationFn: async (newAdmin) => {
-      return await axiosInstance.post("/api/admin", newAdmin);
-    },
+  const { mutate: addAdmin } = useAddAdmin({
     onSuccess: () => {
       navigate("/dashboard/admin");
-      fetchAdmin();
+      refetchAdmin();
     },
   });
 

@@ -1,11 +1,13 @@
-const Input = ({ type, value, name, id }) => {
+const Input = ({ onChange, onBlur, type, value, name, id, styleError }) => {
   return (
     <input
+      onChange={onChange}
+      onBlur={onBlur}
       type={type}
       value={value}
       name={name}
       id={id}
-      className="border-none outline-none px-3 py-1 rounded-2xl"
+      className={`outline-none px-3 py-1 rounded-2xl ${styleError}`}
     />
   );
 };

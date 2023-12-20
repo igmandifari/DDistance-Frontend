@@ -1,14 +1,21 @@
+import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { BsPencilFill } from "react-icons/bs";
 
+import { useFetchAdmin } from "../../../hooks/admin/useFetchAdmin";
+import { useToogle } from "../../../context/ToogleContext";
 import HeaderListUser from "../../../components/HeaderListUser";
 import ButtonLogout from "../../../components/ButtonLogout";
-import { useToogle } from "../../../context/ToogleContext";
-import { admins } from "../adminDummy";
-import { Link } from "react-router-dom";
+import Loading from "../../../components/Loading";
 
 const AdminList = () => {
   const { logout } = useToogle();
+
+  const { data: admins, isLoading } = useFetchAdmin();
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -58,26 +65,26 @@ const AdminList = () => {
             </tr>
           </thead>
           <tbody className="bg-white">
-            {admins.map((adm, index) => {
+            {admins?.map((adm, index) => {
               return (
                 <tr key={index}>
                   <td className="text-sm border-2 border-tableColor p-1 w-16">
                     {++index}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-36">
-                    {adm.nama}
+                    {adm.name}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-36">
-                    {adm.alamat}
+                    {adm.address}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-36">
-                    {adm.noTelp}
+                    {adm.phoneNumber}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-28">
-                    {adm.tipe}
+                    {adm.role && "1"}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-2 w-36">
-                    {adm.status}
+                    {adm.enabled ? "Aktif" : "Non Aktif"}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-32">
                     <div className="flex items-center gap-3 pl-2 cursor-pointer">

@@ -11,6 +11,9 @@ dependencies:
   '@tanstack/react-query':
     specifier: ^5.14.1
     version: 5.14.1(react@18.2.0)
+  '@tanstack/react-query-devtools':
+    specifier: ^5.14.5
+    version: 5.14.5(@tanstack/react-query@5.14.1)(react@18.2.0)
   axios:
     specifier: ^1.6.2
     version: 1.6.2
@@ -735,6 +738,21 @@ packages:
 
   /@tanstack/query-core@5.14.1:
     resolution: {integrity: sha512-TlZarySCVEiap4K7BCvrsYZnX7jBbEkR55YMrk8ELcRbuAx6ydL+qoxqUt8Fq8VMvQyGt52icn6T7eJL1Q35KQ==}
+    dev: false
+
+  /@tanstack/query-devtools@5.14.5:
+    resolution: {integrity: sha512-xM8BQbE4FBAVEPr8t6MFbOJP+canDFz0hcY9Ho+5Z4LQciC60wE+7ZALx5n3InP4R7IELx8AodS5G3KYzBAwCg==}
+    dev: false
+
+  /@tanstack/react-query-devtools@5.14.5(@tanstack/react-query@5.14.1)(react@18.2.0):
+    resolution: {integrity: sha512-aDntW1dWc/feVUYwVqfM/r5OXa3RN06VhtYrTYW9fhj0Ks2dJw6Diknh9VpYqhI+gJrhVID95Rv/ZzS6W2lANA==}
+    peerDependencies:
+      '@tanstack/react-query': ^5.14.2
+      react: ^18.0.0
+    dependencies:
+      '@tanstack/query-devtools': 5.14.5
+      '@tanstack/react-query': 5.14.1(react@18.2.0)
+      react: 18.2.0
     dev: false
 
   /@tanstack/react-query@5.14.1(react@18.2.0):

@@ -3,18 +3,27 @@ import { useNavigate } from "react-router-dom";
 
 import { useFetchAdmin } from "../../../hooks/admin/useFetchAdmin";
 import { useAddAdmin } from "../../../hooks/admin/useAddAdmin";
-import { schema } from "./validationSchema";
+import { adminSchema } from "../utils/adminSchema";
 import { useToogle } from "../../../context/ToogleContext";
 import ButtonLogout from "../../../components/ButtonLogout";
 import HeaderListUser from "../../../components/HeaderListUser";
 import Input from "../../../components/Input";
+import InputError from "../../../components/InputError";
+import { useParams } from "react-router-dom";
+import { useEditAdmin } from "../../../hooks/admin/useEditAdmin";
+import { useEffect } from "react";
+import { useFetchAdminById } from "../../../hooks/admin/useFetchAdminById";
+import { valueAddAdmin, valueEditAdmin } from "../utils/value";
 
 const AdminForm = () => {
   const { logout } = useToogle();
   const navigate = useNavigate();
+  const { id } = useParams();
+
+  const initialValues = id ? valueEditAdmin : valueAddAdmin;
 
   const {
-    values: { name, email, address, phoneNumber, enabled },
+    values: { name, email, address, phoneNumber, enabled, role },
     errors,
     dirty,
     isValid,
@@ -22,21 +31,22 @@ const AdminForm = () => {
     handleChange,
     handleBlur,
     handleSubmit,
+    setFieldValue,
+    setValues,
   } = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      address: "",
-      phoneNumber: "",
-      enabled: "Aktif",
-    },
+    initialValues,
     onSubmit: (values) => {
-      addAdmin(values);
+      if (id) {
+        editAdmin(values);
+      } else {
+        addAdmin(values);
+      }
     },
-    validationSchema: schema,
+
+    validationSchema: adminSchema,
   });
 
-  const { data: refetchAdmin } = useFetchAdmin();
+  const { refetch: refetchAdmin, data: admins } = useFetchAdmin();
 
   const { mutate: addAdmin } = useAddAdmin({
     onSuccess: () => {
@@ -45,16 +55,56 @@ const AdminForm = () => {
     },
   });
 
+  const { mutate: editAdmin } = useEditAdmin({
+    onSuccess: () => {
+      navigate("/dashboard/admin");
+      refetchAdmin();
+    },
+  });
+
+  const { data: getAdminById } = id ? useFetchAdminById(id) : {};
+
+  useEffect(() => {
+    if (id && admins) {
+      const adminToEdit = admins.find((admin) => admin.id === id);
+
+      if (adminToEdit) {
+        setFieldValue("name", adminToEdit.name);
+        setFieldValue("email", adminToEdit.email);
+        setFieldValue("address", adminToEdit.address);
+        setFieldValue("phoneNumber", adminToEdit.phoneNumber);
+        setFieldValue("enabled", adminToEdit.enabled);
+        setFieldValue("role", adminToEdit.role);
+      }
+
+      const result = getAdminById;
+      const updatedAdmin = { ...result };
+
+      const values = {
+        id: updatedAdmin.id,
+        name: updatedAdmin.name,
+        email: updatedAdmin.email,
+        address: updatedAdmin.address,
+        phoneNumber: updatedAdmin.phoneNumber,
+        enabled: updatedAdmin.enabled,
+        role: updatedAdmin.role,
+      };
+
+      setValues(values);
+    }
+  }, [id, admins, handleChange, getAdminById, setValues, setFieldValue]);
+
   return (
     <>
       <HeaderListUser />
+
       <div className="bg-background mx-10 h-[88vh]">
         <div className="flex justify-end absolute right-10">
           {logout && <ButtonLogout />}
         </div>
 
         <h1 className="text-primary text-3xl font-extrabold mx-10 py-5">
-          Tambah Admin
+          {id ? "Edit Admin" : "Tambah Admin"}
         </h1>
 
         <form onSubmit={handleSubmit}>
@@ -75,9 +125,7 @@ const AdminForm = () => {
                     touched.name && errors.name ? "outline-red-500" : ""
                   }
                 />
-                <div className="text-red-500 text-sm font-semibold">
-                  {touched.name && errors.name}
-                </div>
+                <InputError>{touched.name && errors.name}</InputError>
               </div>
 
               <label htmlFor="email" className="text-primary font-semibold">
@@ -85,6 +133,7 @@ const AdminForm = () => {
               </label>
               <div>
                 <Input
+                  disabled={id}
                   type="email"
                   name="email"
                   id="email"
@@ -95,9 +144,7 @@ const AdminForm = () => {
                     touched.email && errors.email ? "outline-red-500" : ""
                   }
                 />
-                <div className="text-red-500 text-sm font-semibold">
-                  {touched.email && errors.email}
-                </div>
+                <InputError>{touched.email && errors.email}</InputError>
               </div>
 
               <label htmlFor="address" className="text-primary font-semibold">
@@ -115,9 +162,7 @@ const AdminForm = () => {
                     touched.address && errors.address ? "outline-red-500" : ""
                   }
                 />
-                <div className="text-red-500 text-sm font-semibold">
-                  {touched.address && errors.address}
-                </div>
+                <InputError>{touched.address && errors.address}</InputError>
               </div>
 
               <label
@@ -140,10 +185,28 @@ const AdminForm = () => {
                       : ""
                   }
                 />
-                <div className="text-red-500 text-sm font-semibold mt-1">
+                <InputError>
                   {touched.phoneNumber && errors.phoneNumber}
-                </div>
+                </InputError>
               </div>
+
+              {id && (
+                <>
+                  <label htmlFor="role" className="text-primary font-semibold">
+                    Tipe User
+                  </label>
+                  <select
+                    name="role"
+                    id="role"
+                    onChange={handleChange}
+                    value={role}
+                    className="border-none outline-none px-2 py-[7px] rounded-2xl w-[84%] bg-white"
+                  >
+                    <option value="ROLE_ADMIN">1</option>
+                    <option value="ROLE_CREDIT_ANALYST">2</option>
+                  </select>
+                </>
+              )}
 
               <label htmlFor="enabled" className="text-primary font-semibold">
                 Status User
@@ -155,7 +218,12 @@ const AdminForm = () => {
                 value={enabled}
                 className="border-none outline-none px-2 py-[7px] rounded-2xl w-[84%] bg-white"
               >
-                <option value={true}>Aktif</option>
+                <option value="Select Status" disabled>
+                  Select Status
+                </option>
+                <option value={true} className="p-5">
+                  Aktif
+                </option>
                 <option value={false}>Non Aktif</option>
               </select>
             </div>
@@ -166,7 +234,7 @@ const AdminForm = () => {
               type="submit"
               disabled={!dirty || !isValid}
             >
-              Tambah
+              {id ? "Simpan" : "Tambah"}
             </button>
           </div>
         </form>

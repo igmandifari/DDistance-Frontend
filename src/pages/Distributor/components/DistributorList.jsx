@@ -1,14 +1,23 @@
+import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { BsPencilFill } from "react-icons/bs";
 
+import { useFetchDistributors } from "../../../hooks/distributor/useFetchDistributors";
+import { useToogle } from "../../../context/ToogleContext";
 import HeaderListUser from "../../../components/HeaderListUser";
 import ButtonLogout from "../../../components/ButtonLogout";
-import { useToogle } from "../../../context/ToogleContext";
-import { distributors } from "../distributorDummy";
-import { Link } from "react-router-dom";
+import Loading from "../../../components/Loading";
+import EmptyState from "../../../components/EmptyState";
 
 const DistributorList = () => {
   const { logout } = useToogle();
+
+  const { data: distributors, isLoading } = useFetchDistributors();
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <HeaderListUser />
@@ -29,71 +38,77 @@ const DistributorList = () => {
           <span>Tambah Distributor</span>
         </Link>
 
-        <table className="table-fixed border border-slate-900 mx-2">
-          <thead className="text-sm font-semibold tableBackground border border-slate-900">
+        <table className="table-fixed mx-2">
+          <thead className="text-sm font-semibold tableBackground">
             <tr>
-              <th className="border-2 border-tableColor py-2 px-1 text-left">
+              <th className="border-2 border-tableColor py-2 px-1 text-left w-16">
                 ID
               </th>
-              <th className="border-2 border-tableColor py-2 px-1 text-left">
+              <th className="border-2 border-tableColor py-2 px-1 text-left w-36">
                 Nama
               </th>
-              <th className="border-2 border-tableColor py-2 px-1 text-left">
+              <th className="border-2 border-tableColor py-2 px-1 text-left w-36">
                 Alamat
               </th>
-              <th className="border-2 border-tableColor py-2 px-1 text-left">
+              <th className="border-2 border-tableColor py-2 px-1 text-left w-36">
                 No. Telp
               </th>
-              <th className="border-2 border-tableColor py-2 px-1 text-left">
+              <th className="border-2 border-tableColor py-2 px-1 text-left w-44">
                 No. Rekening Danamon
               </th>
-              <th className="border-2 border-tableColor py-2 px-1 text-left">
+              <th className="border-2 border-tableColor py-2 px-1 text-left w-28">
                 Tipe User
               </th>
-              <th className="border-2 border-tableColor py-2 px-2 text-left">
+              <th className="border-2 border-tableColor py-2 px-2 text-left w-36">
                 Status
               </th>
-              <th className="border-2 border-tableColor py-2 pl-3 text-left">
+              <th className="border-2 border-tableColor py-2 pl-3 text-left w-32">
                 Action
               </th>
             </tr>
           </thead>
           <tbody className="bg-white">
-            {distributors.map((distri, index) => {
+            {distributors?.map((distri, index) => {
               return (
                 <tr key={index}>
                   <td className="text-sm border-2 border-tableColor p-1 w-16">
                     {++index}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-36">
-                    {distri.nama}
+                    {distri.name}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-36">
-                    {distri.alamat}
+                    {distri.address}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-36">
-                    {distri.noTelp}
+                    {distri.phoneNumber}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-44">
-                    {distri.noRek}
+                    {distri.pan}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-28">
-                    {distri.tipe}
+                    {distri.role && "3"}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-2 w-36">
-                    {distri.status}
+                    {distri.enabled ? "Aktif" : "Non Aktif"}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-32">
-                    <div className="flex items-center gap-3 pl-2 cursor-pointer">
+                    <Link
+                      to={`/dashboard/distributor/${distri.id}/edit`}
+                      className="flex items-center gap-3 pl-2 cursor-pointer"
+                    >
                       <BsPencilFill color="#F48300" />
                       <span className="text-sm font-semibold">Edit</span>
-                    </div>
+                    </Link>
                   </td>
                 </tr>
               );
             })}
           </tbody>
         </table>
+        {distributors && distributors.length === 0 && (
+          <EmptyState emptyStyle="w-[80%]" />
+        )}
       </div>
     </>
   );

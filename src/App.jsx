@@ -2,6 +2,8 @@ import { useEffect, useContext } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
 import { ToogleProvider } from "./context/ToogleContext";
 import { ServiceContext } from "./context/ServiceContext";
 import Loading from "./components/Loading";
@@ -30,6 +32,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <ToogleProvider>
           <Outlet />
+          <ReactQueryDevtools initialIsOpen={false} />
         </ToogleProvider>
       </QueryClientProvider>
     </>

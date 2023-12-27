@@ -1,15 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "../../api/axiosInstance";
 
-export const useFetchKreditAnalis = () => {
+export const useFetchKreditAnalisById = (id) => {
   return useQuery({
     queryFn: async () => {
       const kreditAnalisResponse = await axiosInstance.get(
-        "/api/creditAnalyst"
+        `/api/creditAnalyst/${id}`
       );
 
       return kreditAnalisResponse.data.data;
     },
-    queryKey: ["kreditAnalis.fetch"],
+    queryKey: ["fetch kredit analis by id", id],
   });
 };

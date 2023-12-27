@@ -1,28 +1,24 @@
-import { useEffect } from "react";
 import { useFormik } from "formik";
-import { useParams, useNavigate } from "react-router-dom";
-
-import ButtonLogout from "../../../components/ButtonLogout";
+import { useEditMerchant } from "../../../hooks/merchant/useEditMerchant";
 import HeaderListUser from "../../../components/HeaderListUser";
+import ButtonLogout from "../../../components/ButtonLogout";
+import { useToogle } from "../../../context/ToogleContext";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useFetchMerchants } from "../../../hooks/merchant/useFetchMerchant";
+import { useFetchMerchantById } from "../../../hooks/merchant/useFetchMerchantById";
+import { useEffect } from "react";
 import Input from "../../../components/Input";
 import InputError from "../../../components/InputError";
-import { useToogle } from "../../../context/ToogleContext";
-import { useAddDistributor } from "../../../hooks/distributor/useAddDistributor";
-import { useFetchDistributors } from "../../../hooks/distributor/useFetchDistributors";
-import { useEditDistributor } from "../../../hooks/distributor/useEditDistributor";
-import { useFetchDistributorById } from "../../../hooks/distributor/useFetchDistributorById";
-import { distributorSchema } from "../utils/distributorSchema";
-import { valueAddDistributor, valueEditDistributor } from "../utils/value";
+import { merchantSchema } from "../merchantSchema";
 
-const DistributorForm = () => {
+const MerchantForm = () => {
   const { logout } = useToogle();
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const initialValues = id ? valueEditDistributor : valueAddDistributor;
-
   const {
-    values: { name, email, address, phoneNumber, enabled, companyId },
+    values: { name, email, address, phoneNumber, enabled },
     errors,
     dirty,
     isValid,
@@ -33,80 +29,77 @@ const DistributorForm = () => {
     setFieldValue,
     setValues,
   } = useFormik({
-    initialValues,
-    onSubmit: (values) => {
+    initialValues: {
+      id: "",
+      name: "",
+      email: "",
+      address: "",
+      phoneNumber: "",
+      enabled: "Aktif",
+    },
+    onSubmit: async (values) => {
       if (id) {
-        editDistributor(values);
-      } else {
-        addDistributor(values);
+        editMerchant(values);
       }
     },
-    validationSchema: distributorSchema,
+    validationSchema: merchantSchema,
   });
 
-  const { refetch: refetchDistributors, data: distributors } =
-    useFetchDistributors();
+  const { refetch: refetchMerchants, data: merchants } = useFetchMerchants();
 
-  const { mutate: addDistributor } = useAddDistributor({
+  const { mutate: editMerchant } = useEditMerchant({
     onSuccess: () => {
-      navigate("/dashboard/distributor");
-      refetchDistributors();
+      navigate("/dashboard/merchant");
+      refetchMerchants();
     },
   });
 
-  const { mutate: editDistributor } = useEditDistributor({
-    onSuccess: () => {
-      navigate("/dashboard/distributor");
-      refetchDistributors();
-    },
-  });
+  const { data: getMerchantById } = id ? useFetchMerchantById(id) : {};
 
-  const { data: getDistributorById } = id ? useFetchDistributorById(id) : {};
+  //   useEffect(() => {
+  //     if (id && merchants) {
+  //       const merchantToedit = merchants.find((merchant) => merchant.id === id);
 
-  useEffect(() => {
-    if (id && distributors) {
-      const distributorToEdit = distributors.find(
-        (distributor) => distributor.id === id
-      );
+  //       console.log(merchantToedit);
 
-      if (distributorToEdit) {
-        setFieldValue("name", distributorToEdit.name);
-        setFieldValue("email", distributorToEdit.email);
-        setFieldValue("address", distributorToEdit.address);
-        setFieldValue("phoneNumber", distributorToEdit.phoneNumber);
-        setFieldValue("companyId", distributorToEdit.companyId);
-        setFieldValue("enabled", distributorToEdit.enabled);
-      }
-      const result = getDistributorById;
-      const updatedDistributor = { ...result };
+  //       if (merchantToedit) {
+  //         setFieldValue("name", merchantToedit.name);
+  //         setFieldValue("email", merchantToedit.email);
+  //         setFieldValue("address", merchantToedit.address);
+  //         setFieldValue("phoneNumber", merchantToedit.phoneNumber);
+  //         setFieldValue("enabled", merchantToedit.enabled);
+  //       }
 
-      const values = {
-        id: updatedDistributor.id,
-        name: updatedDistributor.name,
-        email: updatedDistributor.email,
-        address: updatedDistributor.address,
-        phoneNumber: updatedDistributor.phoneNumber,
-        companyId: updatedDistributor.companyId,
-        enabled: updatedDistributor.enabled,
-      };
+  //       const result = getMerchantById;
+  //       const updatedMerchant = { ...result };
 
-      setValues(values);
-    }
-  }, [id, distributors, setFieldValue, getDistributorById, setValues]);
+  //       const values = {
+  //         id: updatedMerchant.id,
+  //         name: updatedMerchant.name,
+  //         email: updatedMerchant.email,
+  //         address: updatedMerchant.address,
+  //         phoneNumber: updatedMerchant.phoneNumber,
+  //         enabled: updatedMerchant.enabled,
+  //       };
+
+  //       setValues(values);
+  //     }
+  //   }, [getMerchantById, id, merchants, setFieldValue, setValues]);
+
   return (
     <>
       <HeaderListUser />
-      <div className="bg-background mx-10 h-[90vh] overflow-y-auto">
+      <div className="bg-background mx-10 h-[88vh]">
         <div className="flex justify-end absolute right-10">
           {logout && <ButtonLogout />}
         </div>
 
         <h1 className="text-primary text-3xl font-extrabold mx-10 py-5">
-          {id ? "Edit Distributor" : "Tambah Distributor"}
+          Edit Merchant
         </h1>
 
         <form onSubmit={handleSubmit}>
-          <div className="bg-bgSecondary ml-8 py-3 w-[60%] h-[80%] rounded-2xl pb-10">
+          <div className="bg-bgSecondary ml-8 py-3 w-[60%] min-h-full rounded-2xl pb-10">
             <div className="flex flex-col gap-2 w-[50%] mx-5">
               <label htmlFor="name" className="text-primary font-semibold">
                 Nama
@@ -187,47 +180,14 @@ const DistributorForm = () => {
                 </InputError>
               </div>
 
-              <label htmlFor="companyId" className="text-primary font-semibold">
-                Company ID
-              </label>
-              <div>
-                <Input
-                  type="text"
-                  name="companyId"
-                  id="companyId"
-                  value={companyId}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  styleError={
-                    touched.companyId && errors.companyId
-                      ? "outline-red-500"
-                      : ""
-                  }
-                />
-                <InputError>{touched.companyId && errors.companyId}</InputError>
-              </div>
-
-              {id && (
-                <>
-                  <label className="text-primary font-semibold">
-                    Tipe User
-                  </label>
-                  <Input
-                    disabled
-                    value="2"
-                    styleError="w-[85%] bg-white text-black text-opacity-50"
-                  />
-                </>
-              )}
-
               <label htmlFor="enabled" className="text-primary font-semibold">
                 Status User
               </label>
               <select
                 name="enabled"
                 id="enabled"
-                onChange={handleChange}
                 value={enabled}
+                onChange={handleChange}
                 className="border-none outline-none px-2 py-[7px] rounded-2xl w-[84%] bg-white"
               >
                 <option value="Select Status" disabled>
@@ -238,13 +198,13 @@ const DistributorForm = () => {
               </select>
             </div>
           </div>
-          <div className="flex justify-end mr-16 py-3">
+          <div className="flex justify-end mr-16 py-12">
             <button
               className="bg-[#F36C21] text-white text-sm font-bold py-1 px-7 rounded-md"
               type="submit"
-              disabled={!dirty || !isValid}
+              disabled={!isValid || !dirty}
             >
-              {id ? "Simpan" : "Tambah"}
+              Simpan
             </button>
           </div>
         </form>
@@ -253,4 +213,4 @@ const DistributorForm = () => {
   );
 };
 
-export default DistributorForm;
+export default MerchantForm;

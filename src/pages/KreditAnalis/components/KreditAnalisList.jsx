@@ -1,14 +1,21 @@
+import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { BsPencilFill } from "react-icons/bs";
 
+import { useFetchKreditAnalis } from "../../../hooks/kreditAnalis/useFetchKreditAnalis";
+import { useToogle } from "../../../context/ToogleContext";
 import HeaderListUser from "../../../components/HeaderListUser";
 import ButtonLogout from "../../../components/ButtonLogout";
-import { useToogle } from "../../../context/ToogleContext";
-import { kreditAnalis } from "../kreditAnalisDummy";
-import { Link } from "react-router-dom";
+import EmptyState from "../../../components/EmptyState";
+import Loading from "../../../components/Loading";
 
 const KreditAnalisList = () => {
   const { logout } = useToogle();
+  const { data: kreditAnalis, isLoading } = useFetchKreditAnalis();
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -30,65 +37,71 @@ const KreditAnalisList = () => {
           <span>Tambah Kredit Analis</span>
         </Link>
 
-        <table className="table-fixed border border-slate-900 mx-2">
-          <thead className="text-sm font-semibold tableBackground border border-slate-900">
+        <table className="table-fixed mx-9">
+          <thead className="text-sm font-semibold tableBackground">
             <tr>
-              <th className="border-2 border-tableColor py-2 px-1 text-left">
+              <th className="border-2 border-tableColor py-2 px-1 text-left w-16">
                 ID
               </th>
-              <th className="border-2 border-tableColor py-2 px-1 text-left">
+              <th className="border-2 border-tableColor py-2 px-1 text-left w-36">
                 Nama
               </th>
-              <th className="border-2 border-tableColor py-2 px-1 text-left">
+              <th className="border-2 border-tableColor py-2 px-1 text-left w-36">
                 Alamat
               </th>
-              <th className="border-2 border-tableColor py-2 px-1 text-left">
+              <th className="border-2 border-tableColor py-2 px-1 text-left w-36">
                 No. Telp
               </th>
-              <th className="border-2 border-tableColor py-2 px-1 text-left">
+              <th className="border-2 border-tableColor py-2 px-1 text-left w-28">
                 Tipe User
               </th>
-              <th className="border-2 border-tableColor py-2 px-2 text-left">
+              <th className="border-2 border-tableColor py-2 px-2 text-left w-36">
                 Status
               </th>
-              <th className="border-2 border-tableColor py-2 pl-3 text-left">
+              <th className="border-2 border-tableColor py-2 pl-3 text-left w-32">
                 Action
               </th>
             </tr>
           </thead>
           <tbody className="bg-white">
-            {kreditAnalis.map((kredit, index) => {
+            {kreditAnalis?.map((kredit, index) => {
               return (
                 <tr key={index}>
                   <td className="text-sm border-2 border-tableColor p-1 w-16">
                     {++index}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-36">
-                    {kredit.nama}
+                    {kredit.name}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-36">
-                    {kredit.alamat}
+                    {kredit.address}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-36">
-                    {kredit.noTelp}
+                    {kredit.phoneNumber}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-28">
-                    {kredit.tipe}
+                    {kredit.role && "2"}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-2 w-36">
-                    {kredit.status}
+                    {kredit.enabled ? "Aktif" : "Non Aktif"}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-32">
-                    <div className="flex items-center gap-3 pl-2 cursor-pointer">
+                    <Link
+                      to={`/dashboard/kreditanalis/${kredit.id}/edit`}
+                      className="flex items-center gap-3 pl-2 cursor-pointer"
+                    >
                       <BsPencilFill color="#F48300" />
                       <span className="text-sm font-semibold">Edit</span>
-                    </div>
+                    </Link>
                   </td>
                 </tr>
               );
             })}
           </tbody>
         </table>
+        {kreditAnalis && kreditAnalis.length === 0 && (
+          <EmptyState emptyStyle="w-[82%]" />
+        )}
       </div>
     </>
   );

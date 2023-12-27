@@ -4,7 +4,7 @@ import Login from "../pages/Login";
 import AuthLayout from "../layout/AuthLayout";
 import MainDashboard from "../pages/MainDashboard";
 import Distributor from "../pages/Distributor";
-import Merchant from "../pages/Merchant";
+import Merchant from "../pages/Merchant/components/MerchantList";
 import KreditAnalis from "../pages/KreditAnalis";
 import Admin from "../pages/Admin";
 import DistributorList from "../pages/Distributor/components/DistributorList";
@@ -24,6 +24,8 @@ import Jaminan from "../pages/Jaminan";
 import JaminanList from "../pages/Jaminan/components/JaminanList";
 import InvoiceDetail from "../pages/Invoice/components/InvoiceDetail";
 import JaminanDetail from "../pages/Jaminan/components/JaminanDetail";
+import MerchantList from "../pages/Merchant/components/MerchantList";
+import MerchantForm from "../pages/Merchant/components/MerchantForm";
 
 const setupRouter = () =>
   createBrowserRouter([
@@ -56,6 +58,10 @@ const setupRouter = () =>
                   path: "new",
                   element: <DistributorForm />,
                 },
+                {
+                  path: ":id/edit",
+                  element: <DistributorForm />,
+                },
               ],
             },
             {
@@ -64,7 +70,15 @@ const setupRouter = () =>
               children: [
                 {
                   index: true,
-                  element: <Merchant />,
+                  element: <MerchantList />,
+                },
+                {
+                  path: ":id/edit",
+                  element: <MerchantForm />,
+                },
+                {
+                  path: "new",
+                  element: <KreditAnalisList />,
                 },
               ],
             },
@@ -80,6 +94,10 @@ const setupRouter = () =>
                   path: "new",
                   element: <KreditAnalisForm />,
                 },
+                {
+                  path: ":id/edit",
+                  element: <KreditAnalisForm />,
+                },
               ],
             },
             {
@@ -92,6 +110,10 @@ const setupRouter = () =>
                 },
                 {
                   path: "new",
+                  element: <AdminForm />,
+                },
+                {
+                  path: ":id/edit",
                   element: <AdminForm />,
                 },
               ],

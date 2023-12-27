@@ -1,15 +1,15 @@
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+
+import ButtonLogout from "../../../components/ButtonLogout";
+import HeaderListUser from "../../../components/HeaderListUser";
+import Input from "../../../components/Input";
+import InputError from "../../../components/InputError";
 
 import { useFetchAdmin } from "../../../hooks/admin/useFetchAdmin";
 import { useAddAdmin } from "../../../hooks/admin/useAddAdmin";
 import { adminSchema } from "../utils/adminSchema";
 import { useToogle } from "../../../context/ToogleContext";
-import ButtonLogout from "../../../components/ButtonLogout";
-import HeaderListUser from "../../../components/HeaderListUser";
-import Input from "../../../components/Input";
-import InputError from "../../../components/InputError";
-import { useParams } from "react-router-dom";
 import { useEditAdmin } from "../../../hooks/admin/useEditAdmin";
 import { useEffect } from "react";
 import { useFetchAdminById } from "../../../hooks/admin/useFetchAdminById";
@@ -200,7 +200,7 @@ const AdminForm = () => {
                     id="role"
                     onChange={handleChange}
                     value={role}
-                    className="border-none outline-none px-2 py-[7px] rounded-2xl w-[84%] bg-white"
+                    className="border-none outline-none px-2 py-[7px] rounded-2xl w-[78%] bg-white"
                   >
                     <option value="ROLE_ADMIN">1</option>
                     <option value="ROLE_CREDIT_ANALYST">2</option>
@@ -216,7 +216,7 @@ const AdminForm = () => {
                 id="enabled"
                 onChange={handleChange}
                 value={enabled}
-                className="border-none outline-none px-2 py-[7px] rounded-2xl w-[84%] bg-white"
+                className="border-none outline-none px-2 py-[7px] rounded-2xl w-[78%] bg-white"
               >
                 <option value="Select Status" disabled>
                   Select Status

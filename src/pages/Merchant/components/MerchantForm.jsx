@@ -1,15 +1,16 @@
+import { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { useEditMerchant } from "../../../hooks/merchant/useEditMerchant";
+
 import HeaderListUser from "../../../components/HeaderListUser";
 import ButtonLogout from "../../../components/ButtonLogout";
-import { useToogle } from "../../../context/ToogleContext";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { useFetchMerchants } from "../../../hooks/merchant/useFetchMerchant";
-import { useFetchMerchantById } from "../../../hooks/merchant/useFetchMerchantById";
-import { useEffect } from "react";
 import Input from "../../../components/Input";
 import InputError from "../../../components/InputError";
+
+import { useEditMerchant } from "../../../hooks/merchant/useEditMerchant";
+import { useFetchMerchants } from "../../../hooks/merchant/useFetchMerchant";
+import { useFetchMerchantById } from "../../../hooks/merchant/useFetchMerchantById";
+import { useToogle } from "../../../context/ToogleContext";
 import { merchantSchema } from "../merchantSchema";
 
 const MerchantForm = () => {
@@ -56,35 +57,35 @@ const MerchantForm = () => {
 
   const { data: getMerchantById } = id ? useFetchMerchantById(id) : {};
 
-  //   useEffect(() => {
-  //     if (id && merchants) {
-  //       const merchantToedit = merchants.find((merchant) => merchant.id === id);
+  useEffect(() => {
+    if (id && merchants) {
+      const merchantToedit = merchants.find((merchant) => merchant.id === id);
 
-  //       console.log(merchantToedit);
+      console.log(merchantToedit);
 
-  //       if (merchantToedit) {
-  //         setFieldValue("name", merchantToedit.name);
-  //         setFieldValue("email", merchantToedit.email);
-  //         setFieldValue("address", merchantToedit.address);
-  //         setFieldValue("phoneNumber", merchantToedit.phoneNumber);
-  //         setFieldValue("enabled", merchantToedit.enabled);
-  //       }
+      if (merchantToedit) {
+        setFieldValue("name", merchantToedit.name);
+        setFieldValue("email", merchantToedit.email);
+        setFieldValue("address", merchantToedit.address);
+        setFieldValue("phoneNumber", merchantToedit.phoneNumber);
+        setFieldValue("enabled", merchantToedit.enabled);
+      }
 
-  //       const result = getMerchantById;
-  //       const updatedMerchant = { ...result };
+      const result = getMerchantById;
+      const updatedMerchant = { ...result };
 
-  //       const values = {
-  //         id: updatedMerchant.id,
-  //         name: updatedMerchant.name,
-  //         email: updatedMerchant.email,
-  //         address: updatedMerchant.address,
-  //         phoneNumber: updatedMerchant.phoneNumber,
-  //         enabled: updatedMerchant.enabled,
-  //       };
+      const values = {
+        id: updatedMerchant.id,
+        name: updatedMerchant.name,
+        email: updatedMerchant.email,
+        address: updatedMerchant.address,
+        phoneNumber: updatedMerchant.phoneNumber,
+        enabled: updatedMerchant.enabled,
+      };
 
-  //       setValues(values);
-  //     }
-  //   }, [getMerchantById, id, merchants, setFieldValue, setValues]);
+      setValues(values);
+    }
+  }, [getMerchantById, id, merchants, setFieldValue, setValues]);
 
   return (
     <>
@@ -188,7 +189,7 @@ const MerchantForm = () => {
                 id="enabled"
                 value={enabled}
                 onChange={handleChange}
-                className="border-none outline-none px-2 py-[7px] rounded-2xl w-[84%] bg-white"
+                className="border-none outline-none px-2 py-[7px] rounded-2xl w-[78%] bg-white"
               >
                 <option value="Select Status" disabled>
                   Select Status

@@ -6,6 +6,7 @@ import Input from "../../../components/Input";
 import HeaderListUser from "../../../components/HeaderListUser";
 import ButtonLogout from "../../../components/ButtonLogout";
 import InputError from "../../../components/InputError";
+
 import { useFetchKreditAnalis } from "../../../hooks/kreditAnalis/useFetchKreditAnalis";
 import { useAddKreditAnalis } from "../../../hooks/kreditAnalis/useAddKreditAnalis";
 import { useToogle } from "../../../context/ToogleContext";
@@ -197,7 +198,7 @@ const KreditAnalisForm = () => {
                     id="role"
                     onChange={handleChange}
                     value={role}
-                    className="border-none outline-none px-2 py-[7px] rounded-2xl w-[84%] bg-white"
+                    className="border-none outline-none px-2 py-[7px] rounded-2xl w-[78%] bg-white"
                   >
                     <option value="ROLE_ADMIN">1</option>
                     <option value="ROLE_CREDIT_ANALYST">2</option>
@@ -213,7 +214,7 @@ const KreditAnalisForm = () => {
                 id="enabled"
                 value={enabled}
                 onChange={handleChange}
-                className="border-none outline-none px-2 py-[7px] rounded-2xl w-[84%] bg-white"
+                className="border-none outline-none px-2 py-[7px] rounded-2xl w-[78%] bg-white"
               >
                 <option value="Select Status" disabled>
                   Select Status

@@ -3,29 +3,37 @@ import App from "../App";
 import Login from "../pages/Login";
 import AuthLayout from "../layout/AuthLayout";
 import MainDashboard from "../pages/MainDashboard";
+
 import Distributor from "../pages/Distributor";
-import Merchant from "../pages/Merchant/components/MerchantList";
-import KreditAnalis from "../pages/KreditAnalis";
-import Admin from "../pages/Admin";
 import DistributorList from "../pages/Distributor/components/DistributorList";
 import DistributorForm from "../pages/Distributor/components/DistributorForm";
+
+import Merchant from "../pages/Merchant";
+import MerchantList from "../pages/Merchant/components/MerchantList";
+import MerchantForm from "../pages/Merchant/components/MerchantForm";
+
+import KreditAnalis from "../pages/KreditAnalis";
 import KreditAnalisList from "../pages/KreditAnalis/components/KreditAnalisList";
 import KreditAnalisForm from "../pages/KreditAnalis/components/KreditAnalisForm";
+
+import Admin from "../pages/Admin";
 import AdminList from "../pages/Admin/components/AdminList";
 import AdminForm from "../pages/Admin/components/AdminForm";
+
+import Jaminan from "../pages/Jaminan";
+import JaminanList from "../pages/Jaminan/components/JaminanList";
+import JaminanDetail from "../pages/Jaminan/components/JaminanDetail";
+
+import Invoice from "../pages/Invoice";
+import InvoiceList from "../pages/Invoice/components/InvoiceList";
+import InvoiceDetail from "../pages/Invoice/components/InvoiceDetail";
+
 import Akun from "../pages/Akun";
 import UpdateAkun from "../pages/Akun/components/UpdateAkun";
 import UpdatePassword from "../pages/Akun/components/UpdatePassword";
-import Bunga from "../pages/Bunga";
+
 import ActivityLog from "../pages/ActivityLog";
-import Invoice from "../pages/Invoice";
-import InvoiceList from "../pages/Invoice/components/InvoiceList";
-import Jaminan from "../pages/Jaminan";
-import JaminanList from "../pages/Jaminan/components/JaminanList";
-import InvoiceDetail from "../pages/Invoice/components/InvoiceDetail";
-import JaminanDetail from "../pages/Jaminan/components/JaminanDetail";
-import MerchantList from "../pages/Merchant/components/MerchantList";
-import MerchantForm from "../pages/Merchant/components/MerchantForm";
+import Bunga from "../pages/Bunga";
 
 const setupRouter = () =>
   createBrowserRouter([
@@ -76,10 +84,6 @@ const setupRouter = () =>
                   path: ":id/edit",
                   element: <MerchantForm />,
                 },
-                {
-                  path: "new",
-                  element: <KreditAnalisList />,
-                },
               ],
             },
             {
@@ -119,26 +123,18 @@ const setupRouter = () =>
               ],
             },
             {
-              path: "akun",
-              element: <Akun />,
+              path: "jaminan",
+              element: <Jaminan />,
               children: [
                 {
                   index: true,
-                  element: <UpdateAkun />,
+                  element: <JaminanList />,
                 },
                 {
-                  path: "updatepassword",
-                  element: <UpdatePassword />,
+                  path: "detail",
+                  element: <JaminanDetail />,
                 },
               ],
-            },
-            {
-              path: "pengaturanbunga",
-              element: <Bunga />,
-            },
-            {
-              path: "activitylog",
-              element: <ActivityLog />,
             },
             {
               path: "invoice",
@@ -155,18 +151,26 @@ const setupRouter = () =>
               ],
             },
             {
-              path: "jaminan",
-              element: <Jaminan />,
+              path: "akun",
+              element: <Akun />,
               children: [
                 {
                   index: true,
-                  element: <JaminanList />,
+                  element: <UpdateAkun />,
                 },
                 {
-                  path: "detail",
-                  element: <JaminanDetail />,
+                  path: "updatepassword",
+                  element: <UpdatePassword />,
                 },
               ],
+            },
+            {
+              path: "activitylog",
+              element: <ActivityLog />,
+            },
+            {
+              path: "pengaturanbunga",
+              element: <Bunga />,
             },
           ],
         },

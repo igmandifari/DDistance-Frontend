@@ -2,12 +2,13 @@ import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { BsPencilFill } from "react-icons/bs";
 
-import { useFetchDistributors } from "../../../hooks/distributor/useFetchDistributors";
-import { useToogle } from "../../../context/ToogleContext";
 import HeaderListUser from "../../../components/HeaderListUser";
 import ButtonLogout from "../../../components/ButtonLogout";
 import Loading from "../../../components/Loading";
 import EmptyState from "../../../components/EmptyState";
+
+import { useFetchDistributors } from "../../../hooks/distributor/useFetchDistributors";
+import { useToogle } from "../../../context/ToogleContext";
 
 const DistributorList = () => {
   const { logout } = useToogle();

@@ -2,12 +2,13 @@ import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { BsPencilFill } from "react-icons/bs";
 
-import { useFetchKreditAnalis } from "../../../hooks/kreditAnalis/useFetchKreditAnalis";
-import { useToogle } from "../../../context/ToogleContext";
 import HeaderListUser from "../../../components/HeaderListUser";
 import ButtonLogout from "../../../components/ButtonLogout";
 import EmptyState from "../../../components/EmptyState";
 import Loading from "../../../components/Loading";
+
+import { useFetchKreditAnalis } from "../../../hooks/kreditAnalis/useFetchKreditAnalis";
+import { useToogle } from "../../../context/ToogleContext";
 
 const KreditAnalisList = () => {
   const { logout } = useToogle();

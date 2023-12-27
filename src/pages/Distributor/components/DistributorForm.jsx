@@ -6,6 +6,7 @@ import ButtonLogout from "../../../components/ButtonLogout";
 import HeaderListUser from "../../../components/HeaderListUser";
 import Input from "../../../components/Input";
 import InputError from "../../../components/InputError";
+
 import { useToogle } from "../../../context/ToogleContext";
 import { useAddDistributor } from "../../../hooks/distributor/useAddDistributor";
 import { useFetchDistributors } from "../../../hooks/distributor/useFetchDistributors";
@@ -228,7 +229,7 @@ const DistributorForm = () => {
                 id="enabled"
                 onChange={handleChange}
                 value={enabled}
-                className="border-none outline-none px-2 py-[7px] rounded-2xl w-[84%] bg-white"
+                className="border-none outline-none px-2 py-[7px] rounded-2xl w-[78%] bg-white"
               >
                 <option value="Select Status" disabled>
                   Select Status

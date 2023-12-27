@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
@@ -16,7 +16,6 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { authService } = useContext(ServiceContext);
-  const { error } = useSelector((state) => state.ui);
 
   const schema = Yup.object({
     email: Yup.string().email().required("Email is required"),

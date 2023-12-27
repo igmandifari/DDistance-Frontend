@@ -1,12 +1,14 @@
 import { TiChevronRight } from "react-icons/ti";
 
-import profile from "../../assets/images/profile.png";
-import { cards, notifications } from "./dummyData";
 import ButtonLogout from "../../components/ButtonLogout";
+import { cards, notifications } from "./dummyData";
 import { useToogle } from "../../context/ToogleContext";
+
+import profile from "../../assets/images/profile.png";
 
 const MainDashboard = () => {
   const { logout, handleToogleLogout } = useToogle();
+
   return (
     <>
       <div className="flex justify-between items-center mx-[100px] mt-5">

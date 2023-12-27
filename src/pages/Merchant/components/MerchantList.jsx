@@ -5,21 +5,14 @@ import ButtonLogout from "../../../components/ButtonLogout";
 import HeaderListUser from "../../../components/HeaderListUser";
 import Loading from "../../../components/Loading";
 import EmptyState from "../../../components/EmptyState";
+
 import { useToogle } from "../../../context/ToogleContext";
 import { useFetchMerchants } from "../../../hooks/merchant/useFetchMerchant";
-import { useNavigate } from "react-router-dom";
 
 const MerchantList = () => {
   const { logout } = useToogle();
 
   const { data: merchants, isLoading } = useFetchMerchants();
-
-  const navigate = useNavigate();
-
-  const tes = (id) => {
-    navigate("/dashboard/merchant/new");
-    console.log(id);
-  };
 
   if (isLoading) {
     return <Loading />;
@@ -36,9 +29,6 @@ const MerchantList = () => {
         <h1 className="text-primary text-3xl font-extrabold mx-10 py-5 mb-20">
           Daftar Merchant
         </h1>
-
-        {/* <Link to={"/dashboard/merchant/new"}>TES</Link> */}
-        {/* <button onClick={tes}>GASS</button> */}
 
         <table className="table-fixed mx-4">
           <thead className="text-sm font-semibold tableBackground ">
@@ -89,14 +79,14 @@ const MerchantList = () => {
                     {merchant.enabled ? "Aktif" : "Non Aktif"}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-32">
-                    <p
-                      // to={`/dashboard/merchant/${merchant.id}/edit`}
+                    <Link
+                      to={`/dashboard/merchant/${merchant.id}/edit`}
                       className="flex items-center gap-3 pl-2 cursor-pointer"
-                      onClick={() => tes(merchant.id)}
+                      // onClick={() => tes(merchant.id)}
                     >
                       <BsPencilFill color="#F48300" />
                       <span className="text-sm font-semibold">Edit</span>
-                    </p>
+                    </Link>
                   </td>
                 </tr>
               );

@@ -61,8 +61,6 @@ const MerchantForm = () => {
     if (id && merchants) {
       const merchantToedit = merchants.find((merchant) => merchant.id === id);
 
-      console.log(merchantToedit);
-
       if (merchantToedit) {
         setFieldValue("name", merchantToedit.name);
         setFieldValue("email", merchantToedit.email);

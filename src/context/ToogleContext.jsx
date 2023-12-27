@@ -15,7 +15,7 @@ export const ToogleProvider = ({ children }) => {
 
   return (
     <ToogleContext.Provider
-      value={{ handleToogleLogout, logout, decline, handleDecline }}
+      value={{ handleToogleLogout, setLogout, logout, decline, handleDecline }}
     >
       {children}
     </ToogleContext.Provider>

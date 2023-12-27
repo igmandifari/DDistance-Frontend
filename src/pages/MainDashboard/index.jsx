@@ -1,13 +1,27 @@
-import { TiChevronRight } from "react-icons/ti";
+import { useEffect } from "react";
 
 import ButtonLogout from "../../components/ButtonLogout";
-import { cards, notifications } from "./dummyData";
+import CardUsers from "./components/CardUsers";
+import CardRequest from "./components/CardRequest";
+
+import { useFetchDistributors } from "../../hooks/distributor/useFetchDistributors";
+import { useFetchMerchants } from "../../hooks/merchant/useFetchMerchant";
+import { useFetchKreditAnalis } from "../../hooks/kreditAnalis/useFetchKreditAnalis";
 import { useToogle } from "../../context/ToogleContext";
+import { notifications } from "./dummyData";
 
 import profile from "../../assets/images/profile.png";
 
 const MainDashboard = () => {
-  const { logout, handleToogleLogout } = useToogle();
+  const { logout, setLogout, handleToogleLogout } = useToogle();
+
+  const { data: distributors } = useFetchDistributors();
+  const { data: merchants } = useFetchMerchants();
+  const { data: kreditAnalis } = useFetchKreditAnalis();
+
+  useEffect(() => {
+    setLogout(false);
+  }, []);
 
   return (
     <>
@@ -21,40 +35,17 @@ const MainDashboard = () => {
           <img src={profile} alt="" />
         </div>
       </div>
-      <div className="bg-background mx-10 min-w-4/5 min-h-[85%] ">
-        <div className="flex justify-end">{logout && <ButtonLogout />}</div>
+      <div className="bg-background mx-10 min-w-4/5 min-h-[85%] relative">
+        <div className="flex justify-end absolute right-0">
+          {logout && <ButtonLogout />}
+        </div>
 
-        <div className="flex pb-2">
+        <div className="flex pb-2 pt-5">
           <div className="flex flex-col w-3/4">
             <div className="flex justify-evenly mt-5">
-              {cards.map((card) => {
-                return (
-                  <div
-                    className="secondaryColor p-1.5 w-[250px] h-[280px] rounded-2xl"
-                    key={card.id}
-                  >
-                    <div className="bg-primary py-10 rounded-2xl"></div>
-                    <div className="p-3">
-                      <h2 className="text-white text-lg font-extrabold ">
-                        {card.name}
-                      </h2>
-                      <p className="text-white text-xs font-extrabold">
-                        {card.count} {card.name}
-                      </p>
-                    </div>
-                    <div className="flex justify-between items-center mt-9 px-3">
-                      <div className="flex">
-                        <div className="bg-bgSecondary rounded-full w-5 h-5"></div>
-                        <div className="bg-bgSecondary rounded-full w-5 h-5"></div>
-                        <div className="bg-bgSecondary rounded-full w-5 h-5"></div>
-                      </div>
-                      <div className="bg-primary w-7 h-5 flex justify-center items-center rounded-md cursor-pointer">
-                        <TiChevronRight color="white" />
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+              <CardUsers role="Distributor" count={distributors?.length} />
+              <CardUsers role="Merchant" count={merchants?.length} />
+              <CardUsers role="Kredit Analis" count={kreditAnalis?.length} />
             </div>
 
             <div className="mx-10">
@@ -81,49 +72,8 @@ const MainDashboard = () => {
           </div>
 
           <div className="flex flex-col w-1/4">
-            <div className="secondaryColor p-1.5 w-[90%] h-[330px] rounded-2xl mt-5">
-              <div className="bg-primary py-10 rounded-2xl"></div>
-              <div className="p-3">
-                <h2 className="text-white text-lg font-extrabold ">
-                  Distributor
-                </h2>
-                <p className="text-white text-xs font-extrabold">
-                  150 Merchant
-                </p>
-              </div>
-              <div className="flex justify-between items-center mt-[80px] px-3">
-                <div className="flex">
-                  <div className="bg-bgSecondary rounded-full w-6 h-6"></div>
-                  <div className="bg-bgSecondary rounded-full w-6 h-6"></div>
-                  <div className="bg-bgSecondary rounded-full w-6 h-6"></div>
-                </div>
-                <div className="bg-primary w-7 h-6 flex justify-center items-center rounded-md cursor-pointer">
-                  <TiChevronRight size={25} color="white" />
-                </div>
-              </div>
-            </div>
-
-            <div className="secondaryColor p-1.5 w-[90%] h-[330px] rounded-2xl mt-5">
-              <div className="bg-primary py-10 rounded-2xl"></div>
-              <div className="p-3">
-                <h2 className="text-white text-lg font-extrabold ">
-                  Distributor
-                </h2>
-                <p className="text-white text-xs font-extrabold">
-                  150 Merchant
-                </p>
-              </div>
-              <div className="flex justify-between items-center mt-[80px] px-3">
-                <div className="flex">
-                  <div className="bg-bgSecondary rounded-full w-6 h-6"></div>
-                  <div className="bg-bgSecondary rounded-full w-6 h-6"></div>
-                  <div className="bg-bgSecondary rounded-full w-6 h-6"></div>
-                </div>
-                <div className="bg-primary w-7 h-6 flex justify-center items-center rounded-md cursor-pointer">
-                  <TiChevronRight size={25} color="white" />
-                </div>
-              </div>
-            </div>
+            <CardRequest requestName="Daftar Pengajuan" count={50} />
+            <CardRequest requestName="Daftar Invoice" count={50} />
           </div>
         </div>
       </div>

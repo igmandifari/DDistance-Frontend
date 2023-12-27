@@ -216,7 +216,7 @@ const DistributorForm = () => {
                   <Input
                     disabled
                     value="2"
-                    styleError="w-[85%] bg-white text-black text-opacity-50"
+                    styleError="bg-white text-black text-opacity-50 w-[78%]"
                   />
                 </>
               )}

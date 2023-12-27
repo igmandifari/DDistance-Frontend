@@ -140,9 +140,10 @@ const AdminForm = () => {
                   value={email}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  styleError={
-                    touched.email && errors.email ? "outline-red-500" : ""
-                  }
+                  styleError={`
+                    ${
+                      touched.email && errors.email ? "outline-red-500" : ""
+                    } bg-white text-black text-opacity-30`}
                 />
                 <InputError>{touched.email && errors.email}</InputError>
               </div>

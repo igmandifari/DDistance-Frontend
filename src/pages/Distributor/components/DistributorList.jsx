@@ -88,7 +88,7 @@ const DistributorList = () => {
                     {distri.pan}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-28">
-                    {distri.role && "3"}
+                    3
                   </td>
                   <td className="text-sm border-2 border-tableColor p-2 w-36">
                     {distri.enabled ? "Aktif" : "Non Aktif"}

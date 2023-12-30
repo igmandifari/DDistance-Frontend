@@ -23,7 +23,7 @@ const DistributorForm = () => {
   const initialValues = id ? valueEditDistributor : valueAddDistributor;
 
   const {
-    values: { name, email, address, phoneNumber, enabled, companyId },
+    values: { name, email, address, phoneNumber, enabled, companyId, pan },
     errors,
     dirty,
     isValid,
@@ -77,6 +77,7 @@ const DistributorForm = () => {
         setFieldValue("phoneNumber", distributorToEdit.phoneNumber);
         setFieldValue("companyId", distributorToEdit.companyId);
         setFieldValue("enabled", distributorToEdit.enabled);
+        setFieldValue("pan", distributorToEdit.pan);
       }
       const result = getDistributorById;
       const updatedDistributor = { ...result };
@@ -89,6 +90,7 @@ const DistributorForm = () => {
         phoneNumber: updatedDistributor.phoneNumber,
         companyId: updatedDistributor.companyId,
         enabled: updatedDistributor.enabled,
+        pan: updatedDistributor.pan,
       };
 
       setValues(values);
@@ -208,6 +210,24 @@ const DistributorForm = () => {
                 <InputError>{touched.companyId && errors.companyId}</InputError>
               </div>
 
+              <label htmlFor="pan" className="text-primary font-semibold">
+                No. Rekening Danamon
+              </label>
+              <div>
+                <Input
+                  type="text"
+                  name="pan"
+                  id="pan"
+                  value={pan}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  styleError={
+                    touched.pan && errors.pan ? "outline-red-500" : ""
+                  }
+                />
+                <InputError>{touched.pan && errors.pan}</InputError>
+              </div>
+
               {id && (
                 <>
                   <label className="text-primary font-semibold">
@@ -215,7 +235,7 @@ const DistributorForm = () => {
                   </label>
                   <Input
                     disabled
-                    value="2"
+                    value="3"
                     styleError="bg-white text-black text-opacity-50 w-[78%]"
                   />
                 </>
@@ -239,7 +259,7 @@ const DistributorForm = () => {
               </select>
             </div>
           </div>
-          <div className="flex justify-end mr-16 py-3">
+          <div className="flex justify-end mr-16 pb-5">
             <button
               className="bg-[#F36C21] text-white text-sm font-bold py-1 px-7 rounded-md"
               type="submit"

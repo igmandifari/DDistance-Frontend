@@ -133,17 +133,15 @@ const AdminForm = () => {
               </label>
               <div>
                 <Input
-                  disabled={id}
                   type="email"
                   name="email"
                   id="email"
                   value={email}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  styleError={`
-                    ${
-                      touched.email && errors.email ? "outline-red-500" : ""
-                    } bg-white text-black text-opacity-30`}
+                  styleError={
+                    touched.email && errors.email ? "outline-red-500" : ""
+                  }
                 />
                 <InputError>{touched.email && errors.email}</InputError>
               </div>

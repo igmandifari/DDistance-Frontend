@@ -19,7 +19,7 @@ const MerchantForm = () => {
   const navigate = useNavigate();
 
   const {
-    values: { name, email, address, phoneNumber, enabled },
+    values: { name, email, address, phoneNumber, enabled, pan },
     errors,
     dirty,
     isValid,
@@ -37,6 +37,7 @@ const MerchantForm = () => {
       address: "",
       phoneNumber: "",
       enabled: "Aktif",
+      pan: "",
     },
     onSubmit: async (values) => {
       if (id) {
@@ -67,6 +68,7 @@ const MerchantForm = () => {
         setFieldValue("address", merchantToedit.address);
         setFieldValue("phoneNumber", merchantToedit.phoneNumber);
         setFieldValue("enabled", merchantToedit.enabled);
+        setFieldValue("pan", merchantToedit.pan);
       }
 
       const result = getMerchantById;
@@ -79,6 +81,7 @@ const MerchantForm = () => {
         address: updatedMerchant.address,
         phoneNumber: updatedMerchant.phoneNumber,
         enabled: updatedMerchant.enabled,
+        pan: updatedMerchant.pan,
       };
 
       setValues(values);
@@ -88,7 +91,7 @@ const MerchantForm = () => {
   return (
     <>
       <HeaderListUser />
-      <div className="bg-background mx-10 h-[88vh]">
+      <div className="bg-background mx-10 h-[88vh] overflow-y-auto">
         <div className="flex justify-end absolute right-10">
           {logout && <ButtonLogout />}
         </div>
@@ -179,6 +182,39 @@ const MerchantForm = () => {
                 </InputError>
               </div>
 
+              <label htmlFor="pan" className="text-primary font-semibold">
+                No. Rekening Danamon
+              </label>
+              <div>
+                <Input
+                  type="text"
+                  name="pan"
+                  id="pan"
+                  value={pan}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  styleError={
+                    touched.pan && errors.pan ? "outline-red-500" : ""
+                  }
+                />
+                <InputError>{touched.pan && errors.pan}</InputError>
+              </div>
+
+              <label htmlFor="role" className="text-primary font-semibold">
+                Tipe User
+              </label>
+              <div>
+                <Input
+                  type="text"
+                  value={4}
+                  disabled={id}
+                  styleError="bg-white text-black text-opacity-30"
+                />
+                <InputError>
+                  {touched.phoneNumber && errors.phoneNumber}
+                </InputError>
+              </div>
+
               <label htmlFor="enabled" className="text-primary font-semibold">
                 Status User
               </label>
@@ -197,7 +233,7 @@ const MerchantForm = () => {
               </select>
             </div>
           </div>
-          <div className="flex justify-end mr-16 py-12">
+          <div className="flex justify-end mr-16 pb-5 ">
             <button
               className="bg-[#F36C21] text-white text-sm font-bold py-1 px-7 rounded-md"
               type="submit"

@@ -6,5 +6,6 @@ export const distributorSchema = Yup.object({
   address: Yup.string().required("Alamat is required"),
   phoneNumber: Yup.string().required("No Telp is required"),
   companyId: Yup.string().required("Company Id is required"),
+  pan: Yup.string().required("No Rekening is required"),
   enabled: Yup.string().oneOf(["true", "false"]).required("Status is required"),
 });

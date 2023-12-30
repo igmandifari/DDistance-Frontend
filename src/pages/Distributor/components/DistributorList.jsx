@@ -33,7 +33,7 @@ const DistributorList = () => {
 
         <Link
           to={"/dashboard/distributor/new"}
-          className="bg-primary text-white font-extrabold ml-10 px-3 py-1 w-56 flex items-center gap-3 mt-28 mb-5 cursor-pointer"
+          className="bg-primary text-white font-extrabold ml-10 px-3 py-1 w-56 flex items-center gap-3 mt-16 mb-5 cursor-pointer"
         >
           <FaPlus />
           <span>Tambah Distributor</span>

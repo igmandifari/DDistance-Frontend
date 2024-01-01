@@ -1,11 +1,22 @@
 import { Link } from "react-router-dom";
+
+import Loading from "../../../components/Loading";
+import EmptyState from "../../../components/EmptyState";
 import ButtonLogout from "../../../components/ButtonLogout";
 import HeaderListUser from "../../../components/HeaderListUser";
+
 import { useToogle } from "../../../context/ToogleContext";
-import { invoices } from "../invoiceDummy";
+import { useFetchInvoice } from "../../../hooks/invoice/useFetchInvoice";
 
 const InvoiceList = () => {
   const { logout } = useToogle();
+
+  const { data: invoices, isLoading } = useFetchInvoice();
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <HeaderListUser />
@@ -42,28 +53,28 @@ const InvoiceList = () => {
             </tr>
           </thead>
           <tbody className="bg-white">
-            {invoices.map((inc, index) => {
+            {invoices?.map((inc, index) => {
               return (
                 <tr key={index}>
                   <td className="text-sm border-2 border-tableColor px-3 py-2 w-16">
                     {++index}
                   </td>
                   <td className="text-sm border-2 border-tableColor px-3 py-2 w-48">
-                    {inc.nama}
+                    {inc.namaToko}
                   </td>
                   <td className="text-sm border-2 border-tableColor px-3 py-2 w-48">
-                    {inc.distributor}
+                    {inc.namaDistributor}
                   </td>
                   <td className="text-sm border-2 border-tableColor px-3 py-2 w-48">
-                    <span className="mr-10">{inc.tanggal}</span>
+                    <span className="mr-10">{inc.tanggalTagihan}</span>
                     <span>{inc.time}</span>
                   </td>
                   <td className="text-sm border-2 border-tableColor px-3 py-2 w-36">
-                    {inc.status}
+                    {inc.status === "DALAM_PROSES" && "Pending"}
                   </td>
                   <td className="text-sm border-2 border-tableColor px-3 py-2 w-40">
                     <Link
-                      to={"/dashboard/invoice/detail"}
+                      to={`/dashboard/invoice/${inc.id}`}
                       className="text-primary font-bold"
                     >
                       Detail
@@ -74,6 +85,7 @@ const InvoiceList = () => {
             })}
           </tbody>
         </table>
+        {invoices && invoices.length === 0 && <EmptyState />}
       </div>
     </>
   );

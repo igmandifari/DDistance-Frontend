@@ -131,7 +131,7 @@ const setupRouter = () =>
                   element: <JaminanList />,
                 },
                 {
-                  path: "detail",
+                  path: ":id",
                   element: <JaminanDetail />,
                 },
               ],
@@ -145,7 +145,7 @@ const setupRouter = () =>
                   element: <InvoiceList />,
                 },
                 {
-                  path: "detail",
+                  path: ":id",
                   element: <InvoiceDetail />,
                 },
               ],

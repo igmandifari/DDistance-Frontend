@@ -1,25 +1,30 @@
+import { useParams } from "react-router-dom";
+
+import Input from "../../../components/Input";
 import ButtonLogout from "../../../components/ButtonLogout";
 import HeaderListUser from "../../../components/HeaderListUser";
-import Input from "../../../components/Input";
+
 import { useToogle } from "../../../context/ToogleContext";
+import { useFetchInvoiceById } from "../../../hooks/invoice/useFetchInvoiceById";
+import { useFetchFileInvoice } from "../../../hooks/invoice/useFetchFileInvoice";
+import { formatIDRCurrency } from "../../../utils/utility";
 
 const InvoiceDetail = () => {
   const { logout } = useToogle();
+  const { id } = useParams();
 
-  const dummyDetail = {
-    nama: "Toko 1",
-    distributor: "Distributor 1",
-    tanggal: "23/12/2023              17.10",
-    jatuhTempo: "23/01/2024              17.10",
-    totalTagihan: "Rp. 10.000.000,00",
-    status: "Accepted",
-  };
+  const { data: getInvoiceById } = id ? useFetchInvoiceById(id) : {};
+
+  const { data: getFileInvoice } = id ? useFetchFileInvoice(id) : {};
+  
+  const invoiceDetail = getInvoiceById;
+  const fileInvoice = getFileInvoice;
 
   return (
     <>
       <HeaderListUser />
 
-      <div className="bg-background mx-10 h-[85vh] overflow-y-scroll">
+      <div className="bg-background mx-10 h-[89vh] overflow-y-scroll">
         <div className="flex justify-end absolute right-10">
           {logout && <ButtonLogout />}
         </div>
@@ -28,85 +33,102 @@ const InvoiceDetail = () => {
           Detail Approval Invoice
         </h1>
 
-        <div className="bg-bgSecondary ml-8 py-3 w-[60%] rounded-2xl mb-7">
-          <div className="flex flex-col gap-2 w-[50%] mx-5 pb-6">
-            <label htmlFor="nama" className="text-primary font-semibold">
+        <div className="bg-bgSecondary ml-8 py-1 w-[60%] rounded-2xl ">
+          <div className="flex flex-col gap-2 w-[50%] mx-5 pb-2">
+            <label htmlFor="namaToko" className="text-primary font-semibold">
               Nama Merchant
             </label>
             <div>
               <Input
                 type="text"
-                name="nama"
-                id="nama"
-                value={dummyDetail.nama}
+                name="namaToko"
+                disabled
+                styleError={"bg-white"}
+                id="namaToko"
+                value={invoiceDetail?.namaToko}
               />
             </div>
 
-            <label htmlFor="email" className="text-primary font-semibold">
+            <label
+              htmlFor="namaDistributor"
+              className="text-primary font-semibold"
+            >
               Nama Distributor
             </label>
             <div>
               <Input
-                type="email"
-                name="email"
+                type="namaDistributor"
+                name="namaDistributor"
+                disabled
+                styleError={"bg-white"}
                 id="email"
-                value={dummyDetail.distributor}
+                value={invoiceDetail?.namaDistributor}
               />
             </div>
 
-            <label htmlFor="alamat" className="text-primary font-semibold">
+            <label
+              htmlFor="tanggalTagihan"
+              className="text-primary font-semibold"
+            >
               Tanggal Waktu
             </label>
             <div>
               <Input
                 type="text"
-                name="alamat"
-                id="alamat"
-                value={dummyDetail.tanggal}
+                name="tanggalTagihan"
+                disabled
+                styleError={"bg-white"}
+                id="tanggalTagihan"
+                value={invoiceDetail?.tanggalTagihan}
               />
             </div>
 
-            <label htmlFor="telp" className="text-primary font-semibold">
+            <label
+              htmlFor="tanggalJatuhTempo"
+              className="text-primary font-semibold"
+            >
               Jatuh Tempo
             </label>
             <div>
               <Input
                 type="text"
-                name="telp"
-                id="telp"
-                value={dummyDetail.jatuhTempo}
+                name="tanggalJatuhTempo"
+                disabled
+                styleError={"bg-white"}
+                id="tanggalJatuhTempo"
+                value={invoiceDetail?.tanggalJatuhTempo}
               />
             </div>
 
-            <label htmlFor="company" className="text-primary font-semibold">
+            <label
+              htmlFor="jumlahTagihan"
+              className="text-primary font-semibold"
+            >
               Total Tagihan
             </label>
             <div>
               <Input
                 type="text"
-                name="company"
-                id="company"
-                value={dummyDetail.totalTagihan}
+                name="jumlahTagihan"
+                id="jumlahTagihan"
+                disabled
+                styleError={"bg-white"}
+                value={formatIDRCurrency(invoiceDetail?.jumlahTagihan)}
               />
             </div>
 
-            <label htmlFor="status" className="text-primary font-semibold">
-              Faktur Fisik
-            </label>
-            <img
-              src="https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?q=80&w=2074&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt=""
-              className="w-40 h-28"
-            />
+            <p className="text-primary font-semibold">Faktur Fisik</p>
+            <img src={fileInvoice} alt="Faktur fisik" className="w-40 h-28" />
 
+            <p className="text-primary font-semibold -mb-2">Status</p>
             <p
-              className={`text-lg font-bold ${
-                dummyDetail.status === "Accepted"
-                  ? "text-green-600"
-                  : "text-red-600"
+              className={`text-lg font-semibold ${
+                invoiceDetail?.status === "DALAM_PROSES"
+                  ? "text-[#FFB000]"
+                  : "text-green-600"
               }`}
             >
-              {dummyDetail.status}
+              {invoiceDetail?.status === "DALAM_PROSES" && "Pending"}
             </p>
           </div>
         </div>

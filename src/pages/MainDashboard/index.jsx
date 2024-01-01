@@ -1,40 +1,34 @@
 import { useEffect } from "react";
 
-import ButtonLogout from "../../components/ButtonLogout";
 import CardUsers from "./components/CardUsers";
 import CardRequest from "./components/CardRequest";
+import ButtonLogout from "../../components/ButtonLogout";
+import HeaderTitleUser from "../../components/HeaderTitleUser";
 
+import { useToogle } from "../../context/ToogleContext";
 import { useFetchDistributors } from "../../hooks/distributor/useFetchDistributors";
 import { useFetchMerchants } from "../../hooks/merchant/useFetchMerchant";
 import { useFetchKreditAnalis } from "../../hooks/kreditAnalis/useFetchKreditAnalis";
-import { useToogle } from "../../context/ToogleContext";
+import { useFetchInvoice } from "../../hooks/invoice/useFetchInvoice";
+import { useFetchJaminan } from "../../hooks/jaminan/useFetchJaminan";
 import { notifications } from "./dummyData";
 
-import profile from "../../assets/images/profile.png";
-
 const MainDashboard = () => {
-  const { logout, setLogout, handleToogleLogout } = useToogle();
+  const { logout, setLogout } = useToogle();
 
   const { data: distributors } = useFetchDistributors();
   const { data: merchants } = useFetchMerchants();
   const { data: kreditAnalis } = useFetchKreditAnalis();
+  const { data: invoice } = useFetchInvoice();
+  const { data: jaminan } = useFetchJaminan();
 
   useEffect(() => {
     setLogout(false);
-  }, []);
+  }, [setLogout]);
 
   return (
     <>
-      <div className="flex justify-between items-center mx-[100px] mt-5">
-        <h1 className="text-2xl text-primary font-extrabold">Dashboard</h1>
-        <div
-          className="flex items-center cursor-pointer"
-          onClick={handleToogleLogout}
-        >
-          <span className="text-xl text-primary font-extrabold">Admin</span>
-          <img src={profile} alt="" />
-        </div>
-      </div>
+      <HeaderTitleUser>Dashboard</HeaderTitleUser>
       <div className="bg-background mx-10 min-w-4/5 min-h-[85%] relative">
         <div className="flex justify-end absolute right-0">
           {logout && <ButtonLogout />}
@@ -72,8 +66,11 @@ const MainDashboard = () => {
           </div>
 
           <div className="flex flex-col w-1/4">
-            <CardRequest requestName="Daftar Pengajuan" count={50} />
-            <CardRequest requestName="Daftar Invoice" count={50} />
+            <CardRequest
+              requestName="Daftar Pengajuan"
+              count={jaminan?.length}
+            />
+            <CardRequest requestName="Daftar Invoice" count={invoice?.length} />
           </div>
         </div>
       </div>

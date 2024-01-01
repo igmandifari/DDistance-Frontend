@@ -1,11 +1,21 @@
 import { Link } from "react-router-dom";
+
+import Loading from "../../../components/Loading";
+import EmptyState from "../../../components/EmptyState";
 import ButtonLogout from "../../../components/ButtonLogout";
 import HeaderListUser from "../../../components/HeaderListUser";
+
 import { useToogle } from "../../../context/ToogleContext";
-import { jaminan } from "../jaminanDummy";
+import { useFetchJaminan } from "../../../hooks/jaminan/useFetchJaminan";
 
 const JaminanList = () => {
   const { logout } = useToogle();
+
+  const { data: jaminan, isLoading } = useFetchJaminan();
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -19,47 +29,46 @@ const JaminanList = () => {
           Daftar Pengajuan Jaminan
         </h1>
 
-        <table className="table-fixed border border-slate-900 mx-8 mt-10">
-          <thead className="text-sm font-semibold test border border-slate-900">
+        <table className="table-fixed border mx-8 mt-10">
+          <thead className="text-sm font-semibold tableBackground">
             <tr>
-              <th className="border-2 border-tableColor py-3 px-5 text-center">
+              <th className="border-2 border-tableColor py-3 px-5 text-center w-16">
                 ID
               </th>
-              <th className="border-2 border-tableColor py-3 px-2 text-center">
+              <th className="border-2 border-tableColor py-3 px-2 text-center w-44">
                 Nama Merchant
               </th>
 
-              <th className="border-2 border-tableColor py-3 px-2 text-center">
+              <th className="border-2 border-tableColor py-3 px-2 text-center w-44">
                 Tanggal Waktu
               </th>
-              <th className="border-2 border-tableColor py-3 px-2 text-center">
+              <th className="border-2 border-tableColor py-3 px-2 text-center w-32">
                 Status
               </th>
-              <th className="border-2 border-tableColor py-3 px-2 text-center">
+              <th className="border-2 border-tableColor py-3 px-2 text-center w-32">
                 Action
               </th>
             </tr>
           </thead>
           <tbody className="bg-white">
-            {jaminan.map((inc, index) => {
+            {jaminan?.map((inc, index) => {
               return (
                 <tr key={index}>
                   <td className="text-sm border-2 border-tableColor px-3 py-2 w-16">
                     {++index}
                   </td>
                   <td className="text-sm border-2 border-tableColor px-3 py-2 w-48">
-                    {inc.nama}
+                    {inc.nameStore}
                   </td>
                   <td className="text-sm border-2 border-tableColor px-3 py-2 w-48">
-                    <span className="mr-10">{inc.tanggal}</span>
-                    <span>{inc.time}</span>
+                    {inc.date}
                   </td>
                   <td className="text-sm border-2 border-tableColor px-3 py-2 w-36">
-                    {inc.status}
+                    {inc.status === "DALAM_PROSES" && "Pending"}
                   </td>
                   <td className="text-sm border-2 border-tableColor px-3 py-2 w-40">
                     <Link
-                      to={"/dashboard/jaminan/detail"}
+                      to={`/dashboard/jaminan/${inc.id}`}
                       className="text-primary font-bold"
                     >
                       Detail
@@ -70,6 +79,7 @@ const JaminanList = () => {
             })}
           </tbody>
         </table>
+        {jaminan && jaminan.length === 0 && <EmptyState />}
       </div>
     </>
   );

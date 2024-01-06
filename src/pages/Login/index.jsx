@@ -5,17 +5,22 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 
+import ActionFailed from "../../components/ActionFailed";
+
 import { ServiceContext } from "../../context/ServiceContext";
 import { authAction } from "../../slices/authSlice";
 
 import danamon from "../../assets/images/danamon.png";
 import imageLogin from "../../assets/images/sidebarImage.png";
+import { useToogle } from "../../context/ToogleContext";
 
 const Login = () => {
   const [passwordType, setPasswordType] = useState("password");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { authService } = useContext(ServiceContext);
+
+  const { showPopup, handleShowPopup } = useToogle();
 
   const schema = Yup.object({
     email: Yup.string().email().required("Email is required"),
@@ -47,7 +52,7 @@ const Login = () => {
         sessionStorage.setItem("role", payload.data.role);
         navigate("/dashboard");
       } else {
-        alert("login gagal");
+        handleShowPopup();
       }
     },
     validationSchema: schema,
@@ -83,7 +88,7 @@ const Login = () => {
                     id="email"
                     placeholder="Email"
                     className={`outline-none border-2 px-4 py-3 rounded-md placeholder:text-center ${
-                      touched.password && errors.password
+                      touched.email && errors.email
                         ? "border-red-600"
                         : "border-none"
                     }`}
@@ -146,6 +151,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+      {showPopup && <ActionFailed title="Invalid Credential" />}
     </>
   );
 };

@@ -2,16 +2,18 @@ import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { BsPencilFill } from "react-icons/bs";
 
-import HeaderListUser from "../../../components/HeaderListUser";
-import ButtonLogout from "../../../components/ButtonLogout";
 import Loading from "../../../components/Loading";
 import EmptyState from "../../../components/EmptyState";
+import ButtonLogout from "../../../components/ButtonLogout";
+import HeaderListUser from "../../../components/HeaderListUser";
 
 import { useFetchDistributors } from "../../../hooks/distributor/useFetchDistributors";
 import { useToogle } from "../../../context/ToogleContext";
 
 const DistributorList = () => {
   const { logout } = useToogle();
+
+  const userRole = sessionStorage.getItem("role");
 
   const { data: distributors, isLoading } = useFetchDistributors();
 
@@ -30,14 +32,15 @@ const DistributorList = () => {
         <h1 className="text-primary text-3xl font-extrabold mx-10 py-5">
           Daftar Distributor
         </h1>
-
-        <Link
-          to={"/dashboard/distributor/new"}
-          className="bg-primary text-white font-extrabold ml-10 px-3 py-1 w-56 flex items-center gap-3 mt-16 mb-5 cursor-pointer"
-        >
-          <FaPlus />
-          <span>Tambah Distributor</span>
-        </Link>
+        {userRole === "ROLE_ADMIN" && (
+          <Link
+            to={"/dashboard/distributor/new"}
+            className="bg-primary text-white font-extrabold ml-10 px-3 py-1 w-56 flex items-center gap-3 mt-16 mb-5 cursor-pointer"
+          >
+            <FaPlus />
+            <span>Tambah Distributor</span>
+          </Link>
+        )}
 
         <table className="table-fixed mx-2">
           <thead className="text-sm font-semibold tableBackground">
@@ -63,9 +66,11 @@ const DistributorList = () => {
               <th className="border-2 border-tableColor py-2 px-2 text-left w-36">
                 Status
               </th>
-              <th className="border-2 border-tableColor py-2 pl-3 text-left w-32">
-                Action
-              </th>
+              {userRole === "ROLE_ADMIN" && (
+                <th className="border-2 border-tableColor py-2 pl-3 text-left w-32">
+                  Action
+                </th>
+              )}
             </tr>
           </thead>
           <tbody className="bg-white">
@@ -93,15 +98,17 @@ const DistributorList = () => {
                   <td className="text-sm border-2 border-tableColor p-2 w-36">
                     {distri.enabled ? "Aktif" : "Non Aktif"}
                   </td>
-                  <td className="text-sm border-2 border-tableColor p-1 w-32">
-                    <Link
-                      to={`/dashboard/distributor/${distri.id}/edit`}
-                      className="flex items-center gap-3 pl-2 cursor-pointer"
-                    >
-                      <BsPencilFill color="#F48300" />
-                      <span className="text-sm font-semibold">Edit</span>
-                    </Link>
-                  </td>
+                  {userRole === "ROLE_ADMIN" && (
+                    <td className="text-sm border-2 border-tableColor p-1 w-32">
+                      <Link
+                        to={`/dashboard/distributor/${distri.id}/edit`}
+                        className="flex items-center gap-3 pl-2 cursor-pointer"
+                      >
+                        <BsPencilFill color="#F48300" />
+                        <span className="text-sm font-semibold">Edit</span>
+                      </Link>
+                    </td>
+                  )}
                 </tr>
               );
             })}

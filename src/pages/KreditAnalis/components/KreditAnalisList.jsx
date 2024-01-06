@@ -12,6 +12,9 @@ import { useToogle } from "../../../context/ToogleContext";
 
 const KreditAnalisList = () => {
   const { logout } = useToogle();
+
+  const userRole = sessionStorage.getItem("role");
+
   const { data: kreditAnalis, isLoading } = useFetchKreditAnalis();
 
   if (isLoading) {
@@ -30,13 +33,15 @@ const KreditAnalisList = () => {
           Daftar Kredit Analis
         </h1>
 
-        <Link
-          to={"/dashboard/kreditanalis/new"}
-          className="bg-primary text-white font-extrabold ml-10 px-3 py-1 w-56 flex items-center gap-3 mt-28 mb-5 cursor-pointer"
-        >
-          <FaPlus />
-          <span>Tambah Kredit Analis</span>
-        </Link>
+        {userRole === "ROLE_ADMIN" && (
+          <Link
+            to={"/dashboard/kreditanalis/new"}
+            className="bg-primary text-white font-extrabold ml-10 px-3 py-1 w-56 flex items-center gap-3 mt-28 mb-5 cursor-pointer"
+          >
+            <FaPlus />
+            <span>Tambah Kredit Analis</span>
+          </Link>
+        )}
 
         <table className="table-fixed mx-9">
           <thead className="text-sm font-semibold tableBackground">
@@ -59,9 +64,11 @@ const KreditAnalisList = () => {
               <th className="border-2 border-tableColor py-2 px-2 text-left w-36">
                 Status
               </th>
-              <th className="border-2 border-tableColor py-2 pl-3 text-left w-32">
-                Action
-              </th>
+              {userRole === "ROLE_ADMIN" && (
+                <th className="border-2 border-tableColor py-2 pl-3 text-left w-32">
+                  Action
+                </th>
+              )}
             </tr>
           </thead>
           <tbody className="bg-white">
@@ -86,15 +93,17 @@ const KreditAnalisList = () => {
                   <td className="text-sm border-2 border-tableColor p-2 w-36">
                     {kredit.enabled ? "Aktif" : "Non Aktif"}
                   </td>
-                  <td className="text-sm border-2 border-tableColor p-1 w-32">
-                    <Link
-                      to={`/dashboard/kreditanalis/${kredit.id}/edit`}
-                      className="flex items-center gap-3 pl-2 cursor-pointer"
-                    >
-                      <BsPencilFill color="#F48300" />
-                      <span className="text-sm font-semibold">Edit</span>
-                    </Link>
-                  </td>
+                  {userRole === "ROLE_ADMIN" && (
+                    <td className="text-sm border-2 border-tableColor p-1 w-32">
+                      <Link
+                        to={`/dashboard/kreditanalis/${kredit.id}/edit`}
+                        className="flex items-center gap-3 pl-2 cursor-pointer"
+                      >
+                        <BsPencilFill color="#F48300" />
+                        <span className="text-sm font-semibold">Edit</span>
+                      </Link>
+                    </td>
+                  )}
                 </tr>
               );
             })}

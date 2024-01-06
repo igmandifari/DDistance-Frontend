@@ -13,6 +13,8 @@ import { useToogle } from "../../../context/ToogleContext";
 const AdminList = () => {
   const { logout } = useToogle();
 
+  const userRole = sessionStorage.getItem("role");
+
   const { data: admins, isLoading } = useFetchAdmin();
 
   if (isLoading) {
@@ -32,13 +34,15 @@ const AdminList = () => {
           Daftar Admin
         </h1>
 
-        <Link
-          to={"/dashboard/admin/new"}
-          className="bg-primary text-white font-extrabold ml-10 px-3 py-1 w-44 flex items-center gap-3 mt-16 mb-5 cursor-pointer"
-        >
-          <FaPlus />
-          <span>Tambah Admin</span>
-        </Link>
+        {userRole === "ROLE_ADMIN" && (
+          <Link
+            to={"/dashboard/admin/new"}
+            className="bg-primary text-white font-extrabold ml-10 px-3 py-1 w-44 flex items-center gap-3 mt-10 mb-5 cursor-pointer"
+          >
+            <FaPlus />
+            <span>Tambah Admin</span>
+          </Link>
+        )}
 
         <table className="table-fixed mx-4">
           <thead className="text-sm font-semibold tableBackground">
@@ -61,9 +65,11 @@ const AdminList = () => {
               <th className="border-2 border-tableColor py-2 px-2 text-left w-36">
                 Status
               </th>
-              <th className="border-2 border-tableColor py-2 pl-3 text-left w-32">
-                Action
-              </th>
+              {userRole === "ROLE_ADMIN" && (
+                <th className="border-2 border-tableColor py-2 pl-3 text-left w-32">
+                  Action
+                </th>
+              )}
             </tr>
           </thead>
           <tbody className="bg-white">
@@ -89,15 +95,17 @@ const AdminList = () => {
                   <td className="text-sm border-2 border-tableColor p-2 w-36">
                     {adm.enabled ? "Aktif" : "Non Aktif"}
                   </td>
-                  <td className="text-sm border-2 border-tableColor p-1 w-32">
-                    <Link
-                      to={`/dashboard/admin/${adm.id}/edit`}
-                      className="flex items-center gap-3 pl-2 cursor-pointer"
-                    >
-                      <BsPencilFill color="#F48300" />
-                      <span className="text-sm font-semibold">Edit</span>
-                    </Link>
-                  </td>
+                  {userRole === "ROLE_ADMIN" && (
+                    <td className="text-sm border-2 border-tableColor p-1 w-32">
+                      <Link
+                        to={`/dashboard/admin/${adm.id}/edit`}
+                        className="flex items-center gap-3 pl-2 cursor-pointer"
+                      >
+                        <BsPencilFill color="#F48300" />
+                        <span className="text-sm font-semibold">Edit</span>
+                      </Link>
+                    </td>
+                  )}
                 </tr>
               );
             })}

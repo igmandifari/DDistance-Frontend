@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 
 import Input from "../../../components/Input";
+import PopupSurvey from "../../../components/PopupSurvey";
+import PopupAccept from "../../../components/PopupAccept";
+import PopupReject from "../../../components/PopupReject";
 import ButtonLogout from "../../../components/ButtonLogout";
 import HeaderListUser from "../../../components/HeaderListUser";
-import PopupNotification from "../../../components/PopupNotification";
 
 import { useToogle } from "../../../context/ToogleContext";
 import { useFetchJaminanById } from "../../../hooks/jaminan/useFetchJaminanById";
@@ -12,35 +15,98 @@ import {
   useFetchKtpData,
   useFetchSiuData,
 } from "../../../hooks/jaminan/useFetchDataJaminan";
+import { useUpdateJaminan } from "../../../hooks/jaminan/useUpdateJaminan";
+import { formatIDRCurrency } from "../../../utils/utility";
 
 const JaminanDetail = () => {
-  const { logout, decline, handleDecline, showPopup, handleShowPopup } =
+  const [reason, setReason] = useState("");
+  const [limit, setLimit] = useState(0);
+
+  const { logout, handleShowNotif, showNotif, showDecline, handleDecline } =
     useToogle();
 
   const { id } = useParams();
 
-  const { data: getJaminanById } = id ? useFetchJaminanById(id) : {};
+  const { data: getJaminanById, refetch } = id ? useFetchJaminanById(id) : {};
 
   const { data: ktpFile } = id ? useFetchKtpData(id) : {};
   const { data: siuFile } = id ? useFetchSiuData(id) : {};
   const { data: agunanFile } = id ? useFetchAgunanData(id) : {};
 
+  const { mutate: updateJaminan } = useUpdateJaminan({
+    onSuccess: () => {
+      refetch();
+    },
+  });
+
   const jaminanDetail = getJaminanById;
+
+  let index = 0;
+
+  const handleSurvey = () => {
+    const value = "ON_SURVEY";
+    const newId = id;
+
+    const valueUpdate = {
+      id: newId,
+      installemnt: value,
+      rejection: "",
+    };
+
+    updateJaminan(valueUpdate);
+
+    refetch();
+    handleShowNotif();
+  };
+
+  const handleReject = () => {
+    const value = "DITOLAK";
+    const newId = id;
+
+    const valueUpdate = {
+      id: newId,
+      installemnt: value,
+      rejection: reason,
+      limit: 0,
+    };
+
+    updateJaminan(valueUpdate);
+
+    refetch();
+    handleDecline();
+  };
+
+  const handleAccept = () => {
+    const value = "DITERIMA";
+    const newId = id;
+
+    const valueUpdate = {
+      id: newId,
+      installemnt: value,
+      rejection: "",
+      limit,
+    };
+
+    updateJaminan(valueUpdate);
+
+    refetch();
+    handleShowNotif();
+  };
 
   return (
     <>
       <HeaderListUser />
 
-      <div className="bg-background mx-10 h-[85vh] overflow-y-scroll">
+      <div className="bg-background mx-10 h-[90vh] overflow-y-scroll">
         <div className="flex justify-end absolute right-10">
           {logout && <ButtonLogout />}
         </div>
 
         <h1 className="text-primary text-3xl font-extrabold mx-10 py-5 ">
-          Detail Approval
+          Detail Approval Pengajuan Jaminan
         </h1>
 
-        <div className="bg-bgSecondary ml-8 py-3 w-[60%] rounded-2xl mb-7">
+        <div className="bg-bgSecondary ml-8 py-3 w-[60%] h-full rounded-2xl mb-7">
           <div className="flex flex-col gap-2 w-[50%] mx-5 pb-6">
             <label htmlFor="nameStore" className="text-primary font-semibold">
               Nama Merchant
@@ -71,19 +137,50 @@ const JaminanDetail = () => {
             </label>
             <img src={agunanFile} alt="" className="w-40 h-28" />
 
-            <p className="text-primary font-semibold">Current Status</p>
-            <p>{jaminanDetail?.status === "DALAM_PROSES" && "Pending"}</p>
+            {jaminanDetail?.limit > 0 && (
+              <>
+                <label htmlFor="limit" className="text-primary font-semibold">
+                  Limit Kredit
+                </label>
+                <div>
+                  <Input
+                    type="text"
+                    name="limit"
+                    id="limit"
+                    disabled
+                    styleError="bg-white"
+                    value={formatIDRCurrency(jaminanDetail?.limit)}
+                  />
+                </div>
+              </>
+            )}
 
-            {jaminanDetail?.status === "DALAM_PROSES" && (
+            <p className="text-primary font-semibold">
+              {jaminanDetail?.status === "DITERIMA" ||
+              jaminanDetail?.status === "DITOLAK"
+                ? "Final Status"
+                : "Current Status"}
+            </p>
+            <p
+              className={`font-semibold ${
+                jaminanDetail?.status === "DITERIMA" && "text-green-500"
+              } ${jaminanDetail?.status === "DITOLAK" && "text-red-500"}`}
+            >
+              {jaminanDetail?.status === "DALAM_PROSES" && "Pending"}
+              {jaminanDetail?.status === "ON_SURVEY" && "On Survey"}
+              {jaminanDetail?.status === "DITERIMA" && "Accepted"}
+              {jaminanDetail?.status === "DITOLAK" && "Declined"}
+            </p>
+
+            {(jaminanDetail?.status === "DALAM_PROSES" ||
+              jaminanDetail?.status === "ON_SURVEY") && (
               <div className="flex gap-4 mt-4">
                 <button
-                  disabled={decline}
-                  className={`text-white font-bold px-8 py-1 rounded-lg ${
-                    decline ? "bg-green-400 cursor-not-allowed" : "bg-green-600"
-                  }`}
-                  onClick={handleShowPopup}
+                  className="text-white font-bold px-8 py-1 rounded-lg bg-green-600"
+                  onClick={handleShowNotif}
                 >
-                  Accept
+                  {jaminanDetail?.status === "DALAM_PROSES" && "Survey"}
+                  {jaminanDetail?.status === "ON_SURVEY" && "Accept"}
                 </button>
                 <button
                   className="bg-red-600 text-white font-bold px-8 py-1 rounded-lg"
@@ -93,28 +190,36 @@ const JaminanDetail = () => {
                 </button>
               </div>
             )}
-
-            {decline && (
-              <div className="mt-5">
-                <label
-                  htmlFor="description"
-                  className="text-primary font-semibold"
-                >
-                  Alasan Penolakan
-                </label>
-                <textarea
-                  name="description"
-                  id="description"
-                  cols="100"
-                  rows="5"
-                  className="outline-none rounded-2xl w-full p-3"
-                ></textarea>
-              </div>
-            )}
           </div>
         </div>
       </div>
-      {showPopup && <PopupNotification />}
+      {showNotif && jaminanDetail?.status === "DALAM_PROSES" && (
+        <PopupSurvey
+          title="Apakah yakin untuk MENYURVEI ?"
+          subTitle="Pastikan data sudah sesuai"
+          pengajuan={jaminanDetail?.id}
+          merchant={jaminanDetail?.nameStore}
+          onClick={handleSurvey}
+        />
+      )}
+      {showNotif && jaminanDetail?.status === "ON_SURVEY" && (
+        <PopupAccept
+          title="Apakah yakin untuk MENYETUJUI ?"
+          pengajuan={`Pengajuan #${++index}`}
+          merchant={jaminanDetail?.nameStore}
+          onClick={handleAccept}
+          onLimitChange={(limit) => setLimit(limit)}
+        />
+      )}
+      {showDecline && (
+        <PopupReject
+          title="Apakah yakin untuk MENOLAK ?"
+          pengajuan={`Pengajuan #${++index}`}
+          merchant={jaminanDetail?.nameStore}
+          onReasonChange={(reason) => setReason(reason)}
+          onClick={handleReject}
+        />
+      )}
     </>
   );
 };

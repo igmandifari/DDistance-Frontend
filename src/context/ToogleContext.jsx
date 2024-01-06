@@ -1,21 +1,47 @@
 import { useContext, useState, createContext } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { ServiceContext } from "../context/ServiceContext";
+import { authAction } from "../slices/authSlice";
 
 const ToogleContext = createContext();
 
 export const ToogleProvider = ({ children }) => {
   const [logout, setLogout] = useState(false);
-  const [decline, setDecline] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [showNotif, setShowNotif] = useState(false);
+  const [showDecline, setShowDecline] = useState(false);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { authService } = useContext(ServiceContext);
 
   const handleToogleLogout = () => {
     setLogout(!logout);
   };
-  const handleDecline = () => {
-    setDecline(!decline);
-  };
 
   const handleShowPopup = () => {
     setShowPopup(!showPopup);
+  };
+
+  const handleShowNotif = () => {
+    setShowNotif(!showNotif);
+  };
+
+  const handleDecline = () => {
+    setShowDecline(!showDecline);
+  };
+
+  const handleLogout = () => {
+    dispatch(
+      authAction(() => {
+        authService.logout();
+        setShowPopup(false);
+        return null;
+      })
+    );
+    navigate("/");
   };
 
   return (
@@ -24,10 +50,13 @@ export const ToogleProvider = ({ children }) => {
         handleToogleLogout,
         setLogout,
         logout,
-        decline,
-        handleDecline,
         showPopup,
         handleShowPopup,
+        handleLogout,
+        handleShowNotif,
+        showNotif,
+        handleDecline,
+        showDecline,
       }}
     >
       {children}

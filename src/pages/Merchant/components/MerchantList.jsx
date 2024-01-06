@@ -12,6 +12,8 @@ import { useFetchMerchants } from "../../../hooks/merchant/useFetchMerchant";
 const MerchantList = () => {
   const { logout } = useToogle();
 
+  const userRole = sessionStorage.getItem("role");
+
   const { data: merchants, isLoading } = useFetchMerchants();
 
   if (isLoading) {
@@ -51,9 +53,11 @@ const MerchantList = () => {
               <th className="border-2 border-tableColor py-2 px-2 text-center w-36">
                 Status
               </th>
-              <th className="border-2 border-tableColor py-2 pl-3 text-center w-32">
-                Action
-              </th>
+              {userRole === "ROLE_ADMIN" && (
+                <th className="border-2 border-tableColor py-2 pl-3 text-center w-32">
+                  Action
+                </th>
+              )}
             </tr>
           </thead>
           <tbody className="bg-white">
@@ -78,16 +82,17 @@ const MerchantList = () => {
                   <td className="text-sm border-2 border-tableColor p-2 w-36">
                     {merchant.enabled ? "Aktif" : "Non Aktif"}
                   </td>
-                  <td className="text-sm border-2 border-tableColor p-1 w-32">
-                    <Link
-                      to={`/dashboard/merchant/${merchant.id}/edit`}
-                      className="flex items-center gap-3 pl-2 cursor-pointer"
-                      // onClick={() => tes(merchant.id)}
-                    >
-                      <BsPencilFill color="#F48300" />
-                      <span className="text-sm font-semibold">Edit</span>
-                    </Link>
-                  </td>
+                  {userRole === "ROLE_ADMIN" && (
+                    <td className="text-sm border-2 border-tableColor p-1 w-32">
+                      <Link
+                        to={`/dashboard/merchant/${merchant.id}/edit`}
+                        className="flex items-center gap-3 pl-2 cursor-pointer"
+                      >
+                        <BsPencilFill color="#F48300" />
+                        <span className="text-sm font-semibold">Edit</span>
+                      </Link>
+                    </td>
+                  )}
                 </tr>
               );
             })}

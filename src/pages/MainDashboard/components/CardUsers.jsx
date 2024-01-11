@@ -1,6 +1,7 @@
 import { TiChevronRight } from "react-icons/ti";
+import { Link } from "react-router-dom";
 
-const CardUsers = ({ role, count }) => {
+const CardUsers = ({ role, count, href }) => {
   return (
     <div className="secondaryColor p-1.5 w-[250px] h-[280px] rounded-2xl">
       <div className="bg-primary py-10 rounded-2xl"></div>
@@ -16,9 +17,12 @@ const CardUsers = ({ role, count }) => {
           <div className="bg-bgSecondary rounded-full w-5 h-5"></div>
           <div className="bg-bgSecondary rounded-full w-5 h-5"></div>
         </div>
-        <div className="bg-primary w-7 h-5 flex justify-center items-center rounded-md cursor-pointer">
+        <Link
+          to={`/dashboard/${href}`}
+          className="bg-primary w-7 h-5 flex justify-center items-center rounded-md cursor-pointer"
+        >
           <TiChevronRight color="white" />
-        </div>
+        </Link>
       </div>
     </div>
   );

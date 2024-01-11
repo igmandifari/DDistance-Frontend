@@ -34,6 +34,7 @@ import UpdatePassword from "../pages/Akun/components/UpdatePassword";
 
 import ActivityLog from "../pages/ActivityLog";
 import Bunga from "../pages/Bunga";
+import ForgotPassword from "../pages/ForgotPassword";
 
 const setupRouter = () =>
   createBrowserRouter([
@@ -87,7 +88,7 @@ const setupRouter = () =>
               ],
             },
             {
-              path: "kreditanalis",
+              path: "kredit-analis",
               element: <KreditAnalis />,
               children: [
                 {
@@ -159,22 +160,34 @@ const setupRouter = () =>
                   element: <UpdateAkun />,
                 },
                 {
-                  path: "updatepassword",
+                  path: "update-password",
                   element: <UpdatePassword />,
                 },
               ],
             },
             {
-              path: "activitylog",
+              path: "activity-log",
               element: <ActivityLog />,
             },
             {
-              path: "pengaturanbunga",
+              path: "pengaturan-bunga",
               element: <Bunga />,
             },
           ],
         },
       ],
+    },
+    {
+      path: "forgot-password",
+      element: <App />,
+      errorElement: <>Page Not Found</>,
+      children: [
+        {
+          index: true,
+          element: <ForgotPassword />
+
+        }
+      ]
     },
   ]);
 

@@ -65,7 +65,7 @@ const Sidebar = () => {
                   Merchant
                 </NavLink>
                 <NavLink
-                  to={"/dashboard/kreditanalis"}
+                  to={"/dashboard/kredit-analis"}
                   className={({ isActive }) =>
                     `${
                       isActive ? "bg-white text-orange-500 py-1" : "text-white"
@@ -121,7 +121,7 @@ const Sidebar = () => {
             Akun
           </NavLink>
           <NavLink
-            to={"/dashboard/activitylog"}
+            to={"/dashboard/activity-log"}
             className={({ isActive }) =>
               `${
                 isActive ? "bg-white text-orange-500 py-1" : "text-white"
@@ -133,7 +133,7 @@ const Sidebar = () => {
           </NavLink>
 
           <NavLink
-            to={"/dashboard/pengaturanbunga"}
+            to={"/dashboard/pengaturan-bunga"}
             className={({ isActive }) =>
               `${
                 isActive ? "bg-white text-orange-500 py-1" : "text-white"

@@ -2,13 +2,13 @@ import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { BsPencilFill } from "react-icons/bs";
 
-import HeaderListUser from "../../../components/HeaderListUser";
-import ButtonLogout from "../../../components/ButtonLogout";
-import EmptyState from "../../../components/EmptyState";
 import Loading from "../../../components/Loading";
+import EmptyState from "../../../components/EmptyState";
+import ButtonLogout from "../../../components/ButtonLogout";
+import HeaderListUser from "../../../components/HeaderListUser";
 
-import { useFetchKreditAnalis } from "../../../hooks/kreditAnalis/useFetchKreditAnalis";
 import { useToogle } from "../../../context/ToogleContext";
+import { useFetchKreditAnalis } from "../../../hooks/kreditAnalis/useFetchKreditAnalis";
 
 const KreditAnalisList = () => {
   const { logout } = useToogle();
@@ -24,7 +24,7 @@ const KreditAnalisList = () => {
   return (
     <>
       <HeaderListUser />
-      <div className="bg-background mx-10 min-h-[85%]">
+      <div className="bg-background mx-10 h-[90vh] overflow-y-scroll">
         <div className="flex justify-end absolute right-10">
           {logout && <ButtonLogout />}
         </div>
@@ -35,8 +35,8 @@ const KreditAnalisList = () => {
 
         {userRole === "ROLE_ADMIN" && (
           <Link
-            to={"/dashboard/kreditanalis/new"}
-            className="bg-primary text-white font-extrabold ml-10 px-3 py-1 w-56 flex items-center gap-3 mt-28 mb-5 cursor-pointer"
+            to={"/dashboard/kredit-analis/new"}
+            className="bg-primary text-white font-extrabold ml-10 px-3 py-1 w-56 flex items-center gap-3 mt-20 mb-5 cursor-pointer"
           >
             <FaPlus />
             <span>Tambah Kredit Analis</span>

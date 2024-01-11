@@ -5,7 +5,7 @@ export const useEditDistributor = ({ onSuccess }) => {
   return useMutation({
     mutationFn: async (newDistributor) => {
       const distributorResponse = await axiosInstance.put(
-        "/api/distributor",
+        "/api/distributor/updateByAdmin",
         newDistributor
       );
 

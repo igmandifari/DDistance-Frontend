@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 
 import Input from "../../../components/Input";
+import Loading from "../../../components/Loading";
 import PopupSurvey from "../../../components/PopupSurvey";
 import PopupAccept from "../../../components/PopupAccept";
 import PopupReject from "../../../components/PopupReject";
@@ -27,13 +28,17 @@ const JaminanDetail = () => {
 
   const { id } = useParams();
 
-  const { data: getJaminanById, refetch } = id ? useFetchJaminanById(id) : {};
+  const {
+    data: getJaminanById,
+    refetch,
+    isLoading,
+  } = id ? useFetchJaminanById(id) : {};
 
   const { data: ktpFile } = id ? useFetchKtpData(id) : {};
   const { data: siuFile } = id ? useFetchSiuData(id) : {};
   const { data: agunanFile } = id ? useFetchAgunanData(id) : {};
 
-  const { mutate: updateJaminan } = useUpdateJaminan({
+  const { mutate: updateJaminan, isPending } = useUpdateJaminan({
     onSuccess: () => {
       refetch();
     },
@@ -51,6 +56,7 @@ const JaminanDetail = () => {
       id: newId,
       installemnt: value,
       rejection: "",
+      limit,
     };
 
     updateJaminan(valueUpdate);
@@ -92,6 +98,10 @@ const JaminanDetail = () => {
     refetch();
     handleShowNotif();
   };
+
+  if (isPending || isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -197,7 +207,7 @@ const JaminanDetail = () => {
         <PopupSurvey
           title="Apakah yakin untuk MENYURVEI ?"
           subTitle="Pastikan data sudah sesuai"
-          pengajuan={jaminanDetail?.id}
+          pengajuan={`Pengajuan #${++index}`}
           merchant={jaminanDetail?.nameStore}
           onClick={handleSurvey}
         />

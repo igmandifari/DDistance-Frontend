@@ -1,11 +1,13 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 
 import Input from "../../../components/Input";
-import HeaderListUser from "../../../components/HeaderListUser";
-import ButtonLogout from "../../../components/ButtonLogout";
+import Loading from "../../../components/Loading";
 import InputError from "../../../components/InputError";
+import ButtonLogout from "../../../components/ButtonLogout";
+import HeaderListUser from "../../../components/HeaderListUser";
+import NotificationUpdate from "../../../components/NotificationUpdate";
 
 import { useFetchKreditAnalis } from "../../../hooks/kreditAnalis/useFetchKreditAnalis";
 import { useAddKreditAnalis } from "../../../hooks/kreditAnalis/useAddKreditAnalis";
@@ -16,6 +18,8 @@ import { useFetchKreditAnalisById } from "../../../hooks/kreditAnalis/useFetchKr
 import { valueAddKreditAnalis, valueEditKreditAnalis } from "../utils/value";
 
 const KreditAnalisForm = () => {
+  const [show, setShow] = useState(false);
+
   const { logout } = useToogle();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -38,8 +42,10 @@ const KreditAnalisForm = () => {
     onSubmit: async (values) => {
       if (id) {
         editKreditAnalis(values);
+        setShow(false);
       } else {
         addKreditAnalis(values);
+        setShow(false);
       }
     },
     validationSchema: kreditAnalisSchema,
@@ -48,21 +54,25 @@ const KreditAnalisForm = () => {
   const { refetch: refetchKreditAnalis, data: kreditAnalis } =
     useFetchKreditAnalis();
 
-  const { mutate: addKreditAnalis } = useAddKreditAnalis({
+  const { mutate: addKreditAnalis, isPending: isAdding } = useAddKreditAnalis({
     onSuccess: () => {
-      navigate("/dashboard/kreditanalis");
+      navigate("/dashboard/kredit-analis");
       refetchKreditAnalis();
     },
   });
 
-  const { mutate: editKreditAnalis } = useEditKreditAnalis({
-    onSuccess: () => {
-      navigate("/dashboard/kreditanalis");
-      refetchKreditAnalis();
-    },
-  });
+  const { mutate: editKreditAnalis, isPending: isUpdate } = useEditKreditAnalis(
+    {
+      onSuccess: () => {
+        navigate("/dashboard/kredit-analis");
+        refetchKreditAnalis();
+      },
+    }
+  );
 
-  const { data: getKreditAnalisById } = id ? useFetchKreditAnalisById(id) : {};
+  const { data: getKreditAnalisById, isLoading } = id
+    ? useFetchKreditAnalisById(id)
+    : {};
 
   useEffect(() => {
     if (id && kreditAnalis) {
@@ -93,6 +103,10 @@ const KreditAnalisForm = () => {
       setValues(values);
     }
   }, [getKreditAnalisById, id, kreditAnalis, setFieldValue, setValues]);
+
+  if (isAdding || isUpdate || isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -225,16 +239,25 @@ const KreditAnalisForm = () => {
             </div>
           </div>
           <div className="flex justify-end mr-16 py-12">
-            <button
-              className="bg-[#F36C21] text-white text-sm font-bold py-1 px-7 rounded-md"
-              type="submit"
+            <p
+              className="bg-[#F36C21] text-white text-sm font-bold py-1 px-7 rounded-md cursor-pointer"
+              type="button"
               disabled={!isValid || !dirty}
+              onClick={() => setShow(true)}
             >
               {id ? "Simpan" : "Tambah"}
-            </button>
+            </p>
           </div>
         </form>
       </div>
+      {show && (
+        <NotificationUpdate
+          title="Apakah Anda Yakin ?"
+          subTitle="Pastikan data sudah sesuai"
+          onClick={handleSubmit}
+          onDecline={() => setShow(false)}
+        />
+      )}
     </>
   );
 };

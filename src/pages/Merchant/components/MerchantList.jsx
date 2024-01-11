@@ -23,7 +23,7 @@ const MerchantList = () => {
     <>
       <HeaderListUser />
 
-      <div className="bg-background mx-10 min-h-[85%]">
+      <div className="bg-background mx-10 h-[88vh] overflow-y-scroll">
         <div className="flex justify-end absolute right-10">
           {logout && <ButtonLogout />}
         </div>

@@ -1,8 +1,8 @@
+import { useState } from "react";
 import { useToogle } from "../context/ToogleContext";
 
-import accept from "../assets/images/accept.png";
-import { useState } from "react";
 import Input from "./Input";
+import accept from "../assets/images/accept.png";
 
 const PopupAccept = ({
   onClick,
@@ -11,7 +11,8 @@ const PopupAccept = ({
   merchant,
   onLimitChange,
 }) => {
-  const [limit, setLimit] = useState("");
+  const [limit, setLimit] = useState(0);
+  const [isLimitValid, setIsLimitValid] = useState(false);
 
   const { handleShowNotif } = useToogle();
 
@@ -35,16 +36,25 @@ const PopupAccept = ({
               name="limit"
               id="limit"
               onChange={(e) => {
-                setLimit(e.target.value), onLimitChange(e.target.value);
+                const newLimit = e.target.value;
+                setLimit(newLimit);
+                onLimitChange(newLimit);
+                setIsLimitValid(newLimit !== "" || newLimit <= 0);
               }}
               value={limit}
-            ></Input>
+            />
           </div>
         </div>
         <div className="flex justify-center items-center gap-10 mt-5">
           <button
             className="bg-green-500 py-2 px-9 rounded-lg text-xl font-bold text-white"
-            onClick={onClick}
+            onClick={() => {
+              if (isLimitValid) {
+                onClick();
+              } else {
+                alert("Limit Tidak Boleh Kosong");
+              }
+            }}
           >
             Ya
           </button>

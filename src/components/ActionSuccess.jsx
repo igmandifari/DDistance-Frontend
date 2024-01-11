@@ -1,10 +1,11 @@
-import x from "../assets/images/x.png";
+import accept from "../assets/images/accept.png";
+// import { useToogle } from "../context/ToogleContext";
 
-const ActionFailed = ({ title, subtitle, onClick }) => {
+const ActionSuccess = ({ title, subtitle, onClick }) => {
   return (
     <div className="absolute top-0 left-0 min-w-full min-h-full mainBg flex justify-center items-center z-20">
       <div className=" notifBg flex justify-center items-center flex-col py-7 px-36 rounded-xl">
-        <img src={x} alt="" />
+        <img src={accept} alt="" />
         <h1 className="text-3xl font-bold mt-2">{title}</h1>
         <p>{subtitle}</p>
         <div className="flex gap-10 mt-3">
@@ -20,4 +21,4 @@ const ActionFailed = ({ title, subtitle, onClick }) => {
   );
 };
 
-export default ActionFailed;
+export default ActionSuccess;

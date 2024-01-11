@@ -1,10 +1,12 @@
+import { useState } from "react";
 import { useFormik } from "formik";
 import { useParams, useNavigate } from "react-router-dom";
 
+import Input from "../../../components/Input";
+import Loading from "../../../components/Loading";
+import InputError from "../../../components/InputError";
 import ButtonLogout from "../../../components/ButtonLogout";
 import HeaderListUser from "../../../components/HeaderListUser";
-import Input from "../../../components/Input";
-import InputError from "../../../components/InputError";
 
 import { useFetchAdmin } from "../../../hooks/admin/useFetchAdmin";
 import { useAddAdmin } from "../../../hooks/admin/useAddAdmin";
@@ -14,8 +16,11 @@ import { useEditAdmin } from "../../../hooks/admin/useEditAdmin";
 import { useEffect } from "react";
 import { useFetchAdminById } from "../../../hooks/admin/useFetchAdminById";
 import { valueAddAdmin, valueEditAdmin } from "../utils/value";
+import NotificationUpdate from "../../../components/NotificationUpdate";
 
 const AdminForm = () => {
+  const [show, setShow] = useState(false);
+
   const { logout } = useToogle();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -38,8 +43,10 @@ const AdminForm = () => {
     onSubmit: (values) => {
       if (id) {
         editAdmin(values);
+        setShow(false);
       } else {
         addAdmin(values);
+        setShow(false);
       }
     },
 
@@ -48,21 +55,21 @@ const AdminForm = () => {
 
   const { refetch: refetchAdmin, data: admins } = useFetchAdmin();
 
-  const { mutate: addAdmin } = useAddAdmin({
+  const { mutate: addAdmin, isPending: isAdding } = useAddAdmin({
     onSuccess: () => {
       navigate("/dashboard/admin");
       refetchAdmin();
     },
   });
 
-  const { mutate: editAdmin } = useEditAdmin({
+  const { mutate: editAdmin, isPending: isUpdate } = useEditAdmin({
     onSuccess: () => {
       navigate("/dashboard/admin");
       refetchAdmin();
     },
   });
 
-  const { data: getAdminById } = id ? useFetchAdminById(id) : {};
+  const { data: getAdminById, isLoading } = id ? useFetchAdminById(id) : {};
 
   useEffect(() => {
     if (id && admins) {
@@ -93,6 +100,10 @@ const AdminForm = () => {
       setValues(values);
     }
   }, [id, admins, handleChange, getAdminById, setValues, setFieldValue]);
+
+  if (isUpdate || isAdding || isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -228,16 +239,25 @@ const AdminForm = () => {
             </div>
           </div>
           <div className={`flex justify-end mr-16 py-14`}>
-            <button
-              className="bg-[#F36C21] text-white text-sm font-bold py-1 px-7 rounded-md"
-              type="submit"
+            <p
+              className="bg-[#F36C21] text-white text-sm font-bold py-1 px-7 rounded-md cursor-pointer"
+              type="button"
               disabled={!dirty || !isValid}
+              onClick={() => setShow(true)}
             >
               {id ? "Simpan" : "Tambah"}
-            </button>
+            </p>
           </div>
         </form>
       </div>
+      {show && (
+        <NotificationUpdate
+          title="Apakah Anda Yakin ?"
+          subTitle="Pastikan data sudah sesuai"
+          onClick={handleSubmit}
+          onDecline={() => setShow(false)}
+        />
+      )}
     </>
   );
 };

@@ -37,9 +37,21 @@ const MainDashboard = () => {
         <div className="flex pb-2 pt-5">
           <div className="flex flex-col w-3/4">
             <div className="flex justify-evenly mt-5">
-              <CardUsers role="Distributor" count={distributors?.length} />
-              <CardUsers role="Merchant" count={merchants?.length} />
-              <CardUsers role="Kredit Analis" count={kreditAnalis?.length} />
+              <CardUsers
+                href="distributor"
+                role="Distributor"
+                count={distributors?.length}
+              />
+              <CardUsers
+                role="Merchant"
+                href="merchant"
+                count={merchants?.length}
+              />
+              <CardUsers
+                role="Kredit Analis"
+                href="kredit-analis"
+                count={kreditAnalis?.length}
+              />
             </div>
 
             <div className="mx-10">
@@ -68,9 +80,14 @@ const MainDashboard = () => {
           <div className="flex flex-col w-1/4">
             <CardRequest
               requestName="Daftar Pengajuan"
+              href="jaminan"
               count={jaminan?.length}
             />
-            <CardRequest requestName="Daftar Invoice" count={invoice?.length} />
+            <CardRequest
+              requestName="Daftar Invoice"
+              href="invoice"
+              count={invoice?.length}
+            />
           </div>
         </div>
       </div>

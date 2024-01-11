@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 
 import Input from "../../../components/Input";
+import Loading from "../../../components/Loading";
 import ButtonLogout from "../../../components/ButtonLogout";
 import HeaderListUser from "../../../components/HeaderListUser";
 
@@ -13,12 +14,20 @@ const InvoiceDetail = () => {
   const { logout } = useToogle();
   const { id } = useParams();
 
-  const { data: getInvoiceById } = id ? useFetchInvoiceById(id) : {};
+  const { data: getInvoiceById, isLoading: isLoadingInvoice } = id
+    ? useFetchInvoiceById(id)
+    : {};
 
-  const { data: getFileInvoice } = id ? useFetchFileInvoice(id) : {};
-  
+  const { data: getFileInvoice, isLoading: isLoadingFile } = id
+    ? useFetchFileInvoice(id)
+    : {};
+
   const invoiceDetail = getInvoiceById;
   const fileInvoice = getFileInvoice;
+
+  if (isLoadingFile || isLoadingInvoice) {
+    return <Loading />;
+  }
 
   return (
     <>

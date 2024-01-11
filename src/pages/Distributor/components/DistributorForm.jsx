@@ -1,11 +1,13 @@
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import { useFormik } from "formik";
 
 import Input from "../../../components/Input";
+import Loading from "../../../components/Loading";
 import InputError from "../../../components/InputError";
 import ButtonLogout from "../../../components/ButtonLogout";
 import HeaderListUser from "../../../components/HeaderListUser";
+import NotificationUpdate from "../../../components/NotificationUpdate";
 
 import { useToogle } from "../../../context/ToogleContext";
 import { useAddDistributor } from "../../../hooks/distributor/useAddDistributor";
@@ -14,9 +16,10 @@ import { useEditDistributor } from "../../../hooks/distributor/useEditDistributo
 import { useFetchDistributorById } from "../../../hooks/distributor/useFetchDistributorById";
 import { distributorSchema } from "../utils/distributorSchema";
 import { valueAddDistributor, valueEditDistributor } from "../utils/value";
-// import Loading from "../../../components/Loading";
 
 const DistributorForm = () => {
+  const [show, setShow] = useState(false);
+
   const { logout } = useToogle();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -39,8 +42,10 @@ const DistributorForm = () => {
     onSubmit: (values) => {
       if (id) {
         editDistributor(values);
+        setShow(false);
       } else {
         addDistributor(values);
+        setShow(false);
       }
     },
     validationSchema: distributorSchema,
@@ -49,21 +54,23 @@ const DistributorForm = () => {
   const { refetch: refetchDistributors, data: distributors } =
     useFetchDistributors();
 
-  const { mutate: addDistributor } = useAddDistributor({
+  const { mutate: addDistributor, isPending: isAdding } = useAddDistributor({
     onSuccess: () => {
       navigate("/dashboard/distributor");
       refetchDistributors();
     },
   });
 
-  const { mutate: editDistributor } = useEditDistributor({
+  const { mutate: editDistributor, isPending: isUpdate } = useEditDistributor({
     onSuccess: () => {
       navigate("/dashboard/distributor");
       refetchDistributors();
     },
   });
 
-  const { data: getDistributorById } = id ? useFetchDistributorById(id) : {};
+  const { data: getDistributorById, isLoading } = id
+    ? useFetchDistributorById(id)
+    : {};
 
   useEffect(() => {
     if (id && distributors) {
@@ -97,6 +104,11 @@ const DistributorForm = () => {
       setValues(values);
     }
   }, [id, distributors, setFieldValue, getDistributorById, setValues]);
+
+  if (isAdding || isUpdate || isLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <HeaderListUser />
@@ -261,16 +273,25 @@ const DistributorForm = () => {
             </div>
           </div>
           <div className="flex justify-end mr-16 pb-5">
-            <button
-              className="bg-[#F36C21] text-white text-sm font-bold py-1 px-7 rounded-md"
-              type="submit"
+            <p
+              className="bg-[#F36C21] text-white text-sm font-bold py-1 px-7 rounded-md cursor-pointer"
+              type="button"
               disabled={!dirty || !isValid}
+              onClick={() => setShow(true)}
             >
               {id ? "Simpan" : "Tambah"}
-            </button>
+            </p>
           </div>
         </form>
       </div>
+      {show && (
+        <NotificationUpdate
+          title="Apakah Anda Yakin ?"
+          subTitle="Pastikan data sudah sesuai"
+          onClick={handleSubmit}
+          onDecline={() => setShow(false)}
+        />
+      )}
     </>
   );
 };

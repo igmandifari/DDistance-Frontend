@@ -12,15 +12,15 @@ import { authAction } from "../../slices/authSlice";
 
 import danamon from "../../assets/images/danamon.png";
 import imageLogin from "../../assets/images/sidebarImage.png";
-import { useToogle } from "../../context/ToogleContext";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [passwordType, setPasswordType] = useState("password");
+  const [showFailed, setShowFailed] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { authService } = useContext(ServiceContext);
-
-  const { showPopup, handleShowPopup } = useToogle();
 
   const schema = Yup.object({
     email: Yup.string().email().required("Email is required"),
@@ -52,7 +52,7 @@ const Login = () => {
         sessionStorage.setItem("role", payload.data.role);
         navigate("/dashboard");
       } else {
-        handleShowPopup();
+        setShowFailed(!showFailed);
       }
     },
     validationSchema: schema,
@@ -135,7 +135,13 @@ const Login = () => {
                     {touched.password && errors.password}
                   </div>
                 </div>
-                <div className="w-full">
+                <Link
+                  to={"/forgot-password"}
+                  className="underline -mt-5 text-sm text-blue-800 font-semibold cursor-pointer"
+                >
+                  Lupa Kata Sandi?
+                </Link>
+                <div className="w-full -mt-5">
                   <button
                     type="submit"
                     disabled={!isValid || !dirty}
@@ -151,7 +157,12 @@ const Login = () => {
           </div>
         </div>
       </div>
-      {showPopup && <ActionFailed title="Invalid Credential" />}
+      {showFailed && (
+        <ActionFailed
+          title="Invalid Credential"
+          onClick={() => setShowFailed(!showFailed)}
+        />
+      )}
     </>
   );
 };

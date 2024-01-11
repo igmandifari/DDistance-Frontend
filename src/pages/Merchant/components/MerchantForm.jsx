@@ -1,11 +1,13 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 
-import HeaderListUser from "../../../components/HeaderListUser";
-import ButtonLogout from "../../../components/ButtonLogout";
 import Input from "../../../components/Input";
+import Loading from "../../../components/Loading";
 import InputError from "../../../components/InputError";
+import ButtonLogout from "../../../components/ButtonLogout";
+import HeaderListUser from "../../../components/HeaderListUser";
+import NotificationUpdate from "../../../components/NotificationUpdate";
 
 import { useEditMerchant } from "../../../hooks/merchant/useEditMerchant";
 import { useFetchMerchants } from "../../../hooks/merchant/useFetchMerchant";
@@ -14,6 +16,8 @@ import { useToogle } from "../../../context/ToogleContext";
 import { merchantSchema } from "../merchantSchema";
 
 const MerchantForm = () => {
+  const [show, setShow] = useState(false);
+
   const { logout } = useToogle();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -42,6 +46,7 @@ const MerchantForm = () => {
     onSubmit: async (values) => {
       if (id) {
         editMerchant(values);
+        setShow(false);
       }
     },
     validationSchema: merchantSchema,
@@ -49,14 +54,16 @@ const MerchantForm = () => {
 
   const { refetch: refetchMerchants, data: merchants } = useFetchMerchants();
 
-  const { mutate: editMerchant } = useEditMerchant({
+  const { mutate: editMerchant, isPending } = useEditMerchant({
     onSuccess: () => {
       navigate("/dashboard/merchant");
       refetchMerchants();
     },
   });
 
-  const { data: getMerchantById } = id ? useFetchMerchantById(id) : {};
+  const { data: getMerchantById, isLoading } = id
+    ? useFetchMerchantById(id)
+    : {};
 
   useEffect(() => {
     if (id && merchants) {
@@ -87,6 +94,10 @@ const MerchantForm = () => {
       setValues(values);
     }
   }, [getMerchantById, id, merchants, setFieldValue, setValues]);
+
+  if (isPending || isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -234,16 +245,25 @@ const MerchantForm = () => {
             </div>
           </div>
           <div className="flex justify-end mr-16 pb-5 ">
-            <button
-              className="bg-[#F36C21] text-white text-sm font-bold py-1 px-7 rounded-md"
-              type="submit"
+            <p
+              className="bg-[#F36C21] text-white text-sm font-bold py-1 px-7 rounded-md cursor-pointer"
+              type="button"
               disabled={!isValid || !dirty}
+              onClick={() => setShow(true)}
             >
               Simpan
-            </button>
+            </p>
           </div>
         </form>
       </div>
+      {show && (
+        <NotificationUpdate
+          title="Apakah Anda Yakin ?"
+          subTitle="Pastikan data sudah sesuai"
+          onClick={handleSubmit}
+          onDecline={() => setShow(false)}
+        />
+      )}
     </>
   );
 };

@@ -5,6 +5,7 @@ import Sidebar from "../components/Sidebar";
 import PopupNotification from "../components/PopupNotification";
 
 import { useToogle } from "../context/ToogleContext";
+import { useState } from "react";
 
 const AuthLayout = () => {
   const navigate = useNavigate();

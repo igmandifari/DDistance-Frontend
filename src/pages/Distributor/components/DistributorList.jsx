@@ -24,7 +24,7 @@ const DistributorList = () => {
   return (
     <>
       <HeaderListUser />
-      <div className="bg-background mx-10 min-h-[85%]">
+      <div className="bg-background mx-10 h-[90vh] overflow-y-scroll pb-10">
         <div className="flex justify-end absolute right-10">
           {logout && <ButtonLogout />}
         </div>

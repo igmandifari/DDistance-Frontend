@@ -1,17 +1,32 @@
-import { useLogout } from "../context/LogoutContext";
+import { useToogle } from "../context/ToogleContext";
 
-import profile from "../assets/images/profile.png";
+import profileImg from "../assets/images/profile.png";
+import {
+  useFetchProfileAdmin,
+  useFetchProfileKreditAnalis,
+} from "../hooks/akun/useFetchProfile";
 
 const HeaderListUser = () => {
-  const { handleToogleLogout } = useLogout();
+  const { handleToogleLogout } = useToogle();
+
+  const role = sessionStorage.getItem("role");
+
+  const { data: profile } =
+    role === "ROLE_ADMIN"
+      ? useFetchProfileAdmin()
+      : useFetchProfileKreditAnalis();
+
   return (
     <div className="flex justify-end items-center mx-[100px] mt-5">
       <div
         className="flex items-center cursor-pointer"
         onClick={handleToogleLogout}
       >
-        <span className="text-xl text-primary font-extrabold">Admin</span>
-        <img src={profile} alt="" />
+        <span className="text-xl text-primary font-extrabold">
+          {role === "ROLE_ADMIN" && `Admin - ${profile?.name}`}
+          {role === "ROLE_CREDIT_ANALYST" && `Kredit Analis - ${profile?.name}`}
+        </span>
+        <img src={profileImg} alt="" />
       </div>
     </div>
   );

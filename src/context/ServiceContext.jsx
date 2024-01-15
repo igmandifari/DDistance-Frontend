@@ -1,4 +1,5 @@
 import { createContext } from "react";
+import PropTypes from "prop-types";
 
 export const ServiceContext = createContext({});
 
@@ -10,9 +11,9 @@ const ServiceProvider = ({ service, children, ...rest }) => {
   );
 };
 
-// ServiceProvider.propTypes = {
-//   children: PropTypes.any,
-//   service: PropTypes.any,
-// };
+ServiceProvider.propTypes = {
+  children: PropTypes.any,
+  service: PropTypes.any,
+};
 
 export default ServiceProvider;

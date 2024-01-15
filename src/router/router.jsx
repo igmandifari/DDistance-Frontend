@@ -3,12 +3,38 @@ import App from "../App";
 import Login from "../pages/Login";
 import AuthLayout from "../layout/AuthLayout";
 import MainDashboard from "../pages/MainDashboard";
+
 import Distributor from "../pages/Distributor";
-import Merchant from "../pages/Merchant";
-import KreditAnalis from "../pages/KreditAnalis";
-import Admin from "../pages/Admin";
 import DistributorList from "../pages/Distributor/components/DistributorList";
 import DistributorForm from "../pages/Distributor/components/DistributorForm";
+
+import Merchant from "../pages/Merchant";
+import MerchantList from "../pages/Merchant/components/MerchantList";
+import MerchantForm from "../pages/Merchant/components/MerchantForm";
+
+import KreditAnalis from "../pages/KreditAnalis";
+import KreditAnalisList from "../pages/KreditAnalis/components/KreditAnalisList";
+import KreditAnalisForm from "../pages/KreditAnalis/components/KreditAnalisForm";
+
+import Admin from "../pages/Admin";
+import AdminList from "../pages/Admin/components/AdminList";
+import AdminForm from "../pages/Admin/components/AdminForm";
+
+import Jaminan from "../pages/Jaminan";
+import JaminanList from "../pages/Jaminan/components/JaminanList";
+import JaminanDetail from "../pages/Jaminan/components/JaminanDetail";
+
+import Invoice from "../pages/Invoice";
+import InvoiceList from "../pages/Invoice/components/InvoiceList";
+import InvoiceDetail from "../pages/Invoice/components/InvoiceDetail";
+
+import Akun from "../pages/Akun";
+import UpdateAkun from "../pages/Akun/components/UpdateAkun";
+import UpdatePassword from "../pages/Akun/components/UpdatePassword";
+
+import ActivityLog from "../pages/ActivityLog";
+import Bunga from "../pages/Bunga";
+import ForgotPassword from "../pages/ForgotPassword";
 
 const setupRouter = () =>
   createBrowserRouter([
@@ -41,38 +67,127 @@ const setupRouter = () =>
                   path: "new",
                   element: <DistributorForm />,
                 },
+                {
+                  path: ":id/edit",
+                  element: <DistributorForm />,
+                },
               ],
             },
             {
               path: "merchant",
               element: <Merchant />,
-              // children: [
-              //   {
-
-              //   }
-              // ]
+              children: [
+                {
+                  index: true,
+                  element: <MerchantList />,
+                },
+                {
+                  path: ":id/edit",
+                  element: <MerchantForm />,
+                },
+              ],
             },
             {
-              path: "kreditanalis",
+              path: "kredit-analis",
               element: <KreditAnalis />,
-              // children: [
-              //   {
-
-              //   }
-              // ]
+              children: [
+                {
+                  index: true,
+                  element: <KreditAnalisList />,
+                },
+                {
+                  path: "new",
+                  element: <KreditAnalisForm />,
+                },
+                {
+                  path: ":id/edit",
+                  element: <KreditAnalisForm />,
+                },
+              ],
             },
             {
               path: "admin",
               element: <Admin />,
-              // children: [
-              //   {
-
-              //   }
-              // ]
+              children: [
+                {
+                  index: true,
+                  element: <AdminList />,
+                },
+                {
+                  path: "new",
+                  element: <AdminForm />,
+                },
+                {
+                  path: ":id/edit",
+                  element: <AdminForm />,
+                },
+              ],
+            },
+            {
+              path: "jaminan",
+              element: <Jaminan />,
+              children: [
+                {
+                  index: true,
+                  element: <JaminanList />,
+                },
+                {
+                  path: ":id",
+                  element: <JaminanDetail />,
+                },
+              ],
+            },
+            {
+              path: "invoice",
+              element: <Invoice />,
+              children: [
+                {
+                  index: true,
+                  element: <InvoiceList />,
+                },
+                {
+                  path: ":id",
+                  element: <InvoiceDetail />,
+                },
+              ],
+            },
+            {
+              path: "akun",
+              element: <Akun />,
+              children: [
+                {
+                  index: true,
+                  element: <UpdateAkun />,
+                },
+                {
+                  path: "update-password",
+                  element: <UpdatePassword />,
+                },
+              ],
+            },
+            {
+              path: "activity-log",
+              element: <ActivityLog />,
+            },
+            {
+              path: "pengaturan-bunga",
+              element: <Bunga />,
             },
           ],
         },
       ],
+    },
+    {
+      path: "forgot-password",
+      element: <App />,
+      errorElement: <>Page Not Found</>,
+      children: [
+        {
+          index: true,
+          element: <ForgotPassword />
+
+        }
+      ]
     },
   ]);
 

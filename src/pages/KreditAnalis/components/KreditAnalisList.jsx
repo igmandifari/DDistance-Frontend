@@ -96,7 +96,7 @@ const KreditAnalisList = () => {
                   {userRole === "ROLE_ADMIN" && (
                     <td className="text-sm border-2 border-tableColor p-1 w-32">
                       <Link
-                        to={`/dashboard/kreditanalis/${kredit.id}/edit`}
+                        to={`/dashboard/kredit-analis/${kredit.id}/edit`}
                         className="flex items-center gap-3 pl-2 cursor-pointer"
                       >
                         <BsPencilFill color="#F48300" />

@@ -1,5 +1,5 @@
+import PropTypes from "prop-types";
 import accept from "../assets/images/accept.png";
-// import { useToogle } from "../context/ToogleContext";
 
 const ActionSuccess = ({ title, subtitle, onClick }) => {
   return (
@@ -22,3 +22,9 @@ const ActionSuccess = ({ title, subtitle, onClick }) => {
 };
 
 export default ActionSuccess;
+
+ActionSuccess.propTypes = {
+  title: PropTypes.string,
+  subtitle: PropTypes.string,
+  onClick: PropTypes.func,
+};

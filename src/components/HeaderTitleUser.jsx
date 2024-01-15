@@ -1,4 +1,5 @@
 import { useToogle } from "../context/ToogleContext";
+import PropTypes from "prop-types";
 
 import profileImg from "../assets/images/profile.png";
 
@@ -36,3 +37,7 @@ const HeaderTitleUser = ({ children }) => {
 };
 
 export default HeaderTitleUser;
+
+HeaderTitleUser.propTypes = {
+  children: PropTypes.string,
+};

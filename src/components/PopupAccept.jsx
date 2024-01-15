@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { useToogle } from "../context/ToogleContext";
+import PropTypes from "prop-types";
 
 import Input from "./Input";
 import accept from "../assets/images/accept.png";
+
+import { useToogle } from "../context/ToogleContext";
 
 const PopupAccept = ({
   onClick,
@@ -71,3 +73,11 @@ const PopupAccept = ({
 };
 
 export default PopupAccept;
+
+PopupAccept.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  pengajuan: PropTypes.string.isRequired,
+  merchant: PropTypes.string.isRequired,
+  onLimitChange: PropTypes.func.isRequired,
+};

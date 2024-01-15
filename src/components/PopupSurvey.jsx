@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 import survey from "../assets/images/survey.png";
 import { useToogle } from "../context/ToogleContext";
 
@@ -36,3 +38,11 @@ const PopupSurvey = ({ onClick, title, subTitle, pengajuan, merchant }) => {
 };
 
 export default PopupSurvey;
+
+PopupSurvey.propTypes = {
+  onClick: PropTypes.func,
+  title: PropTypes.string,
+  subTitle: PropTypes.string,
+  pengajuan: PropTypes.string,
+  merchant: PropTypes.string,
+};

@@ -5,7 +5,7 @@ export const useEditKreditAnalis = ({ onSuccess }) => {
   return useMutation({
     mutationFn: async (newKreditAnalis) => {
       const kreditAnalisResponse = await axiosInstance.put(
-        "/api/creditAnalyst",
+        "/api/creditAnalyst/updateByAdmin",
         newKreditAnalis
       );
 

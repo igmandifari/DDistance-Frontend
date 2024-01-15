@@ -46,8 +46,6 @@ const JaminanDetail = () => {
 
   const jaminanDetail = getJaminanById;
 
-  let index = 0;
-
   const handleSurvey = () => {
     const value = "ON_SURVEY";
     const newId = id;
@@ -207,7 +205,7 @@ const JaminanDetail = () => {
         <PopupSurvey
           title="Apakah yakin untuk MENYURVEI ?"
           subTitle="Pastikan data sudah sesuai"
-          pengajuan={`Pengajuan #${++index}`}
+          pengajuan="Pengajuan"
           merchant={jaminanDetail?.nameStore}
           onClick={handleSurvey}
         />
@@ -215,7 +213,7 @@ const JaminanDetail = () => {
       {showNotif && jaminanDetail?.status === "ON_SURVEY" && (
         <PopupAccept
           title="Apakah yakin untuk MENYETUJUI ?"
-          pengajuan={`Pengajuan #${++index}`}
+          pengajuan="Pengajuan"
           merchant={jaminanDetail?.nameStore}
           onClick={handleAccept}
           onLimitChange={(limit) => setLimit(limit)}
@@ -224,7 +222,7 @@ const JaminanDetail = () => {
       {showDecline && (
         <PopupReject
           title="Apakah yakin untuk MENOLAK ?"
-          pengajuan={`Pengajuan #${++index}`}
+          pengajuan="Pengajuan"
           merchant={jaminanDetail?.nameStore}
           onReasonChange={(reason) => setReason(reason)}
           onClick={handleReject}

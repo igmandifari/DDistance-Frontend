@@ -1,7 +1,8 @@
-import { useToogle } from "../context/ToogleContext";
-
-import x from "../assets/images/x.png";
 import { useState } from "react";
+import PropTypes from "prop-types";
+
+import { useToogle } from "../context/ToogleContext";
+import x from "../assets/images/x.png";
 
 const PopupReject = ({
   onClick,
@@ -11,6 +12,7 @@ const PopupReject = ({
   onReasonChange,
 }) => {
   const [reason, setReason] = useState("");
+  const [isReasonValid, setIsReasonValid] = useState(false);
 
   const { handleDecline } = useToogle();
 
@@ -34,7 +36,10 @@ const PopupReject = ({
               rows="5"
               className="outline-none rounded-2xl p-3"
               onChange={(e) => {
-                setReason(e.target.value), onReasonChange(e.target.value);
+                const newReason = e.target.value;
+                setReason(newReason);
+                onReasonChange(newReason);
+                setIsReasonValid(newReason !== "");
               }}
               value={reason}
             ></textarea>
@@ -43,7 +48,13 @@ const PopupReject = ({
         <div className="flex justify-center items-center gap-10 mt-5">
           <button
             className="bg-green-500 py-2 px-9 rounded-lg text-xl font-bold text-white"
-            onClick={onClick}
+            onClick={() => {
+              if (isReasonValid) {
+                onClick();
+              } else {
+                alert("Alasan Tidak Boleh Kosong");
+              }
+            }}
           >
             Ya
           </button>
@@ -60,3 +71,11 @@ const PopupReject = ({
 };
 
 export default PopupReject;
+
+PopupReject.propTypes = {
+  onClick: PropTypes.func,
+  title: PropTypes.string,
+  pengajuan: PropTypes.string,
+  merchant: PropTypes.string,
+  onReasonChange: PropTypes.func,
+};

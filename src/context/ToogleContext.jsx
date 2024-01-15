@@ -1,6 +1,7 @@
 import { useContext, useState, createContext } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import { ServiceContext } from "../context/ServiceContext";
 import { authAction } from "../slices/authSlice";
@@ -68,4 +69,8 @@ export const useToogle = () => {
   const context = useContext(ToogleContext);
 
   return context;
+};
+
+ToogleProvider.propTypes = {
+  children: PropTypes.array,
 };

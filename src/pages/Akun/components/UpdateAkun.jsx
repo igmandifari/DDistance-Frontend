@@ -208,7 +208,7 @@ const UpdateAkun = () => {
           <div className="flex justify-end mt-48 px-10">
             <div className="flex gap-3">
               <Link
-                to={"/dashboard/akun/updatepassword"}
+                to={"/dashboard/akun/update-password"}
                 className="bg-[#F36C21] text-white font-bold py-2 px-4 rounded-lg"
               >
                 Ganti Password

@@ -1,5 +1,6 @@
-import { TiChevronRight } from "react-icons/ti";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { TiChevronRight } from "react-icons/ti";
 
 const CardUsers = ({ role, count, href }) => {
   return (
@@ -29,3 +30,9 @@ const CardUsers = ({ role, count, href }) => {
 };
 
 export default CardUsers;
+
+CardUsers.propTypes = {
+  role: PropTypes.string,
+  href: PropTypes.string,
+  count: PropTypes.any,
+};

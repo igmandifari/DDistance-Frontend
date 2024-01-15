@@ -1,5 +1,6 @@
-import { TiChevronRight } from "react-icons/ti";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { TiChevronRight } from "react-icons/ti";
 
 const CardRequest = ({ requestName, href, count }) => {
   return (
@@ -29,3 +30,9 @@ const CardRequest = ({ requestName, href, count }) => {
 };
 
 export default CardRequest;
+
+CardRequest.propTypes = {
+  requestName: PropTypes.string,
+  href: PropTypes.string,
+  count: PropTypes.any,
+};

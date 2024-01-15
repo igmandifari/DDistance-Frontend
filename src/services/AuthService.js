@@ -13,11 +13,6 @@ const AuthService = () => {
     sessionStorage.removeItem("role");
   };
 
-  // const getUserInfo = async () => {
-  //   const { data } = await axiosInstance.get("/api/users/me");
-  //   return data;
-  // };
-
   const getTokenFromStorage = () => {
     return sessionStorage.getItem(TOKEN_KEY);
   };
@@ -25,7 +20,6 @@ const AuthService = () => {
   return {
     login,
     logout,
-    // getUserInfo,
     getTokenFromStorage,
   };
 };

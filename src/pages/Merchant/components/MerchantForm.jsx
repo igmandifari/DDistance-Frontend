@@ -218,7 +218,7 @@ const MerchantForm = () => {
                 <Input
                   type="text"
                   value={4}
-                  disabled={id}
+                  disabled
                   styleError="bg-white text-black text-opacity-30"
                 />
                 <InputError>
@@ -235,6 +235,7 @@ const MerchantForm = () => {
                 value={enabled}
                 onChange={handleChange}
                 className="border-none outline-none px-2 py-[7px] rounded-2xl w-[78%] bg-white"
+                disabled
               >
                 <option value="Select Status" disabled>
                   Select Status

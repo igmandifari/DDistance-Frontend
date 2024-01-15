@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const Input = ({
   onChange,
   onBlur,
@@ -23,3 +25,14 @@ const Input = ({
 };
 
 export default Input;
+
+Input.propTypes = {
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
+  type: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  name: PropTypes.string,
+  id: PropTypes.string,
+  styleError: PropTypes.string,
+  disabled: PropTypes.bool,
+};

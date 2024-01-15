@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import x from "../assets/images/x.png";
 
 const ActionFailed = ({ title, subtitle, onClick }) => {
@@ -21,3 +22,9 @@ const ActionFailed = ({ title, subtitle, onClick }) => {
 };
 
 export default ActionFailed;
+
+ActionFailed.propTypes = {
+  title: PropTypes.string,
+  subtitle: PropTypes.string,
+  onClick: PropTypes.func,
+};

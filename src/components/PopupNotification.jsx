@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 import Notif from "../assets/images/notif.png";
 import { useToogle } from "../context/ToogleContext";
 
@@ -30,3 +32,9 @@ const PopupNotification = ({ onClick, title, subTitle }) => {
 };
 
 export default PopupNotification;
+
+PopupNotification.propTypes = {
+  onClick: PropTypes.func,
+  title: PropTypes.string,
+  subTitle: PropTypes.string,
+};

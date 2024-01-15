@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 import Notif from "../assets/images/notif.png";
 
 const NotificationUpdate = ({ title, subTitle, onClick, onDecline }) => {
@@ -28,3 +30,10 @@ const NotificationUpdate = ({ title, subTitle, onClick, onDecline }) => {
 };
 
 export default NotificationUpdate;
+
+NotificationUpdate.propTypes = {
+  title: PropTypes.string.isRequired,
+  subTitle: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  onDecline: PropTypes.func.isRequired,
+};

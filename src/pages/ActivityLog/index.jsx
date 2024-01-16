@@ -55,10 +55,10 @@ const ActivityLog = () => {
                     {act.nama}
                   </td>
                   <td className="text-sm border-2 border-tableColor px-3 py-5 w-32">
-                    {act.tanggal}
+                    {act.tipe}
                   </td>
                   <td className="text-sm border-2 border-tableColor px-3 py-5 w-36">
-                    {act.tipe}
+                    {act.tanggal}
                   </td>
                   <td className="text-sm border-2 border-tableColor px-3 py-5 w-72">
                     {act.activity}

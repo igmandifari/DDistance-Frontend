@@ -7,6 +7,7 @@ import Loading from "../../../components/Loading";
 import InputError from "../../../components/InputError";
 import ButtonLogout from "../../../components/ButtonLogout";
 import HeaderListUser from "../../../components/HeaderListUser";
+import NotificationUpdate from "../../../components/NotificationUpdate";
 
 import { useFetchAdmin } from "../../../hooks/admin/useFetchAdmin";
 import { useAddAdmin } from "../../../hooks/admin/useAddAdmin";
@@ -16,12 +17,11 @@ import { useEditAdmin } from "../../../hooks/admin/useEditAdmin";
 import { useEffect } from "react";
 import { useFetchAdminById } from "../../../hooks/admin/useFetchAdminById";
 import { valueAddAdmin, valueEditAdmin } from "../utils/value";
-import NotificationUpdate from "../../../components/NotificationUpdate";
 
 const AdminForm = () => {
   const [show, setShow] = useState(false);
 
-  const { logout } = useToogle();
+  const { logout, setNotifySuccess } = useToogle();
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -59,6 +59,7 @@ const AdminForm = () => {
     onSuccess: () => {
       navigate("/dashboard/admin");
       refetchAdmin();
+      setNotifySuccess(true);
     },
   });
 
@@ -66,6 +67,7 @@ const AdminForm = () => {
     onSuccess: () => {
       navigate("/dashboard/admin");
       refetchAdmin();
+      setNotifySuccess(true);
     },
   });
 

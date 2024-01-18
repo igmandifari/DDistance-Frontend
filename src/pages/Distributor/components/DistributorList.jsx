@@ -57,17 +57,17 @@ const DistributorList = () => {
               <th className="border-2 border-tableColor py-2 px-1 text-left w-36">
                 No. Telp
               </th>
-              <th className="border-2 border-tableColor py-2 px-1 text-left w-44">
+              <th className="border-2 border-tableColor py-2 px-2 text-left w-44">
                 No. Rekening Danamon
               </th>
-              <th className="border-2 border-tableColor py-2 px-1 text-left w-28">
-                Tipe User
+              <th className="border-2 border-tableColor py-2 px-2 text-left w-44">
+                Email
               </th>
-              <th className="border-2 border-tableColor py-2 px-2 text-left w-36">
+              <th className="border-2 border-tableColor py-2 px-2 text-left w-20">
                 Status
               </th>
               {userRole === "ROLE_ADMIN" && (
-                <th className="border-2 border-tableColor py-2 pl-3 text-left w-32">
+                <th className="border-2 border-tableColor py-2 pl-3 text-left w-24">
                   Action
                 </th>
               )}
@@ -93,13 +93,13 @@ const DistributorList = () => {
                     {distri.pan}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 w-28">
-                    3
+                    {distri.email}
                   </td>
-                  <td className="text-sm border-2 border-tableColor p-2 w-36">
+                  <td className="text-sm border-2 border-tableColor p-2 w-20">
                     {distri.enabled ? "Aktif" : "Non Aktif"}
                   </td>
                   {userRole === "ROLE_ADMIN" && (
-                    <td className="text-sm border-2 border-tableColor p-1 w-32">
+                    <td className="text-sm border-2 border-tableColor p-1 w-24">
                       <Link
                         to={`/dashboard/distributor/${distri.id}/edit`}
                         className="flex items-center gap-3 pl-2 cursor-pointer"

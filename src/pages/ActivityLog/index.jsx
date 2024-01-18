@@ -1,10 +1,17 @@
 import ButtonLogout from "../../components/ButtonLogout";
 import HeaderListUser from "../../components/HeaderListUser";
+import Loading from "../../components/Loading";
 import { useToogle } from "../../context/ToogleContext";
-import { activities } from "./activityDummy";
+import { useFetchActivityLog } from "../../hooks/activityLog/useFetchActivityLog";
 
 const ActivityLog = () => {
   const { logout } = useToogle();
+
+  const { data: activities, isLoading } = useFetchActivityLog();
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -42,7 +49,7 @@ const ActivityLog = () => {
             </tr>
           </thead>
           <tbody className="bg-white">
-            {activities.map((act, index) => {
+            {activities?.map((act, index) => {
               return (
                 <tr key={index}>
                   <td className="text-sm border-2 border-tableColor px-3 py-5 w-16">
@@ -52,16 +59,19 @@ const ActivityLog = () => {
                     {act.idUser}
                   </td>
                   <td className="text-sm border-2 border-tableColor px-3 py-5 w-36">
-                    {act.nama}
+                    {act.userName}
                   </td>
                   <td className="text-sm border-2 border-tableColor px-3 py-5 w-32">
-                    {act.tipe}
+                    {act.erole === "ROLE_ADMIN" && "1"}
+                    {act.erole === "ROLE_CREDIT_ANALYST" && "2"}
+                    {act.erole === "ROLE_DISTRIBUTOR" && "3"}
+                    {act.erole === "ROLE_MERCHANT" && "4"}
                   </td>
                   <td className="text-sm border-2 border-tableColor px-3 py-5 w-36">
-                    {act.tanggal}
+                    {act.dateTime.toLocaleString()}
                   </td>
                   <td className="text-sm border-2 border-tableColor px-3 py-5 w-72">
-                    {act.activity}
+                    {act.title}
                   </td>
                 </tr>
               );

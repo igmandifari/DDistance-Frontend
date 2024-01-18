@@ -59,10 +59,10 @@ const AdminList = () => {
               <th className="border-2 border-tableColor py-2 px-1 text-left w-36">
                 No. Telp
               </th>
-              <th className="border-2 border-tableColor py-2 px-1 text-left w-28">
-                Tipe User
+              <th className="border-2 border-tableColor py-2 px-2 text-left w-44">
+                Email
               </th>
-              <th className="border-2 border-tableColor py-2 px-2 text-left w-36">
+              <th className="border-2 border-tableColor py-2 px-1 text-left w-28">
                 Status
               </th>
               {userRole === "ROLE_ADMIN" && (
@@ -88,11 +88,11 @@ const AdminList = () => {
                   <td className="text-sm border-2 border-tableColor p-1 w-36">
                     {adm.phoneNumber}
                   </td>
-                  <td className="text-sm border-2 border-tableColor p-1 w-28">
-                    {adm.role === "ROLE_ADMIN" && "1"}
-                    {adm.role === "ROLE_CREDIT_ANALYST" && "2"}
-                  </td>
                   <td className="text-sm border-2 border-tableColor p-2 w-36">
+                    {adm.email}
+                    {/* {adm.role === "ROLE_CREDIT_ANALYST" && "2"} */}
+                  </td>
+                  <td className="text-sm border-2 border-tableColor p-1 w-28">
                     {adm.enabled ? "Aktif" : "Non Aktif"}
                   </td>
                   {userRole === "ROLE_ADMIN" && (

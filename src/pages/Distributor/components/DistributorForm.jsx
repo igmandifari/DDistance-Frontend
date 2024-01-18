@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 
 import Input from "../../../components/Input";
 import Loading from "../../../components/Loading";
@@ -58,6 +59,10 @@ const DistributorForm = () => {
     onSuccess: () => {
       navigate("/dashboard/distributor");
       refetchDistributors();
+      toast.success("Add Distributor Success");
+    },
+    onError: () => {
+      toast.error("Email Already Exist");
     },
   });
 
@@ -65,6 +70,10 @@ const DistributorForm = () => {
     onSuccess: () => {
       navigate("/dashboard/distributor");
       refetchDistributors();
+      toast.success("Edit Distributor Success");
+    },
+    onError: () => {
+      toast.error("Email Already Exist.");
     },
   });
 

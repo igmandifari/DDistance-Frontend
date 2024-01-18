@@ -55,17 +55,17 @@ const KreditAnalisList = () => {
               <th className="border-2 border-tableColor py-2 px-1 text-left w-36">
                 Alamat
               </th>
-              <th className="border-2 border-tableColor py-2 px-1 text-left w-36">
+              <th className="border-2 border-tableColor py-2 px-2 text-left w-40">
                 No. Telp
               </th>
-              <th className="border-2 border-tableColor py-2 px-1 text-left w-28">
-                Tipe User
+              <th className="border-2 border-tableColor py-2 px-1 text-left w-44">
+                Email
               </th>
-              <th className="border-2 border-tableColor py-2 px-2 text-left w-36">
+              <th className="border-2 border-tableColor py-2 px-2 text-left w-24">
                 Status
               </th>
               {userRole === "ROLE_ADMIN" && (
-                <th className="border-2 border-tableColor py-2 pl-3 text-left w-32">
+                <th className="border-2 border-tableColor py-2 pl-3 text-left w-28">
                   Action
                 </th>
               )}
@@ -75,26 +75,26 @@ const KreditAnalisList = () => {
             {kreditAnalis?.map((kredit, index) => {
               return (
                 <tr key={index}>
-                  <td className="text-sm border-2 border-tableColor p-1 w-16">
+                  <td className="text-sm border-2 border-tableColor p-1">
                     {++index}
                   </td>
-                  <td className="text-sm border-2 border-tableColor p-1 w-36">
+                  <td className="text-sm border-2 border-tableColor p-1">
                     {kredit.name}
                   </td>
-                  <td className="text-sm border-2 border-tableColor p-1 w-36">
+                  <td className="text-sm border-2 border-tableColor p-2">
                     {kredit.address}
                   </td>
-                  <td className="text-sm border-2 border-tableColor p-1 w-36">
+                  <td className="text-sm border-2 border-tableColor p-2">
                     {kredit.phoneNumber}
                   </td>
-                  <td className="text-sm border-2 border-tableColor p-1 w-28">
-                    {kredit.role && "2"}
+                  <td className="text-sm border-2 border-tableColor p-1">
+                    {kredit.email}
                   </td>
-                  <td className="text-sm border-2 border-tableColor p-2 w-36">
+                  <td className="text-sm border-2 border-tableColor p-2">
                     {kredit.enabled ? "Aktif" : "Non Aktif"}
                   </td>
                   {userRole === "ROLE_ADMIN" && (
-                    <td className="text-sm border-2 border-tableColor p-1 w-32">
+                    <td className="text-sm border-2 border-tableColor p-1">
                       <Link
                         to={`/dashboard/kredit-analis/${kredit.id}/edit`}
                         className="flex items-center gap-3 pl-2 cursor-pointer"

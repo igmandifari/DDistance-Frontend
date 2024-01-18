@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import axiosInstance from "../../api/axiosInstance";
 
-export const useEditKreditAnalis = ({ onSuccess }) => {
+export const useEditKreditAnalis = ({ onSuccess, onError }) => {
   return useMutation({
     mutationFn: async (newKreditAnalis) => {
       const kreditAnalisResponse = await axiosInstance.put(
@@ -9,8 +9,9 @@ export const useEditKreditAnalis = ({ onSuccess }) => {
         newKreditAnalis
       );
 
-      return kreditAnalisResponse;
+      return kreditAnalisResponse.data;
     },
     onSuccess,
+    onError,
   });
 };

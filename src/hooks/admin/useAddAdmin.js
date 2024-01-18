@@ -6,7 +6,7 @@ export const useAddAdmin = ({ onSuccess }) => {
     mutationFn: async (newAdmin) => {
       const adminResponse = await axiosInstance.post("/api/admin", newAdmin);
 
-      return adminResponse;
+      return adminResponse.data;
     },
     onSuccess,
   });

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { useParams, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import Input from "../../../components/Input";
 import Loading from "../../../components/Loading";
@@ -14,14 +15,13 @@ import { useAddAdmin } from "../../../hooks/admin/useAddAdmin";
 import { adminSchema } from "../utils/adminSchema";
 import { useToogle } from "../../../context/ToogleContext";
 import { useEditAdmin } from "../../../hooks/admin/useEditAdmin";
-import { useEffect } from "react";
 import { useFetchAdminById } from "../../../hooks/admin/useFetchAdminById";
 import { valueAddAdmin, valueEditAdmin } from "../utils/value";
 
 const AdminForm = () => {
   const [show, setShow] = useState(false);
 
-  const { logout, setNotifySuccess } = useToogle();
+  const { logout } = useToogle();
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -59,7 +59,10 @@ const AdminForm = () => {
     onSuccess: () => {
       navigate("/dashboard/admin");
       refetchAdmin();
-      setNotifySuccess(true);
+      toast.success("Add Admin Success");
+    },
+    onError: () => {
+      toast.error("Email Already Exist");
     },
   });
 
@@ -67,7 +70,10 @@ const AdminForm = () => {
     onSuccess: () => {
       navigate("/dashboard/admin");
       refetchAdmin();
-      setNotifySuccess(true);
+      toast.success("Edit Admin Success");
+    },
+    onError: () => {
+      toast.error("Email Already Exist");
     },
   });
 
@@ -212,6 +218,7 @@ const AdminForm = () => {
                     id="role"
                     onChange={handleChange}
                     value={role}
+                    disabled
                     className="border-none outline-none px-2 py-[7px] rounded-2xl w-[78%] bg-white"
                   >
                     <option value="ROLE_ADMIN">1</option>

@@ -19,6 +19,8 @@ import {
 import { useUpdateJaminan } from "../../../hooks/jaminan/useUpdateJaminan";
 import { formatIDRCurrency } from "../../../utils/utility";
 
+import noImage from "../../../assets/images/noimage.jpg";
+
 const JaminanDetail = () => {
   const [reason, setReason] = useState("");
   const [limit, setLimit] = useState(0);
@@ -133,17 +135,17 @@ const JaminanDetail = () => {
             <label htmlFor="ktp" className="text-primary font-semibold">
               KTP
             </label>
-            <img src={ktpFile} alt="" className="w-40 h-28" />
+            <img src={ktpFile || noImage} alt="" className="w-40 h-28" />
 
             <label htmlFor="siu" className="text-primary font-semibold">
               SIU
             </label>
-            <img src={siuFile} alt="" className="w-40 h-28" />
+            <img src={siuFile || noImage} alt="" className="w-40 h-28" />
 
             <label htmlFor="agunan" className="text-primary font-semibold">
               Agunan
             </label>
-            <img src={agunanFile} alt="" className="w-40 h-28" />
+            <img src={agunanFile || noImage} alt="" className="w-40 h-28" />
 
             {jaminanDetail?.limit > 0 && (
               <>

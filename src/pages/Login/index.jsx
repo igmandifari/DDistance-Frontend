@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 import ActionFailed from "../../components/ActionFailed";
 
@@ -12,7 +13,6 @@ import { authAction } from "../../slices/authSlice";
 
 import danamon from "../../assets/images/danamon.png";
 import imageLogin from "../../assets/images/sidebarImage.png";
-import { Link } from "react-router-dom";
 
 const Login = () => {
   const [passwordType, setPasswordType] = useState("password");
@@ -47,9 +47,14 @@ const Login = () => {
       const { payload } = await dispatch(
         authAction(async () => await authService.login(values))
       );
-      if (payload.statusCode == 200) {
+      if (
+        payload.statusCode == 200 &&
+        (payload.data.role === "ROLE_ADMIN" ||
+          payload.data.role === "ROLE_CREDIT_ANALYST")
+      ) {
         sessionStorage.setItem("token", payload.data.token);
         sessionStorage.setItem("role", payload.data.role);
+
         navigate("/dashboard");
       } else {
         setShowFailed(!showFailed);
@@ -57,6 +62,8 @@ const Login = () => {
     },
     validationSchema: schema,
   });
+
+
 
   const togglePassword = () => {
     if (passwordType === "password") {
@@ -70,7 +77,7 @@ const Login = () => {
     <>
       <div className="min-w-full min-h-screen">
         <div className="bg-secondary shadow-inner min-h-screen px-8 w-1/2 clip-path absolute z-10">
-          <img src={danamon} alt="" />
+          <img src={danamon} alt=""  />
         </div>
         <div className="bg-primary flex justify-center min-h-screen relative">
           <div className="w-1/4 flex flex-col py-10 justify-center items-center absolute mt-20 z-10">

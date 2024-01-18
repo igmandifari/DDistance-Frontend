@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 
 import Input from "../../../components/Input";
 import Loading from "../../../components/Loading";
@@ -58,6 +59,10 @@ const MerchantForm = () => {
     onSuccess: () => {
       navigate("/dashboard/merchant");
       refetchMerchants();
+      toast.success("Edit Merchant Success");
+    },
+    onError: () => {
+      toast.error("Email Already Exist");
     },
   });
 
@@ -221,9 +226,7 @@ const MerchantForm = () => {
                   disabled
                   styleError="bg-white text-black text-opacity-30"
                 />
-                <InputError>
-                  {touched.phoneNumber && errors.phoneNumber}
-                </InputError>
+                <InputError>{touched.enabled && errors.enabled}</InputError>
               </div>
 
               <label htmlFor="enabled" className="text-primary font-semibold">

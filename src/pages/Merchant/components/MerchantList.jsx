@@ -47,10 +47,10 @@ const MerchantList = () => {
               <th className="border-2 border-tableColor py-2 px-1 text-center w-36">
                 No. Telp
               </th>
-              <th className="border-2 border-tableColor py-2 px-1 text-center w-28">
-                Tipe User
+              <th className="border-2 border-tableColor py-2 px-1 text-center w-44">
+                Email
               </th>
-              <th className="border-2 border-tableColor py-2 px-2 text-center w-36">
+              <th className="border-2 border-tableColor py-2 px-2 text-center w-28">
                 Status
               </th>
               {userRole === "ROLE_ADMIN" && (
@@ -64,26 +64,26 @@ const MerchantList = () => {
             {merchants?.map((merchant, index) => {
               return (
                 <tr key={index}>
-                  <td className="text-sm border-2 border-tableColor p-1 px-3 w-16">
+                  <td className="text-sm border-2 border-tableColor p-1 px-3">
                     {++index}
                   </td>
-                  <td className="text-sm border-2 border-tableColor p-1 w-36">
+                  <td className="text-sm border-2 border-tableColor p-1">
                     {merchant.name}
                   </td>
-                  <td className="text-sm border-2 border-tableColor p-1 w-36">
+                  <td className="text-sm border-2 border-tableColor p-1">
                     {merchant.address}
                   </td>
-                  <td className="text-sm border-2 border-tableColor p-1 w-36">
+                  <td className="text-sm border-2 border-tableColor p-1 px-2">
                     {merchant.phoneNumber}
                   </td>
-                  <td className="text-sm border-2 border-tableColor p-1 px-3 w-28">
-                    4
+                  <td className="text-sm border-2 border-tableColor p-1 px-3">
+                    {merchant.email}
                   </td>
-                  <td className="text-sm border-2 border-tableColor p-2 w-36">
+                  <td className="text-sm border-2 border-tableColor p-2">
                     {merchant.enabled ? "Aktif" : "Non Aktif"}
                   </td>
                   {userRole === "ROLE_ADMIN" && (
-                    <td className="text-sm border-2 border-tableColor p-1 w-32">
+                    <td className="text-sm border-2 border-tableColor p-1">
                       <Link
                         to={`/dashboard/merchant/${merchant.id}/edit`}
                         className="flex items-center gap-3 pl-2 cursor-pointer"

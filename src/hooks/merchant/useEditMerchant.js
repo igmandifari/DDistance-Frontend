@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import axiosInstance from "../../api/axiosInstance";
 
-export const useEditMerchant = ({ onSuccess }) => {
+export const useEditMerchant = ({ onSuccess, onError }) => {
   return useMutation({
     mutationFn: async (newMerchant) => {
       const merchantResponse = await axiosInstance.put(
@@ -9,8 +9,9 @@ export const useEditMerchant = ({ onSuccess }) => {
         newMerchant
       );
 
-      return merchantResponse;
+      return merchantResponse.data;
     },
     onSuccess,
+    onError,
   });
 };

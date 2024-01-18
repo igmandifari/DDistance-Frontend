@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
+import { toast } from "react-toastify";
 
 import InputError from "../../../components/InputError";
 import ButtonLogout from "../../../components/ButtonLogout";
@@ -16,8 +18,37 @@ import {
 
 const UpdatePassword = () => {
   const [showSuccess, setShowSuccess] = useState(false);
-  const [error, setError] = useState(false);
+  const [passError, setPassError] = useState(false);
+
+  const [oldPassType, setOldpassType] = useState("password");
+  const [newPassType, setNewpassType] = useState("password");
+  const [confirmNewPassType, setConfirmNewpassType] = useState("password");
+
   const { logout } = useToogle();
+
+  const oldShowPass = () => {
+    if (oldPassType === "password") {
+      setOldpassType("text");
+      return;
+    }
+    setOldpassType("password");
+  };
+
+  const newShowPass = () => {
+    if (newPassType === "password") {
+      setNewpassType("text");
+      return;
+    }
+    setNewpassType("password");
+  };
+
+  const confirmNewShowPass = () => {
+    if (confirmNewPassType === "password") {
+      setConfirmNewpassType("text");
+      return;
+    }
+    setConfirmNewpassType("password");
+  };
 
   const userRole = sessionStorage.getItem("role");
   const navigate = useNavigate();
@@ -25,10 +56,10 @@ const UpdatePassword = () => {
   const schema = Yup.object({
     oldPassword: Yup.string()
       .required("Current Password is required")
-      .min(6, "Password must be at least 6 characters"),
+      .min(8, "Password must be at least 8 characters"),
     newPassword: Yup.string()
       .required("New Password is required")
-      .min(6, "Password must be at least 6 characters"),
+      .min(8, "Password must be at least 8 characters"),
     confirmPassword: Yup.string()
       .required("Confirm Password is required")
       .oneOf([Yup.ref("newPassword"), null], "Passwords must match"),
@@ -39,7 +70,7 @@ const UpdatePassword = () => {
       setShowSuccess(true);
     },
     onError: () => {
-      setError(true);
+      toast.error("Old Password incorrect");
     },
   });
 
@@ -48,8 +79,10 @@ const UpdatePassword = () => {
       onSuccess: () => {
         setShowSuccess(true);
       },
-      onError: () => {
-        setError(true);
+      onError: (error) => {
+        if (error.response?.status === 400) {
+          toast.error("Old Password incorrect");
+        }
       },
     });
 
@@ -83,7 +116,7 @@ const UpdatePassword = () => {
   });
 
   const handlePasswordClick = () => {
-    setError(false);
+    setPassError(false);
   };
 
   return (
@@ -106,17 +139,35 @@ const UpdatePassword = () => {
               Password Lama
             </label>
             <div className="w-full mt-2">
-              <input
-                type="password"
-                name="oldPassword"
-                id="oldPassword"
-                className="w-full py-1 px-3 rounded-xl outline-none bg-[#FFDB92]"
-                value={oldPassword}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                onClick={handlePasswordClick}
-              />
-              {error && <InputError>Password lama tidak sesuai</InputError>}
+              <div className="flex">
+                <input
+                  type={oldPassType}
+                  name="oldPassword"
+                  id="oldPassword"
+                  className="w-full py-1 px-3 rounded-xl outline-none bg-[#FFDB92]"
+                  value={oldPassword}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  onClick={handlePasswordClick}
+                />
+
+                <span onClick={oldShowPass} className="relative">
+                  {oldPassType === "password" ? (
+                    <IoEyeOutline
+                      size={23}
+                      className="absolute right-4 top-1 cursor-pointer"
+                      color={"#F48300"}
+                    />
+                  ) : (
+                    <IoEyeOffOutline
+                      size={23}
+                      className="absolute right-4 top-1 cursor-pointer"
+                      color={"#F48300"}
+                    />
+                  )}
+                </span>
+              </div>
+              {passError && <InputError>Password lama tidak sesuai</InputError>}
               <InputError>
                 {touched.oldPassword && errors.oldPassword}
               </InputError>
@@ -131,15 +182,32 @@ const UpdatePassword = () => {
               Password Baru
             </label>
             <div className="w-full mt-2">
-              <input
-                type="password"
-                name="newPassword"
-                id="newPassword"
-                className="w-full py-1 px-3 rounded-xl outline-none bg-[#FFDB92]"
-                value={newPassword}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
+              <div className="flex">
+                <input
+                  type={newPassType}
+                  name="newPassword"
+                  id="newPassword"
+                  className="w-full py-1 px-3 rounded-xl outline-none bg-[#FFDB92]"
+                  value={newPassword}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                <span onClick={newShowPass} className="relative">
+                  {newPassType === "password" ? (
+                    <IoEyeOutline
+                      size={23}
+                      className="absolute right-4 top-1 cursor-pointer"
+                      color={"#F48300"}
+                    />
+                  ) : (
+                    <IoEyeOffOutline
+                      size={23}
+                      className="absolute right-4 top-1 cursor-pointer"
+                      color={"#F48300"}
+                    />
+                  )}
+                </span>
+              </div>
               <InputError>
                 {touched.newPassword && errors.newPassword}
               </InputError>
@@ -154,15 +222,32 @@ const UpdatePassword = () => {
               Konfirmasi Password Baru
             </label>
             <div className="w-full mt-2">
-              <input
-                type="password"
-                name="confirmPassword"
-                id="confirmPassword"
-                className="w-full py-1 px-3 rounded-xl outline-none bg-[#FFDB92]"
-                value={confirmPassword}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
+              <div className="flex">
+                <input
+                  type={confirmNewPassType}
+                  name="confirmPassword"
+                  id="confirmPassword"
+                  className="w-full py-1 px-3 rounded-xl outline-none bg-[#FFDB92]"
+                  value={confirmPassword}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                <span onClick={confirmNewShowPass} className="relative">
+                  {confirmNewPassType === "password" ? (
+                    <IoEyeOutline
+                      size={23}
+                      className="absolute right-4 top-1 cursor-pointer"
+                      color={"#F48300"}
+                    />
+                  ) : (
+                    <IoEyeOffOutline
+                      size={23}
+                      className="absolute right-4 top-1 cursor-pointer"
+                      color={"#F48300"}
+                    />
+                  )}
+                </span>
+              </div>
               <InputError>
                 {touched.confirmPassword && errors.confirmPassword}
               </InputError>

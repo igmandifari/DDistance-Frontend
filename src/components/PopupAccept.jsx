@@ -41,7 +41,7 @@ const PopupAccept = ({
                 const newLimit = e.target.value;
                 setLimit(newLimit);
                 onLimitChange(newLimit);
-                setIsLimitValid(newLimit !== "" || newLimit <= 0);
+                setIsLimitValid(newLimit !== "" && newLimit >= 0);
               }}
               value={limit}
             />

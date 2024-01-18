@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import CardUsers from "./components/CardUsers";
 import CardRequest from "./components/CardRequest";
@@ -11,7 +11,8 @@ import { useFetchMerchants } from "../../hooks/merchant/useFetchMerchant";
 import { useFetchKreditAnalis } from "../../hooks/kreditAnalis/useFetchKreditAnalis";
 import { useFetchInvoice } from "../../hooks/invoice/useFetchInvoice";
 import { useFetchJaminan } from "../../hooks/jaminan/useFetchJaminan";
-import { notifications } from "./dummyData";
+import { useFetchActivityLog } from "../../hooks/activityLog/useFetchActivityLog";
+import EmptyState from "../../components/EmptyState";
 
 const MainDashboard = () => {
   const { logout, setLogout } = useToogle();
@@ -21,10 +22,15 @@ const MainDashboard = () => {
   const { data: kreditAnalis } = useFetchKreditAnalis();
   const { data: invoice } = useFetchInvoice();
   const { data: jaminan } = useFetchJaminan();
+  const { data: notifications, refetch } = useFetchActivityLog();
 
   useEffect(() => {
     setLogout(false);
   }, [setLogout]);
+
+  useEffect(() => {
+    refetch();
+  }, [notifications, refetch]);
 
   return (
     <>
@@ -59,21 +65,39 @@ const MainDashboard = () => {
                 Notification
               </h2>
 
-              <div className="flex flex-col gap-4 mt-5 ">
-                {notifications.map((notif) => {
-                  return (
-                    <div
-                      className="flex justify-between items-center bg-buttonColor px-5 py-3 rounded-xl"
-                      key={notif.id}
-                    >
-                      <span className="text-sm font-semibold">
-                        {notif.name}
-                      </span>
-                      <span className="text-sm time-color">{notif.time}</span>
-                    </div>
-                  );
-                })}
-              </div>
+              {notifications && notifications.length !== 0 ? (
+                <div className="flex flex-col gap-4 mt-5 ">
+                  {notifications?.map((notif) => {
+                    const waktuDariAPI = notif.time;
+                    let fixTime;
+
+                    const selisihJam = waktuDariAPI / 60;
+                    const selisihHari = selisihJam / 24;
+
+                    if (waktuDariAPI < 60) {
+                      fixTime = waktuDariAPI + " Minutes Ago";
+                    } else if (selisihJam < 24) {
+                      fixTime = Math.floor(selisihJam) + " Hours Ago";
+                    } else {
+                      fixTime = Math.floor(selisihHari) + " Days Ago";
+                    }
+
+                    return (
+                      <div
+                        className="flex justify-between items-center bg-buttonColor px-5 py-3 rounded-xl"
+                        key={notif.id}
+                      >
+                        <span className="text-sm font-semibold">
+                          {notif.title}
+                        </span>
+                        <span className="text-sm time-color">{fixTime}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <EmptyState />
+              )}
             </div>
           </div>
 

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 
 import Input from "../../../components/Input";
 import Loading from "../../../components/Loading";
@@ -58,6 +59,10 @@ const KreditAnalisForm = () => {
     onSuccess: () => {
       navigate("/dashboard/kredit-analis");
       refetchKreditAnalis();
+      toast.success("Add Kredit Analis Success");
+    },
+    onError: () => {
+      toast.error("Email Already Exist");
     },
   });
 
@@ -66,6 +71,10 @@ const KreditAnalisForm = () => {
       onSuccess: () => {
         navigate("/dashboard/kredit-analis");
         refetchKreditAnalis();
+        toast.success("Edit Kredit Analis Success");
+      },
+      onError: () => {
+        toast.error("Email Already Exist");
       },
     }
   );
@@ -212,6 +221,7 @@ const KreditAnalisForm = () => {
                     id="role"
                     onChange={handleChange}
                     value={role}
+                    disabled
                     className="border-none outline-none px-2 py-[7px] rounded-2xl w-[78%] bg-white"
                   >
                     <option value="ROLE_ADMIN">1</option>

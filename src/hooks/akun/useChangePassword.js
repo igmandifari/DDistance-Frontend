@@ -9,7 +9,7 @@ export const useChangePasswordAdmin = ({ onSuccess, onError }) => {
         newPassword
       );
 
-      return passResponse;
+      return passResponse.data;
     },
     onSuccess,
     onError,
@@ -23,9 +23,9 @@ export const useChangePasswordCreditAnalyst = ({ onSuccess, onError }) => {
         newPassword
       );
 
-      return passResponse;
+      return passResponse.data;
     },
     onSuccess,
-    onError
+    onError,
   });
 };

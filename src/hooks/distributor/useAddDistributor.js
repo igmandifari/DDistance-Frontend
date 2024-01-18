@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import axiosInstance from "../../api/axiosInstance";
 
-export const useAddDistributor = ({ onSuccess }) => {
+export const useAddDistributor = ({ onSuccess, onError }) => {
   return useMutation({
     mutationFn: async (request) => {
       const distributorResponse = await axiosInstance.post(
@@ -9,8 +9,9 @@ export const useAddDistributor = ({ onSuccess }) => {
         request
       );
 
-      return distributorResponse.data.data;
+      return distributorResponse.data;
     },
     onSuccess,
+    onError
   });
 };

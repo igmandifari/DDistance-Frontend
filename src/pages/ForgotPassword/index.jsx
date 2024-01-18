@@ -36,6 +36,10 @@ const ForgotPassword = () => {
     navigate("/");
   };
 
+  const backHome = () => {
+    navigate("/");
+  };
+
   const {
     values: { email },
     errors,
@@ -63,7 +67,12 @@ const ForgotPassword = () => {
     <>
       <div className="min-w-full min-h-screen">
         <div className="bg-secondary shadow-inner min-h-screen px-8 w-1/2 clip-path absolute z-10">
-          <img src={danamon} alt="" />
+          <img
+            src={danamon}
+            alt=""
+            onClick={backHome}
+            className="cursor-pointer"
+          />
         </div>
         <div className="bg-primary flex justify-center min-h-screen relative">
           <div className="w-1/4 flex flex-col py-10 justify-center items-center absolute mt-20 z-10">

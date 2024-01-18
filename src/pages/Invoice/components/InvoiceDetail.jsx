@@ -6,9 +6,9 @@ import ButtonLogout from "../../../components/ButtonLogout";
 import HeaderListUser from "../../../components/HeaderListUser";
 
 import { useToogle } from "../../../context/ToogleContext";
+import { formatIDRCurrency } from "../../../utils/utility";
 import { useFetchInvoiceById } from "../../../hooks/invoice/useFetchInvoiceById";
 import { useFetchFileInvoice } from "../../../hooks/invoice/useFetchFileInvoice";
-import { formatIDRCurrency } from "../../../utils/utility";
 
 const InvoiceDetail = () => {
   const { logout } = useToogle();
@@ -127,7 +127,7 @@ const InvoiceDetail = () => {
             </div>
 
             <p className="text-primary font-semibold">Faktur Fisik</p>
-            <img src={fileInvoice} alt="Faktur fisik" className="w-40 h-28" />
+            <img src={fileInvoice} alt="" className="w-40 h-28" />
 
             <p className="text-primary font-semibold -mb-2">Status</p>
             <p

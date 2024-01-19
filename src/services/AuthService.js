@@ -4,7 +4,10 @@ const AuthService = () => {
   const TOKEN_KEY = "token";
 
   const login = async (user) => {
-    const { data } = await axiosInstance.post("/api/auth/login", user);
+    const { data } = await axiosInstance.post(
+      `${import.meta.env.VITE_API_URL}api/auth/login`,
+      user
+    );
     return data;
   };
 

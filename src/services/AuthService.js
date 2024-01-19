@@ -3,11 +3,8 @@ import axiosInstance from "../api/axiosInstance";
 const AuthService = () => {
   const TOKEN_KEY = "token";
 
-  const url = "http://43.218.88.7:8081/api/auth/login";
-  console.log(url);
-
   const login = async (user) => {
-    const { data } = await axiosInstance.post(url, user);
+    const { data } = await axiosInstance.post("/api/auth/login", user);
     return data;
   };
 

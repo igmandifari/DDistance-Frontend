@@ -13,6 +13,7 @@ import { authAction } from "../../slices/authSlice";
 
 import danamon from "../../assets/images/danamon.png";
 import imageLogin from "../../assets/images/sidebarImage.png";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [passwordType, setPasswordType] = useState("password");
@@ -23,9 +24,9 @@ const Login = () => {
   const { authService } = useContext(ServiceContext);
 
   const schema = Yup.object({
-    email: Yup.string().email().required("Email is required"),
+    email: Yup.string().email("Email not valid").required("Email is required"),
     password: Yup.string()
-      .min(6, "Password must be greater than 6 character")
+      .min(8, "Password must be greater than 8 character")
       .required("Password is required"),
   });
 
@@ -57,13 +58,12 @@ const Login = () => {
 
         navigate("/dashboard");
       } else {
-        setShowFailed(!showFailed);
+        // setShowFailed(!showFailed);
+        toast.error("Incorrect Email or Password");
       }
     },
     validationSchema: schema,
   });
-
-
 
   const togglePassword = () => {
     if (passwordType === "password") {
@@ -77,7 +77,7 @@ const Login = () => {
     <>
       <div className="min-w-full min-h-screen">
         <div className="bg-secondary shadow-inner min-h-screen px-8 w-1/2 clip-path absolute z-10">
-          <img src={danamon} alt=""  />
+          <img src={danamon} alt="" />
         </div>
         <div className="bg-primary flex justify-center min-h-screen relative">
           <div className="w-1/4 flex flex-col py-10 justify-center items-center absolute mt-20 z-10">
@@ -142,12 +142,14 @@ const Login = () => {
                     {touched.password && errors.password}
                   </div>
                 </div>
-                <Link
-                  to={"/forgot-password"}
-                  className="underline -mt-5 text-sm text-blue-800 font-semibold cursor-pointer"
-                >
-                  Lupa Kata Sandi?
-                </Link>
+                <div className="-mt-5">
+                  <Link
+                    to={"/forgot-password"}
+                    className="underline text-sm text-blue-800 font-semibold cursor-pointer"
+                  >
+                    Lupa Kata Sandi?
+                  </Link>
+                </div>
                 <div className="w-full -mt-5">
                   <button
                     type="submit"

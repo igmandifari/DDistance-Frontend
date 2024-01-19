@@ -19,7 +19,7 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
 
   const schema = Yup.object({
-    email: Yup.string().email().required("Email is required"),
+    email: Yup.string().email("Email not valid").required("Email is required"),
   });
 
   const { mutate: forgotPassword, isPending } = useForgotPassword({

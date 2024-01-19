@@ -248,12 +248,19 @@ const KreditAnalisForm = () => {
               </select>
             </div>
           </div>
+
           <div className="flex justify-end mr-16 py-12">
             <p
               className="bg-[#F36C21] text-white text-sm font-bold py-1 px-7 rounded-md cursor-pointer"
               type="button"
-              disabled={!isValid || !dirty}
-              onClick={() => setShow(true)}
+              disabled={!isValid || !dirty || Object.keys(errors).length > 0}
+              onClick={() => {
+                if (!isValid || !dirty || Object.keys(errors).length > 0) {
+                  toast.error("All fields must be filled");
+                } else {
+                  setShow(true);
+                }
+              }}
             >
               {id ? "Simpan" : "Tambah"}
             </p>

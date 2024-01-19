@@ -7,9 +7,8 @@ const removeToken = () => {
   sessionStorage.removeItem("role");
 };
 
-const redirectToLogin = () => {
-  window.location.href = "/";
-};
+const MSG_LOGIN = "Bad credentials";
+const EXP_TOKEN = "Full authentication is required to access this resource";
 
 axiosInstance.interceptors.request.use(
   (config) => {
@@ -28,8 +27,14 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      removeToken();
-      redirectToLogin();
+      if (error.response.data.message === MSG_LOGIN) {
+        removeToken();
+      }
+
+      if (error.response.data.message === EXP_TOKEN) {
+        removeToken();
+        window.location.href = "/";
+      }
     }
   }
 );

@@ -50,6 +50,9 @@ const MerchantList = () => {
               <th className="border-2 border-tableColor py-2 px-1 text-center w-44">
                 Email
               </th>
+              <th className="border-2 border-tableColor py-2 px-1 text-center w-44">
+                No Rekening
+              </th>
               <th className="border-2 border-tableColor py-2 px-2 text-center w-28">
                 Status
               </th>
@@ -78,6 +81,9 @@ const MerchantList = () => {
                   </td>
                   <td className="text-sm border-2 border-tableColor p-1 px-3">
                     {merchant.email}
+                  </td>
+                  <td className="text-sm border-2 border-tableColor p-1 px-3">
+                    {merchant.pan}
                   </td>
                   <td className="text-sm border-2 border-tableColor p-2">
                     {merchant.enabled ? "Aktif" : "Non Aktif"}

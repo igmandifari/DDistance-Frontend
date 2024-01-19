@@ -285,8 +285,14 @@ const DistributorForm = () => {
             <p
               className="bg-[#F36C21] text-white text-sm font-bold py-1 px-7 rounded-md cursor-pointer"
               type="button"
-              disabled={!dirty || !isValid}
-              onClick={() => setShow(true)}
+              disabled={!isValid || !dirty || Object.keys(errors).length > 0}
+              onClick={() => {
+                if (!isValid || !dirty || Object.keys(errors).length > 0) {
+                  toast.error("All fields must be filled");
+                } else {
+                  setShow(true);
+                }
+              }}
             >
               {id ? "Simpan" : "Tambah"}
             </p>

@@ -132,12 +132,15 @@ const InvoiceDetail = () => {
             <p className="text-primary font-semibold -mb-2">Status</p>
             <p
               className={`text-lg font-semibold ${
-                invoiceDetail?.status === "DALAM_PROSES"
-                  ? "text-[#FFB000]"
-                  : "text-green-600"
-              }`}
+                invoiceDetail?.status === "DALAM_PROSES" && "text-[#FFB000]"
+              }
+              ${invoiceDetail?.status === "DITERIMA" && "text-green-600"}
+              ${invoiceDetail?.status === "DITOLAK" && "text-red-600"}
+              `}
             >
               {invoiceDetail?.status === "DALAM_PROSES" && "Pending"}
+              {invoiceDetail?.status === "DITOLAK" && "Rejected"}
+              {invoiceDetail?.status === "DITERIMA" && "Accepted"}
             </p>
           </div>
         </div>

@@ -56,7 +56,7 @@ const JaminanDetail = () => {
       id: newId,
       installemnt: value,
       rejection: "",
-      limit,
+      limit: 0,
     };
 
     updateJaminan(valueUpdate);
@@ -90,7 +90,7 @@ const JaminanDetail = () => {
       id: newId,
       installemnt: value,
       rejection: "",
-      limit,
+      limit: 0,
     };
 
     updateJaminan(valueUpdate);
@@ -116,8 +116,8 @@ const JaminanDetail = () => {
           Detail Approval Pengajuan Jaminan
         </h1>
 
-        <div className="bg-bgSecondary ml-8 py-3 w-[60%] h-full rounded-2xl mb-7">
-          <div className="flex flex-col gap-2 w-[50%] mx-5 pb-6">
+        <div className="bg-bgSecondary ml-8 py-3 w-[60%] min-h-full rounded-2xl mb-7">
+          <div className="flex flex-col gap-2 w-[50%] mx-5 pb-2">
             <label htmlFor="nameStore" className="text-primary font-semibold">
               Nama Merchant
             </label>
@@ -181,6 +181,20 @@ const JaminanDetail = () => {
               {jaminanDetail?.status === "DITERIMA" && "Accepted"}
               {jaminanDetail?.status === "DITOLAK" && "Declined"}
             </p>
+
+            {jaminanDetail?.status === "DITOLAK" && (
+              <>
+                <p className="text-primary font-semibold">Alasan Penolakan</p>
+                <textarea
+                  disabled
+                  className="bg-white p-2 rounded-md"
+                  cols="25"
+                  rows="3"
+                >
+                  {jaminanDetail?.rejection}
+                </textarea>
+              </>
+            )}
 
             {(jaminanDetail?.status === "DALAM_PROSES" ||
               jaminanDetail?.status === "ON_SURVEY") && (

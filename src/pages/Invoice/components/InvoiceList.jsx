@@ -71,6 +71,8 @@ const InvoiceList = () => {
                   </td>
                   <td className="text-sm border-2 border-tableColor px-3 py-2 w-36">
                     {inc.status === "DALAM_PROSES" && "Pending"}
+                    {inc.status === "DITOLAK" && "Rejected"}
+                    {inc.status === "DITERIMA" && "Accepted"}
                   </td>
                   <td className="text-sm border-2 border-tableColor px-3 py-2 w-40">
                     <Link

@@ -7,7 +7,7 @@ export const useFetchSiuData = (id) => {
       const response = await axiosInstance.get(`/api/insurance/${id}/siu`, {
         responseType: "blob",
       });
-
+      
       return URL.createObjectURL(response.data);
     },
     queryKey: ["fetch siu"],

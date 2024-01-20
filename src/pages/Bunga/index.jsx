@@ -8,9 +8,10 @@ import NotificationUpdate from "../../components/NotificationUpdate";
 import { useToogle } from "../../context/ToogleContext";
 import { useFetchBunga } from "../../hooks/bunga/useFetchBunga";
 import { useUpdateBunga } from "../../hooks/bunga/useUpdateBunga";
+import { toast } from "react-toastify";
 
 const Bunga = () => {
-  const [interest, setInterest] = useState("");
+  const [interest, setInterest] = useState(0.0);
   const [notif, setNotif] = useState(false);
   const { logout } = useToogle();
 
@@ -26,9 +27,9 @@ const Bunga = () => {
   };
 
   const handleUpdate = () => {
-    if (interest === "") {
+    if (interest === "" || interest === 0) {
       handleNotif();
-      alert("Bunga baru tidak boleh kosong");
+      toast.error("Bunga baru tidak boleh kosong");
     } else {
       const newInterest = {
         id: "ff8081818cebea43018cebea4b930000",
@@ -36,7 +37,7 @@ const Bunga = () => {
       };
       updateBunga(newInterest);
       handleNotif();
-      setInterest("");
+      setInterest(0.0);
     }
   };
 
@@ -82,10 +83,17 @@ const Bunga = () => {
                 type="text"
                 name="bungaBaru"
                 id="bungaBaru"
-                onChange={(e) => setInterest(Number(e.target.value))}
+                step="0.1"
+                onChange={(e) => {
+                  const value = e.target.value.replace(/,/g, ".");
+                  const regex = /^\d*\.?\d{0,2}$/;
+                  if (regex.test(value)) {
+                    setInterest(isNaN(value) ? 0.0 : value);
+                  }
+                }}
                 value={interest}
-                // onChange={handleChange}
                 className="w-full py-2 px-3 rounded-xl outline-none bg-[#FFDB92]"
+                pattern="[0-9]*[.,]?[0-9]*"
               />
             </div>
           </div>

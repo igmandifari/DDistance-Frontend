@@ -90,7 +90,7 @@ const JaminanDetail = () => {
       id: newId,
       installemnt: value,
       rejection: "",
-      limit: 0,
+      limit,
     };
 
     updateJaminan(valueUpdate);
